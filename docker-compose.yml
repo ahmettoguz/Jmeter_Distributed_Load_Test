@@ -3,6 +3,9 @@ services:
   master:
     image: mnazim1541/jmmaster:latest
     container_name: container-master
+    stdin_open: true 
+    tty: true     
+    command: /bin/bash 
 
   slave1:
     image: mnazim1541/jmslave:latest

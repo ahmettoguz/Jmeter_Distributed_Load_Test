@@ -16,6 +16,7 @@ docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
 ####################################
 ####################################
 ####################################
+
 #cd ile testimizin ve composumuzun olduğu yere gel
 cd ...
 
