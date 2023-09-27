@@ -1,0 +1,17 @@
+version: '3'
+services:
+  master:
+    image: mnazim1541/jmmaster:latest
+    container_name: container-master
+
+  slave1:
+    image: mnazim1541/jmslave:latest
+    container_name: container-slave1
+    depends_on:
+      - master
+
+  slave2:
+    image: mnazim1541/jmslave:latest
+    container_name: container-slave2
+    depends_on:
+      - master
