@@ -1,0 +1,6 @@
+name: my-okteto-app
+image: mnazim1541/jmmaster:latest
+volumes:
+  - /app
+sync:
+  - .:/app
