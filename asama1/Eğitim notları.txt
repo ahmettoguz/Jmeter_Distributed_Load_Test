@@ -55,6 +55,11 @@ docker build .
 #image ları gösterir
 docker images
 
+# stopped container'ların image'larını silme
+docker rmi <id>
+
+# remove all images
+docker image prune
 ===========================
 # container
 # çalıştırır
