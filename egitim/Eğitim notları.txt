@@ -77,19 +77,6 @@ docker image prune
 # bu da silebilir
 docker rmi $(docker images -q)
 
-
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
@@ -104,22 +91,25 @@ docker rmi $(docker images -q)
 docker run <id>
 
 #expose edilen port publish olur böylece dinlenebilir. 80 -> Dockerfile | 3000 -> localport
-docker run -p 3000:80 <id>
+docker run -p 3000:80 <name>
 
 # --rm ile exit edilen container otomatik olarak silinir
-docker run -p 3000:80 --rm <id>
+docker run -p 3000:80 --rm <name>
 
 # -d detach mode: arka planda çalışmak için
-docker run -p 3000:80 --rm -d <id>
+docker run -p 3000:80 --rm -d <name>
 
 # --name isimlendirme
-docker run -p 3000:80 --rm --name container-master <id>
+docker run -p 3000:80 --rm --name container-master <name>
 
 # durdurur
 docker stop <name>
 
 # başlatır
 docker start <name>
+
+# run olan container'ın shelline bağlanma
+docker exec -it edu-container /bin/bash
 
 # running contianerları gör
 docker ps -a 
@@ -156,6 +146,132 @@ docker push <image_Name>
 ========================================================================
 ========================================================================
 ========================================================================
+# VOLUME 
+# volumlelar host makinelerle container'ların ortak kullanabildiği storage alanlarıdır.
+
+# fark şekillderde voluma'lar oluşturulabilir
+
+
+========================================================================
+
+# anonymous volume
+VOLUME ["/app/feedbackDirectory"] 
+# bu şekilde oluşturulmuş bir volume anonymous'tur ve container herhangi bir yere bu volume'u yerleştirir.
+docker volume ls 
+# ile görebilirsin
+docker volume --help
+# ama container silindikten sonra bu volume'a erişemezsin
+
+#volume silme
+docker volume rm <volume-name>
+docker volume prune 
+
+==== 
+
+#Dockerfile
+
+FROM node
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+EXPOSE 80
+
+# VOLUME ["<folder under container>"]
+VOLUME ["/app/feedbackDirectory"]
+
+CMD ["node", "server.js"]
+========================================================================
+
+# named volumes 
+# bu volume'lar Dockerfile içerisinde tanımlanmaz run edilirken -v <volume-name>:<directory path> verilir
+docker run -p 3000:80 --rm --name container-master -v feedback:/app/feedbackDirectory <name>
+
+# stop ettikten sonra yine aynı volume komutuyla başlatırsan aynı şekilde erişebilirsin
+
+# volumelara bakabilirsin.
+docker volume ls 
+========================================================================
+
+#bind mount
+# kodda yapılan değişiklikler container'a yansıtılmaz.
+# snapshot ile çalışır. 
+# bunun üstesinden gelebiliriz çünkü tekrar tekrar build almak istemeyebiliriz.
+# host machine ile container arasında bind mount oluşturulur
+# istersen file istersen folder bind edebilirsin
+# docker desktop'tan file sharing açık olmalı tabi varsa
+# -v "<host-absolute-path>:<container-path>"
+docker run -p 3000:80 --rm --name container-master -v feedback:/app/feedbackDirectory -v "C:\\folder:/app" <name>
+
+
+# path verirken kolaylık için 
+macOS / Linux: -v $(pwd):/app
+Windows: -v "%cd%":/app
+
+# 53. derste bind mount ve anonymous volume u birlikte yapıyor.
+
+========================================================================
+========================================================================
+========================================================================
+========================================================================
+========================================================================
+========================================================================
+========================================================================
+# env variable
+
+# docker file içerisinde variable tanımlayabilirsin.
+# node.js processlerin global variable'larını destekler
+# mesela app.listen(80); 
+# yerine app.listen(process.env.PORT);
+# diyebiliriz
+
+#Dockerfile
+FROM node
+
+# set current working director
+WORKDIR /app
+
+# target files and destination file | relative ve absolute path
+COPY . /app
+
+# build etmek için
+RUN npm install
+
+ENV PORT 80
+
+# porttan dinlemek için
+EXPOSE $PORT
+
+# container de run etmek için container run edildiği zaman yapar
+CMD ["node", "server.js"]
+
+
+docker run -p 3000:8000 --env PORT=8000 --rm --name container-master image-master
+
+docker run -p 3000:8000 -e PORT=8000 -e AGE=24 --rm --name container-master image-master
+
+# ya da file oluşturabiliriz.
+.env dosyası oluşturduğunu düşün (ismi önemli değil) aşağıdaki de içeriği
+PORT=8000
+
+
+docker run -p 3000:8000 --env-file ./.env --rm --name container-master image-master
+
+# file ' a yazıp paylaştığın bilgiler imagı kullanan diğer kullanıcılar tarafından görülebilir docker history <image> ile 
+
+
+#benzer şekilde arg da kullanılabiliyor 63. derste gösteriyor.
+========================================================================
+========================================================================
+========================================================================
+# logları görmek için 
+docker logs <container-name>
+
 ========================================================================
 ========================================================================
 ========================================================================
@@ -165,5 +281,4 @@ docker push <image_Name>
 ========================================================================
 ========================================================================
 ========================================================================
-========================================================================
-========================================================================
+# NETWORKING
