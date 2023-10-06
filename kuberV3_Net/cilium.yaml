@@ -1,0 +1,11 @@
+# cilium.yaml
+apiVersion: operator.cilium.io/v1
+kind: Cilium
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  kubeProxyReplacement: partial
+  k8sServiceHost: "10.96.0.0"
+  k8sServicePort: "443"
+  nodePortRange: "30000-32767"
