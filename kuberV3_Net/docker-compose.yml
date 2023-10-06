@@ -1,0 +1,16 @@
+version: '3'
+services:
+  master:
+    image: kaarol/jmeter-master:latest
+    container_name: container-master
+    
+
+  slave1:
+    image: kaarol/jmeter-slave:latest
+    container_name: container-slave1
+    
+
+  slave2:
+    image: kaarol/jmeter-slave:latest
+    container_name: container-slave2
+    

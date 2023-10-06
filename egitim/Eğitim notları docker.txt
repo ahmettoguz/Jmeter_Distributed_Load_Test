@@ -385,22 +385,31 @@
         - MONGO_PW: secret
   #    env_file:
   #     - ./env
+      contianer_name: mongo-container
       
     backend:
-    build: ./backend
-  #  build:
-  #    context: ./backend
-  #    dockerfile: Dockerfile
-  #    args: 
-  #      some-arg: 1
-    ports:
-      - "3000:80"
-    volumes:
-      - logs:/app/logs 
-      - C..........
-    forntend:
-    depends_on:
-      - mongodbBenimKoyduğumİsim
+      build: ./backend
+      #  build:
+      #    context: ./backend
+      #    dockerfile: Dockerfile
+      #    args: 
+      #      some-arg: 1
+      ports:
+        - "3000:80"
+      volumes:
+        - logs:/app/logs 
+        - C..........
+
+    frontend:
+      build: ./frontend
+      depends_on:
+        - mongodbBenimKoyduğumİsim
+      ports: 
+        - '3000:3000'
+      volumes:
+      - ./frontend/src:/app/src
+      stdin_open: true
+      tty: true
 
   volumes: 
     data:
@@ -410,6 +419,9 @@
   # up
   docker-compose up
   docker-compose up -d
+
+  # container'ları çalıştırmaz
+  docker-compose up build 
 
   # down delete contianer (volumes are safe)
   docker-compose down
