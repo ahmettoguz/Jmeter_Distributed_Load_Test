@@ -1,0 +1,51 @@
+
+Açıklama
+    Pod'lar:
+
+    jmeter-566b8976c-tsthq: Bu pod, JMeter master'ı için oluşturulan bir pod ve "Running" durumunda.
+    jmeter-slave-748bd864d8-gldp5 ve jmeter-slave-748bd864d8-z6wht: Bu iki pod, JMeter slave'leri için oluşturulan pod'lar ve her ikisi de "Running" durumunda.
+    Servisler:
+
+    jmeter-master-service: Bu servis, JMeter master pod'uyla iletişim kurmak için kullanılır. ClusterIP tipinde bir servis olduğu için, sadece Kubernetes cluster'ı içindeki diğer pod'lar tarafından erişilebilir. Port 80 üzerinden hizmet veriyor.
+
+    jmeter-service: Bu servis, JMeter master ve slave'ler arasındaki iletişimi sağlamak için kullanılır. Aynı şekilde ClusterIP tipinde bir servis ve port 80 üzerinden hizmet veriyor. Ancak, bu servis, cluster dışındaki kaynaklara erişilemez.
+
+Services
+ kubectl apply -f jmeter-deployment.yaml
+ kubectl apply -f jmeter-service.yaml
+
+ kubectl get pods
+ kubectl get services
+
+Pod içerisine girme: 
+    kubectl exec -it jmeter-566b8976c-tsthq -- /bin/sh
+    kubectl exec -it jmeter-master-74795456cd-qdbmf -n jmeter -- /bin/sh
+                                                                    /bash
+
+Silme 
+    kubectl delete pod jmeter-566b8976c-tsthq -n kube-system
+
+Başlatma
+    kubectl apply -f jmeter-deployment.yaml
+    kubectl apply -f jmeter-service.yaml
+
+Namespace
+    kubectl apply -f namespace.yaml
+    kubectl get namespaces
+
+Copy:
+    kubectl cp ./JmeterDemo_Test_Script.jmx jmeter-master-74795456cd-qdbmf:/ -n jmeter
+
+PS C:\Users\totom\Desktop\jmeter-Test\kuberv2> kubectl get pods
+NAME                            READY   STATUS    RESTARTS   AGE
+jmeter-566b8976c-tsthq          1/1     Running   0          15h
+jmeter-slave-748bd864d8-gldp5   1/1     Running   0          15h
+jmeter-slave-748bd864d8-z6wht   1/1     Running   0          15h
+
+
+PS C:\Users\totom\Desktop\jmeter-Test\kuberv2> kubectl get services
+NAME                    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE  
+jmeter-master-service   ClusterIP   10.107.164.241   <none>        80/TCP    2d20h
+jmeter-service          ClusterIP   10.100.206.19    <none>        80/TCP    15h  
+kubernetes              ClusterIP   10.96.0.1        <none>        443/TCP   2d20h
+PS C:\Users\totom\Desktop\jmeter-Test\kuberv2> 

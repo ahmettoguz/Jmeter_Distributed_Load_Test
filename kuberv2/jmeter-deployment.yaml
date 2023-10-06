@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-master
+  namespace: jmeter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jmeter-master
+  template:
+    metadata:
+      labels:
+        app: jmeter-master
+    spec:
+      containers:
+      - name: jmeter-master
+        image: mnazim1541/jmmaster:latest
+        command: ["/bin/sh", "-c"]
+        args: ["tail -f /dev/null"]
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-slave
+  namespace: jmeter
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jmeter-slave
+  template:
+    metadata:
+      labels:
+        app: jmeter-slave
+    spec:
+      containers:
+      - name: jmeter-slave
+        image: mnazim1541/jmslave:latest
+        command: ["/bin/sh", "-c"]
+        args: ["tail -f /dev/null"]
