@@ -14,6 +14,7 @@ ENTER POD
                                                                     
 DELETE
     kubectl delete pod jmeter-566b8976c-tsthq -n kube-system
+    
     kubectl delete deployment --all -n jmeter 
     kubectl delete services --all -n jmeter 
     kubectl delete namespace jmeter

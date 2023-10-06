@@ -1,226 +1,223 @@
 ========================================================================
 #Dockerfile
-FROM node
+  FROM node
 
-# set current working director
-WORKDIR /app
+  # set current working director
+  WORKDIR /app
 
-# target files and destination file | relative ve absolute path
-# COPY . ./  
-COPY . /app
+  # target files and destination file | relative ve absolute path
+  # COPY . ./  
+  COPY . /app
 
-# build etmek için
-RUN npm install
+  # build etmek için
+  RUN npm install
 
-# porttan dinlemek için
-EXPOSE 80
+  # porttan dinlemek için
+  EXPOSE 80
 
-# container de run etmek için container run edildiği zaman yapar
-CMD ["node", "server.js"]
+  # container de run etmek için container run edildiği zaman yapar
+  CMD ["node", "server.js"]
+
+  ========================================================================
+  optimized build almak için cache ler kullanılır. yani her komut tekrar tekrar çalışmaz. 
+  Sadece "Değişiklik olan layer'dan sonraki layerlar" yeniden tekralanır. Yani mesela biz yukarıda kopyaladığımız kodda bir değişiklik yaptığımız zaman bütün dosyalar tekrardan kopyalanıcak ve run npm install tekrardan çalışıcak. Bunu istemeyiz.
+  aşağıdaki gibi halledebiliriz.
+
+  #Dockerfile
+
+  FROM node
+
+  WORKDIR /app
+
+  COPY package.json /app
+
+  RUN npm install
+
+  COPY . /app
+
+  EXPOSE 80
+
+  CMD ["node", "server.js"]
 
 ========================================================================
-optimized build almak için cache ler kullanılır. yani her komut tekrar tekrar çalışmaz. 
-Sadece "Değişiklik olan layer'dan sonraki layerlar" yeniden tekralanır. Yani mesela biz yukarıda kopyaladığımız kodda bir değişiklik yaptığımız zaman bütün dosyalar tekrardan kopyalanıcak ve run npm install tekrardan çalışıcak. Bunu istemeyiz.
-aşağıdaki gibi halledebiliriz.
-
-#Dockerfile
-
-FROM node
-
-WORKDIR /app
-
-COPY package.json /app
-
-RUN npm install
-
-COPY . /app
-
-EXPOSE 80
-
-CMD ["node", "server.js"]
-
 ========================================================================
-image bir kere build olduktan sonra sen kodda ne yaparsan yap yaptığın değişiklik eklenmeyecektir.
-yeni build alman gerekir.
-
+========================================================================
 ========================================================================
 #IMAGE
+  image bir kere build olduktan sonra sen kodda ne yaparsan yap yaptığın değişiklik eklenmeyecektir.
+  yeni build alman gerekir.
 
-# image buildi için
-docker build . 
+  # image buildi için
+  docker build . 
 
-# image versionları için name:tag kullanılır
-# burda mesela 14 versiyonunu kullanıyoruz.
-FROM node:14 
+  # image versionları için name:tag kullanılır
+  # burda mesela 14 versiyonunu kullanıyoruz.
+  FROM node:14 
 
-# build ederken kendi tagıni verebilirsin
-docker build -t slave:latest .
-docker build -t slave:1 .
+  # build ederken kendi tagıni verebilirsin
+  docker build -t slave:latest .
+  docker build -t slave:1 .
 
-# image ları gösterir
-docker images
+  # image ları gösterir
+  docker images
 
-# detaylı gösterir
-docker image inspect
+  # detaylı gösterir
+  docker image inspect
 
-# stopped container'ların image'larını silme
-docker rmi <id>
+  # stopped container'ların image'larını silme
+  docker rmi <id>
 
-# remove all images
-docker image prune -a --force
+  # remove all images
+  docker image prune -a --force
 
-# bu da silebilir
-docker rmi $(docker images -q)
+  # bu da silebilir
+  docker rmi $(docker images -q)
 
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
 # CONTAINER
-# çalıştırır
-docker run <id>
+  # çalıştırır
+  docker run <id>
 
-#expose edilen port publish olur böylece dinlenebilir. 80 -> Dockerfile | 3000 -> localport
-docker run -p 3000:80 <name>
+  #expose edilen port publish olur böylece dinlenebilir. 80 -> Dockerfile | 3000 -> localport
+  docker run -p 3000:80 <name>
 
-# --rm ile exit edilen container otomatik olarak silinir
-docker run -p 3000:80 --rm <name>
+  # --rm ile exit edilen container otomatik olarak silinir
+  docker run -p 3000:80 --rm <name>
 
-# -d detach mode: arka planda çalışmak için
-docker run -p 3000:80 --rm -d <name>
+  # -d detach mode: arka planda çalışmak için
+  docker run -p 3000:80 --rm -d <name>
 
-# --name isimlendirme
-docker run -p 3000:80 --rm --name container-master <name>
+  # --name isimlendirme
+  docker run -p 3000:80 --rm --name container-master <name>
 
-# durdurur
-docker stop <name>
+  # durdurur
+  docker stop <name>
 
-# başlatır
-docker start <name>
+  # başlatır
+  docker start <name>
 
-# run olan container'ın shelline bağlanma
-docker exec -it edu-container /bin/bash
+  # run olan container'ın shelline bağlanma
+  docker exec -it edu-container /bin/bash
 
-# running contianerları gör
-docker ps -a 
-docker ps --help
+  # running contianerları gör
+  docker ps -a 
+  docker ps --help
 
-# container'a dosya kopyalama
-docker cp <target_File> <destination_Container_Name>:<destination_location>
-docker cp ./myFile.txt container-master:/test
+  # container'a dosya kopyalama
+  docker cp <target_File> <destination_Container_Name>:<destination_location>
+  docker cp ./myFile.txt container-master:/test
 
-# container'dan kopyalama
-docker cp container-master:/test ./
+  # container'dan kopyalama
+  docker cp container-master:/test ./
 
+  # stop all container and remove them
+  docker stop $(docker ps -aq)
+  docker rm $(docker ps -aq)
 
-# stop all container and remove them
-docker stop $(docker ps -aq)
-docker rm $(docker ps -aq)
+  # logları görmek için 
+  docker logs <container-name>
+
+  ========================================================================
+  attach ve detach
+  detach'de başlatılınca arka planda yürür logları göremezsin kendi consolunda -d filan yazılır.
+  attach modda görebilirsin 
+
+  docker run -it <name>
+  -it => interactive terminal
 
 ========================================================================
-attach ve detach
-detach'de başlatılınca arka planda yürür logları göremezsin kendi consolunda -d filan yazılır.
-attach modda görebilirsin 
-
-docker run -it <name>
--it => interactive terminal
-
+========================================================================
+========================================================================
 ========================================================================
 # DOCKER HUB
-docker pull <image_Name>
+  docker pull <image_Name>
 
-# pushlamadan önce repo oluşturuyoruz. repo isimiyle kendi localimizde o isimde bir image olşturup puşlamamız gerekiyor.
-# login olmamız lazım 
-docker login
-docker push <image_Name>
+  # pushlamadan önce repo oluşturuyoruz. repo isimiyle kendi localimizde o isimde bir image olşturup puşlamamız gerekiyor.
+  # login olmamız lazım 
+  docker login
+  docker push <image_Name>
 
-========================================================================
-========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
 .dockerignore
-.git
-node_modules
+  .git
+  node_modules
 
 ========================================================================
 # VOLUME 
-# volumlelar host makinelerle container'ların ortak kullanabildiği storage alanlarıdır.
+  # volumlelar host makinelerle container'ların ortak kullanabildiği storage alanlarıdır.
 
-# fark şekillderde voluma'lar oluşturulabilir
+  # fark şekillderde voluma'lar oluşturulabilir
 
-========================================================================
+  ========================================================================
 
-# anonymous volume
-VOLUME ["/app/feedbackDirectory"] 
-# bu şekilde oluşturulmuş bir volume anonymous'tur ve container herhangi bir yere bu volume'u yerleştirir.
-docker volume ls 
-# ile görebilirsin
-docker volume --help
-# ama container silindikten sonra bu volume'a erişemezsin
+  # anonymous volume
+  VOLUME ["/app/feedbackDirectory"] 
+  # bu şekilde oluşturulmuş bir volume anonymous'tur ve container herhangi bir yere bu volume'u yerleştirir.
+  docker volume ls 
+  # ile görebilirsin
+  docker volume --help
+  # ama container silindikten sonra bu volume'a erişemezsin
 
-#volume silme
-docker volume rm <volume-name>
-docker volume prune 
+  #volume silme
+  docker volume rm <volume-name>
+  docker volume prune 
 
-==== 
+  ==== 
 
-#Dockerfile
+  #Dockerfile
 
-FROM node
+  FROM node
 
-WORKDIR /app
+  WORKDIR /app
 
-COPY package.json /app
+  COPY package.json /app
 
-RUN npm install
+  RUN npm install
 
-COPY . /app
+  COPY . /app
 
-EXPOSE 80
+  EXPOSE 80
 
-# VOLUME ["<folder under container>"]
-VOLUME ["/app/feedbackDirectory"]
+  # VOLUME ["<folder under container>"]
+  VOLUME ["/app/feedbackDirectory"]
 
-CMD ["node", "server.js"]
-========================================================================
+  CMD ["node", "server.js"]
+  ========================================================================
 
-# named volumes 
-# bu volume'lar Dockerfile içerisinde tanımlanmaz run edilirken -v <volume-name>:<directory path> verilir
-docker run -p 3000:80 --rm --name container-master -v feedback:/app/feedbackDirectory <name>
+  # named volumes 
+  # bu volume'lar Dockerfile içerisinde tanımlanmaz run edilirken -v <volume-name>:<directory path> verilir
+  docker run -p 3000:80 --rm --name container-master -v feedback:/app/feedbackDirectory <name>
 
-# stop ettikten sonra yine aynı volume komutuyla başlatırsan aynı şekilde erişebilirsin
+  # stop ettikten sonra yine aynı volume komutuyla başlatırsan aynı şekilde erişebilirsin
 
-# volumelara bakabilirsin.
-docker volume ls 
-========================================================================
+  # volumelara bakabilirsin.
+  docker volume ls 
+  ========================================================================
 
-#bind mount
-# kodda yapılan değişiklikler container'a yansıtılmaz.
-# snapshot ile çalışır. 
-# bunun üstesinden gelebiliriz çünkü tekrar tekrar build almak istemeyebiliriz.
-# host machine ile container arasında bind mount oluşturulur
-# istersen file istersen folder bind edebilirsin
-# docker desktop'tan file sharing açık olmalı tabi varsa
-# -v "<host-absolute-path>:<container-path>"
-docker run -p 3000:80 --rm --name container-master -v feedback:/app/feedbackDirectory -v "C:\\folder:/app" <name>
+  #bind mount
+  # kodda yapılan değişiklikler container'a yansıtılmaz.
+  # snapshot ile çalışır. 
+  # bunun üstesinden gelebiliriz çünkü tekrar tekrar build almak istemeyebiliriz.
+  # host machine ile container arasında bind mount oluşturulur
+  # istersen file istersen folder bind edebilirsin
+  # docker desktop'tan file sharing açık olmalı tabi varsa
+  # -v "<host-absolute-path>:<container-path>"
+  docker run -p 3000:80 --rm --name container-master -v feedback:/app/feedbackDirectory -v "C:\\folder:/app" <name>
 
 
-# path verirken kolaylık için 
-macOS / Linux: -v $(pwd):/app
-Windows: -v "%cd%":/app
+  # path verirken kolaylık için 
+  macOS / Linux: -v $(pwd):/app
+  Windows: -v "%cd%":/app
 
-# 53. derste bind mount ve anonymous volume u birlikte yapıyor.
+  # 53. derste bind mount ve anonymous volume u birlikte yapıyor.
 
-========================================================================
-========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
@@ -228,142 +225,132 @@ Windows: -v "%cd%":/app
 ========================================================================
 # env variable
 
-# docker file içerisinde variable tanımlayabilirsin.
-# node.js processlerin global variable'larını destekler
-# mesela app.listen(80); 
-# yerine app.listen(process.env.PORT);
-# diyebiliriz
+  # docker file içerisinde variable tanımlayabilirsin.
+  # node.js processlerin global variable'larını destekler
+  # mesela app.listen(80); 
+  # yerine app.listen(process.env.PORT);
+  # diyebiliriz
 
-#Dockerfile
-FROM node
+  #Dockerfile
+  FROM node
 
-# set current working director
-WORKDIR /app
+  # set current working director
+  WORKDIR /app
 
-# target files and destination file | relative ve absolute path
-COPY . /app
+  # target files and destination file | relative ve absolute path
+  COPY . /app
 
-# build etmek için
-RUN npm install
+  # build etmek için
+  RUN npm install
 
-ENV PORT 80
+  ENV PORT 80
 
-# porttan dinlemek için
-EXPOSE $PORT
+  # porttan dinlemek için
+  EXPOSE $PORT
 
-# container de run etmek için container run edildiği zaman yapar
-CMD ["node", "server.js"]
-
-
-docker run -p 3000:8000 --env PORT=8000 --rm --name container-master image-master
-
-docker run -p 3000:8000 -e PORT=8000 -e AGE=24 --rm --name container-master image-master
-
-# ya da file oluşturabiliriz.
-.env dosyası oluşturduğunu düşün (ismi önemli değil) aşağıdaki de içeriği
-PORT=8000
+  # container de run etmek için container run edildiği zaman yapar
+  CMD ["node", "server.js"]
 
 
-docker run -p 3000:8000 --env-file ./.env --rm --name container-master image-master
+  docker run -p 3000:8000 --env PORT=8000 --rm --name container-master image-master
 
-# file ' a yazıp paylaştığın bilgiler imagı kullanan diğer kullanıcılar tarafından görülebilir docker history <image> ile 
+  docker run -p 3000:8000 -e PORT=8000 -e AGE=24 --rm --name container-master image-master
+
+  # ya da file oluşturabiliriz.
+  .env dosyası oluşturduğunu düşün (ismi önemli değil) aşağıdaki de içeriği
+  PORT=8000
 
 
-#benzer şekilde arg da kullanılabiliyor 63. derste gösteriyor.
-========================================================================
-========================================================================
-========================================================================
-# logları görmek için 
-docker logs <container-name>
+  docker run -p 3000:8000 --env-file ./.env --rm --name container-master image-master
 
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
+  # file ' a yazıp paylaştığın bilgiler imagı kullanan diğer kullanıcılar tarafından görülebilir docker history <image> ile 
+
+
+  #benzer şekilde arg da kullanılabiliyor 63. derste gösteriyor.
 ========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
 # NETWORKING
 
-# farklı networking türleri var bunlar
-# container - www (api's)
-# container - container
-# container - localhost
+  # farklı networking türleri var bunlar
+  # container - www (api's)
+  # container - container
+  # container - localhost
+
+  ========================================================================
+  # container ve localhost arasında bağlantı kurulduğu zaman url'deki localhost yazısını görmez. Bunun yerine host.docker.internal kullanmalısın.
+  # 'mongodb://localhost:27017/dbmy'
+  # 'mongodb://host.docker.internal:27017/dbmy'
+
+  # mongodb container'da diyelim(:27017) bu portu run ederken publish yapıp localhosttaki  backend ile iletişime geçirebiiriz.
+
+  ========================================================================
+  # container to container bir db ve arayüz kullanıcaz diyelim
+  # mongodb kullandı direk kendi imajını ayağa kaldırdı ve inspect kısmından ip adresine ulaştı.
+  docker container inspect container-master
+
+  # yine de ip adresine bakmamız lazım. 
+
+  # bunun yerine network kullanıcaz.
+
+  docker network --help
+  docker network ls
+
+  # create edelim
+  docker network create my-net
+
+  # --network my-net ile networki belirle
+  docker run -p 3000:80 --rm --name -d --network my-net container-master container-image
+  # container name'i mongoyu da kaldırırken kullanırsın
+  # 'mongodb://container-master:27017/dbmy'
+  # bu şekilde expose etmemiz gereken bir port'a da gerek kalmaz.
 
 ========================================================================
-# container ve localhost arasında bağlantı kurulduğu zaman url'deki localhost yazısını görmez. Bunun yerine host.docker.internal kullanmalısın.
-# 'mongodb://localhost:27017/dbmy'
-# 'mongodb://host.docker.internal:27017/dbmy'
-
-# mongodb container'da diyelim(:27017) bu portu run ederken publish yapıp localhosttaki  backend ile iletişime geçirebiiriz.
-
 ========================================================================
-# container to container bir db ve arayüz kullanıcaz diyelim
-# mongodb kullandı direk kendi imajını ayağa kaldırdı ve inspect kısmından ip adresine ulaştı.
-docker container inspect container-master
-
-# yine de ip adresine bakmamız lazım. 
-
-# bunun yerine network kullanıcaz.
-
-docker network --help
-docker network ls
-
-# create edelim
-docker network create my-net
-
-# --network my-net ile networki belirle
-docker run -p 3000:80 --rm --name -d --network my-net container-master container-image
-# container name'i mongoyu da kaldırırken kullanırsın
-# 'mongodb://container-master:27017/dbmy'
-# bu şekilde expose etmemiz gereken bir port'a da gerek kalmaz.
-
 ========================================================================
 ========================================================================
 # EXAMPLE MULTI
-# multi contianer'lar kullanarak backend, frontend ve db kullandı. 
-# hepsini aynı networkün içerisinde oluştrudu ve birbirlerine ismiyle bağlanabildi.
-# sadece frontend'i publish etti.
+  # multi contianer'lar kullanarak backend, frontend ve db kullandı. 
+  # hepsini aynı networkün içerisinde oluştrudu ve birbirlerine ismiyle bağlanabildi.
+  # sadece frontend'i publish etti.
 
-# yukarıdaki yanlışlığı aşağıda gideriyor
-====================================
+  # yukarıdaki yanlışlığı aşağıda gideriyor
+  ====================================
 
-# frontende erişemedik çünkü browser tarafında çalışıyor yani container içerisinde değil bu yüzden networkden çıkartıyoruz.
-# backendi publish ediyoruz çünkü frontendin ulaşması lazım (aynı network içerisinde değiller)
+  # frontende erişemedik çünkü browser tarafında çalışıyor yani container içerisinde değil bu yüzden networkden çıkartıyoruz.
+  # backendi publish ediyoruz çünkü frontendin ulaşması lazım (aynı network içerisinde değiller)
 
-#  frontend'den backende olan bağlantıda localhost'u kullandı. çünkü frontend appi browser tarafında çalışıyor yani container'ın içerisinde değil. Bu sebeple container'ın içerisindeki isimlere erişemiyoruz.
+  #  frontend'den backende olan bağlantıda localhost'u kullandı. çünkü frontend appi browser tarafında çalışıyor yani container'ın içerisinde değil. Bu sebeple container'ın içerisindeki isimlere erişemiyoruz.
 
-# aynı sebepten ötürü frontend uygulamasını aynı networkün içerisinde başlatmıyor. Zaten erişemiyor o networke.
+  # aynı sebepten ötürü frontend uygulamasını aynı networkün içerisinde başlatmıyor. Zaten erişemiyor o networke.
 
-# ama backend networkün içerisinde başlatılıyor çünkü dbye direk olarak ismiyle erişiyoruz ve bu sayede de db'yi publish etmemize gerek kalmıyor.
-======================================
-# db'nin verileri container içerisine kaydediliyor ama volume a kaydetmek istiyoruz.
-# dockerhubdan documentation a bak
+  # ama backend networkün içerisinde başlatılıyor çünkü dbye direk olarak ismiyle erişiyoruz ve bu sayede de db'yi publish etmemize gerek kalmıyor.
+  ======================================
+  # db'nin verileri container içerisine kaydediliyor ama volume a kaydetmek istiyoruz.
+  # dockerhubdan documentation a bak
 
-# named volume'u kullanıyor 
--v data:/data/db
+  # named volume'u kullanıyor 
+  -v data:/data/db
 
-# security için environment variable kullanıyor. Yine mongo nun kendisinde bunu anlatmış. 86.ders
-# backend deki connection kısmını değiştiriyor.
-# 'mongodb://.............:27017/dbmy'   87.ders
+  # security için environment variable kullanıyor. Yine mongo nun kendisinde bunu anlatmış. 86.ders
+  # backend deki connection kısmını değiştiriyor.
+  # 'mongodb://.............:27017/dbmy'   87.ders
 
-# backende logları kaydetmek istiyoruz
-# named volume kullanarak backendi runlıyor.
-logs:/app/logs
+  # backende logları kaydetmek istiyoruz
+  # named volume kullanarak backendi runlıyor.
+  logs:/app/logs
 
-# bir de bind yapmak istiyor çünkü kodları güncellemek istiyoruz
--v C.......:/app 
+  # bir de bind yapmak istiyor çünkü kodları güncellemek istiyoruz
+  -v C.......:/app 
 
-# burda ince bir ayrıntı var. bind yapınca owerride yapıyor ama uzun olan path isminin kısa olana önceliği varmış yani loglar yazılmaya devam edicek sıkıntı yok.
+  # burda ince bir ayrıntı var. bind yapınca owerride yapıyor ama uzun olan path isminin kısa olana önceliği varmış yani loglar yazılmaya devam edicek sıkıntı yok.
 
-# ayrıca node_modules ile ilgili bir şey yapılması gerekiyor. burda ananoymous bir volume yapıyor expec node_modules dermiş gibi.
--v /app/node_modules 
+  # ayrıca node_modules ile ilgili bir şey yapılması gerekiyor. burda ananoymous bir volume yapıyor expec node_modules dermiş gibi.
+  -v /app/node_modules 
 
-# değişiklikleri çalıştırmak için container'ın tekrar çalıştırılması gerekiyor. devDependencies nodemon ile hallediyor. 87. derste
-# bence gerek yok
-
+  # değişiklikleri çalıştırmak için container'ın tekrar çalıştırılması gerekiyor. devDependencies nodemon ile hallediyor. 87. derste
+  # bence gerek yok
 
 ========================================================================
 ========================================================================
@@ -381,51 +368,51 @@ logs:/app/logs
 ========================================================================
 # DOCKER COMPOSE 
 
-# aynı makine içerisinde multicontainer çalıştırmak için
-# servisler default olarak --rm ve -d olarak çalışıyor eklemeye gerek yok
-# networke gerek yok çünkü aynı networkde yaratıyor
+  # aynı makine içerisinde multicontainer çalıştırmak için
+  # servisler default olarak --rm ve -d olarak çalışıyor eklemeye gerek yok
+  # networke gerek yok çünkü aynı networkde yaratıyor
 
-docker-compose.yaml
+  docker-compose.yaml
 
-version: "3.8"
-services:
-  mongodbBenimKoyduğumİsim:
-    image: 'mongo'
+  version: "3.8"
+  services:
+    mongodbBenimKoyduğumİsim:
+      image: 'mongo'
+      volumes:
+        - data:data/db
+      environment:
+        - MONGO_NAME: ahmet
+        - MONGO_PW: secret
+  #    env_file:
+  #     - ./env
+      
+    backend:
+    build: ./backend
+  #  build:
+  #    context: ./backend
+  #    dockerfile: Dockerfile
+  #    args: 
+  #      some-arg: 1
+    ports:
+      - "3000:80"
     volumes:
-      - data:data/db
-    environment:
-      - MONGO_NAME: ahmet
-      - MONGO_PW: secret
-#    env_file:
-#     - ./env
-    
-  backend:
-   build: ./backend
-#  build:
-#    context: ./backend
-#    dockerfile: Dockerfile
-#    args: 
-#      some-arg: 1
-   ports:
-     - "3000:80"
-   volumes:
-     - logs:/app/logs 
-     - C..........
-  forntend:
-  depends_on:
-    - mongodbBenimKoyduğumİsim
+      - logs:/app/logs 
+      - C..........
+    forntend:
+    depends_on:
+      - mongodbBenimKoyduğumİsim
 
-volumes: 
-  data:
-  logs:
-========================================================================
+  volumes: 
+    data:
+    logs:
+  ========================================================================
 
-# up
-docker-compose up
-docker-compose up -d
+  # up
+  docker-compose up
+  docker-compose up -d
 
-# down delete contianer (volumes are safe)
-docker-compose down
+  # down delete contianer (volumes are safe)
+  docker-compose down
 
 
 
