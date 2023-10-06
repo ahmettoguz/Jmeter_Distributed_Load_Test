@@ -10,7 +10,7 @@ CHECK
     kubectl get services -n jmeter
     
 ENTER POD
-    kubectl exec -it jmeter-master-7f9f4cccc7-45vjw -n jmeter -- /bin/bash
+    kubectl exec -it jmeter-master-7f9f4cccc7-zvxn9 -n jmeter -- /bin/bash
                                                                     
 DELETE
     kubectl delete deployment --all -n jmeter 
@@ -25,3 +25,9 @@ ip
     hostname -i
     tracert ...
     nslookup github.com
+
+Dns log:
+    kubectl get pods -n kube-system
+    kubectl rollout restart deployment coredns --namespace kube-system
+    kubectl logs coredns-7c5f9bb567-8fn6x  -n kube-system  
+    kubectl logs coredns-7c5f9bb567-tgf65 -n kube-system  
