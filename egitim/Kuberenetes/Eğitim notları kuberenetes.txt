@@ -1,6 +1,10 @@
 
 ========================================================================
+Architecture:
+    Clusterımızın altında 1 master node ve birden fazla worker node bulunur. Bu nodleların içerisinde podlar bulunur. Container'larda bunların içerisinde
 
+    Makine yaratmak ve gereken infrastructure işlerini yapmak kuberenetesin işi değildir. Cloud providerlar bu environment'ı sağlayadabilir sağlamayadabilir. Yani environment kurmak senin işin. K8s sadece bu kaynakların düzgün şekilde yönetilmesini sağlamakta.
+    
 
 ========================================================================
 ========================================================================
