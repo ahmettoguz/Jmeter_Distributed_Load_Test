@@ -1,29 +1,187 @@
 
 ========================================================================
 Architecture:
+
     Clusterımızın altında 1 master node ve birden fazla worker node bulunur. Bu nodleların içerisinde podlar bulunur. Container'larda bunların içerisinde
 
     Makine yaratmak ve gereken infrastructure işlerini yapmak kuberenetesin işi değildir. Cloud providerlar bu environment'ı sağlayadabilir sağlamayadabilir. Yani environment kurmak senin işin. K8s sadece bu kaynakların düzgün şekilde yönetilmesini sağlamakta.
+
+    Ama anladığım kadarıyla gerekli olan podları k8 yaratıyor.
+========================================================================
+========================================================================
+Pods:
+    $ kubectl get pods
+========================================================================
+========================================================================
+Declerative:
+    Explanation:
+        # Docker compose gibi yaml dosyasından çalışır.
+
+    Deployment:
+        Explanation:
+            Podları biz yaratıp nodelara (makinelere dağıtmayız). Podları deployment objesi ayarlar.
+            Master nodde objeyi ayarlar ve worker noda verir.
+            Pod fail olsa bile yeniden başlatılmasını sağlar.
+
+        deployment.yaml:
+            apiVersion: apps/v1                     #k8 den alıyorsun
+            kind: Deployment                        #hangi türde olucağını veriyorsun
+            metadata:
+              name: name-Of-Your-Deployment
+            spec:                                   #specification of this deployment
+              replicas: 3                           #pod replicaları #default 1 dir #0 da verilebilir
+              selector:
+                matchLabels:                        # yerine mathExpressions: da kullanılabilir. grep gibi çalışır.
+                  app: my-App-Name                  # aşağıdaki podların labellarına bakıyor ve hangi podları deployment'ın içerisinde tutması gerektiğini öğreniyor. Dikkat edilmesi gereken diyelim ki app keyinin value'sı aşağıdakiyle aynı ama apptier farklı o zaman bu podu dahil etmez.
+                  apptier: my-App-Tier  
+              template:
+                metadata:
+                  labels:                           #birden fazla label verilebilir
+                    app: my-App-Name                #ismini label olarak veriyoruz #app yazan yeri de değiştirebiliriz.
+                    apptier: my-App-Tier            #tier vermek istedim. Optional yine.
+                spec:                               #specification of the individual pod in this deployment
+                  containers:                       #birden fazla container yartlabilir.
+                    - name: container-Name
+                      image: image-Name
+                    #- name: container-Name
+                    #  image: image-Name
+        
+    Service: 
+        Explanation: 
+            Podları clustar'a ve external'a expose eder.
+            ipleri cluster içerisinde ayarlar dağıtır.
+
+        service.yaml
+            apiVersion: core/v1
+            kind: Service
+            metadata:
+              name: service-Name
+            spec:
+              selector:
+                app: app-Name                    #matchLabels'e gerek yok 
+              ports:
+                - protocol: 'TCP'                # tcp is default
+                  port: 80                       # outside
+                  targetPort: 8080               # inside
+                - protocol: 'TCP'                # tcp is default
+                  port: 80                       # outside
+                  targetPort: 8080               # inside
+              type: ClusterIp
+              
+              
+              
+                Typelar: 
+                    ClusterIp : reachable by inside the cluster  default
+                    NodePort : expose
+                    LoadBalancer : LoadBalancer görevini bu replicalar üstlenir ayrıca düşen poda gelen isteği de böylece replica podlara yönlendirir. Cloud provider'a bağlıdır.
+
+    Multiple object in same file:
+        Explanation:
+            You can also write service and depoloyment in same file by seperating --- (also may be more than 1 deployment).
+            Services should go first.
+
+        kuber.yaml
+            apiVersion: core/v1
+            kind: Service
+            metadata:
+              name: service-Name
+            spec:
+              selector:
+                app: app-Name                    #matchLabels'e gerek yok 
+              ports:
+                - protocol: 'TCP'                # tcp is default
+                  port: 80                       # outside
+                  targetPort: 8080               # inside
+                - protocol: 'TCP'                # tcp is default
+                  port: 80                       # outside
+                  targetPort: 8080               # inside
+              type: ClusterIp
+            ---
+            apiVersion: apps/v1                     #k8 den alıyorsun
+            kind: Deployment                        #hangi türde olucağını veriyorsun
+            metadata:
+              name: name-Of-Your-Deployment
+            spec:                                   #specification of this deployment
+              replicas: 3                           #pod replicaları #default 1 dir #0 da verilebilir
+              selector:
+                matchLabels:
+                  app: my-App-Name                  # aşağıdaki podların labellarına bakıyor ve hangi podları deployment'ın içerisinde tutması gerektiğini öğreniyor. Dikkat edilmesi gereken diyelim ki app keyinin value'sı aşağıdakiyle aynı ama apptier farklı o zaman bu podu dahil etmez.
+                  apptier: my-App-Tier  
+              template:
+                metadata:
+                  labels:                           #birden fazla label verilebilir
+                    app: my-App-Name                #ismini label olarak veriyoruz #app yazan yeri de değiştirebiliriz.
+                    apptier: my-App-Tier            #tier vermek istedim. Optional yine.
+                spec:                               #specification of the individual pod in this deployment
+                  containers:                       #birden fazla container yartlabilir.
+                    - name: container-Name
+                      image: image-Name
+                    #- name: container-Name
+                    #  image: image-Name
+
+    Commands: 
+        # apply deployment and service
+        $ kubectl apply -f deployment.yaml
+        $ kubectl apply -f service.yaml
+
+        # silmek için istersen deployment'ın adını yazabilirisin mesela yukardaki metadatanın içindeki gibi
+        $ kubectl delete deployment name-Of-Your-Deployment 
+        # ya da direkt olarak dosyanın adını verebilirsin 
+        $ kubectl delete deployment -f deployment.yaml,service.yaml
+        
+
+========================================================================
+========================================================================
+Imperative:
+    Deployment Object:
+        $ kubectl get deployments
+
+        # Aşağıdaki gibi deployment yaratmak istiyorsan image'ın hubda olmalı.
+        $ kubectl create deployment deployment-Name --iamge=image-Name
+        $ kubectl delete deployment deployment-Name
+
+    Service Object:
+        $ kubectl get services
+
+        $ kubectl expose deployment deployment-Name --port=8080 --type=clusterIp
+
+    Replica:
+        Instance of a pod.
+        3 Replica means same pod/Container is running 3 times.
+
+        $ kubectl scale deployment/depolyment-Name --replicas=3 
+        $ kubectl get pods
     
+    Image değişirse:
+        Diyelim ki kod değişti böylece image da değişicek. 
+
+        # updating image
+        # image'ın update olabilmesi için build edilirken version'larıyla build edilmeli böylece cluseter'da update edilirken download edilebilir.  
+        $ kubectl set image deployment/deployment-Name current-Container-Name=iamge-Name-On-Hub
+
+        Eski deployment'ın versiyonu tekrar kalkmayacağı için rollback ile ilgili bir durum var. 195. de anlatıyor gerek görmedim.
+========================================================================
+========================================================================
+
+========================================================================
+========================================================================
+========================================================================
 
 ========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
 ========================================================================
+Minikube:
+    K8 çalışmak ve çalıştırmak için iyi bir ortam yaratır.
+    $ minikube dashboard
+    $ minikube status
+    $ minikube start --driver=virtualbox
+    $ minikube start --driver=docker
 
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-========================================================================
-
+    Service:
+        Servisi dışarı expose edebilmesi için:
+        $ minikube service service-Name
 ========================================================================
 ========================================================================
 ========================================================================
