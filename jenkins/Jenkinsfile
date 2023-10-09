@@ -8,20 +8,21 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout1') {
+            steps {
+                // Bitbucket kimlik bilgileri
+                withCredentials([usernamePassword(credentialsId: 'BITBUCKET_CREDENTIALS_ID', passwordVariable: 'BITBUCKET_PASSWORD', usernameVariable: 'BITBUCKET_USERNAME')]) {
+                    // Bitbucket'tan kodu çek
+                    git credentialsId: 'BITBUCKET_CREDENTIALS_ID', url: 'https://gobitbucket.havelsan.com.tr/scm/test-md/doob_api_tests.git'
+                }
+            }
+        }
+
+        stage('Git Checkout') {
             steps {
                 // Bitbucket'tan kodu çek
                 // git 'https://gobitbucket.havelsan.com.tr/scm/test-md/doob_api_tests.git'
                 echo 'git atlandı'
-            }
-        }
-
-        
-        stage('Install npm') {
-            steps {
-                // Node.js için Yarn kullanarak bağımlılıkları yükle
-                sh 'npm version'
-                // sh 'yarn install'
             }
         }
 
