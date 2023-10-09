@@ -4,7 +4,6 @@ pipeline {
 
     tools {
         nodejs '20.8.0'
-
     }
 
     stages {
@@ -13,7 +12,7 @@ pipeline {
                 // Bitbucket kimlik bilgileri
                 withCredentials([usernamePassword(credentialsId: 'BITBUCKET_CREDENTIALS_ID', passwordVariable: 'BITBUCKET_PASSWORD', usernameVariable: 'BITBUCKET_USERNAME')]) {
                     // Bitbucket'tan kodu çek
-                    git credentialsId: 'BITBUCKET_CREDENTIALS_ID', url: 'https://gobitbucket.havelsan.com.tr/scm/test-md/doob_api_tests.git'
+                    git credentialsId: 'c2742d94-9f9c-45cd-90d1-f2ddcfe099c2', url: 'https://gobitbucket.havelsan.com.tr/scm/test-md/doob_api_tests.git'
                 }
             }
         }
