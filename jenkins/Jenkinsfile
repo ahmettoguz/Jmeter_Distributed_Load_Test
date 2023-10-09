@@ -9,17 +9,14 @@ pipeline {
                 echo 'git atlandı'
             }
         }
-
-        stage('Install Yarn') {
+        
+        stage('Install Yarn globally') {
             steps {
-                // Yarn'ı indir ve yükle
                 script {
-                    sh 'curl -o- -L --insecure https://yarnpkg.com/install.sh | bash'
-                    sh 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"'
+                    sh 'npm install --global yarn'
                 }
             }
         }
-
         
         stage('Install Dependencies') {
             steps {
