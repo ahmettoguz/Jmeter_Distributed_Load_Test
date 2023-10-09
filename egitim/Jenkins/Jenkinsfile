@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Bitbucket'tan kodu çek
+                git 'https://gobitbucket.havelsan.com.tr/scm/test-md/doob_api_tests.git'
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                // Node.js için Yarn kullanarak bağımlılıkları yükle
+                sh 'yarn --version'
+                // sh 'yarn install'
+            }
+        }
+    }
+
+    post {
+        always {
+            // clean up
+            deleteDir()
+        }
+
+        success {
+            echo 'SUCCESS JENKINS'
+        }
+
+        failure {
+            echo 'ERROR JENKINS'
+        }
+    }
+}
