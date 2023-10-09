@@ -12,6 +12,7 @@ pipeline {
                 // Bitbucket kimlik bilgileri
                 git credentialsId: 'c2742d94-9f9c-45cd-90d1-f2ddcfe099c2', url: 'https://gobitbucket.havelsan.com.tr/scm/test-md/doob_api_tests.git', branch: 'master'
             }
+        }
 
         stage('Install Dependencies') {
             steps {
