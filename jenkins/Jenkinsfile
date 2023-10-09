@@ -1,11 +1,6 @@
 pipeline {
 
-    agent {
-        docker {
-            image 'node:18.18.0-alpine3.18' 
-            args '-p 3000:3000' 
-        }
-    }
+    agent any
 
     stages {
         stage('Checkout') {
@@ -16,14 +11,6 @@ pipeline {
             }
         }
 
-        stage('Install Yarn globally') {
-            steps {
-                script {
-                    sh 'npm install'
-                    sh 'npm install --global yarn'
-                }
-            }
-        }
         
         stage('Install Dependencies') {
             steps {
