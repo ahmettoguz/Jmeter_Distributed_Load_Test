@@ -17,6 +17,14 @@ pipeline {
         }
 
         
+        stage('Install npm') {
+            steps {
+                // Node.js için Yarn kullanarak bağımlılıkları yükle
+                sh 'npm version'
+                // sh 'yarn install'
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 // Node.js için Yarn kullanarak bağımlılıkları yükle
