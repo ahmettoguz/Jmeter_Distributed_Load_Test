@@ -1,16 +1,10 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: jmeter
----
-apiVersion: v1
 kind: Service
 metadata:
-  name: jmeter-service
-  namespace: jmeter
+  name: service
 spec:
   selector:
-    app: jmeter  # Common label for both master and slave
+    app: slave
   ports:
     - protocol: TCP
       port: 80
@@ -21,19 +15,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jmeter-master
-  namespace: jmeter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jmeter
+      app: master
   template:
     metadata:
       labels:
-        app: jmeter
+        app: master
     spec:
       containers:
-      - name: jmeter-master
+      - name: master
         image: mnazim1541/jmmaster:latest
         command: ["/bin/sh", "-c"]
         args: ["echo 'JMeter master is ready'; sleep infinity"]
@@ -42,19 +35,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jmeter-slave
-  namespace: jmeter
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: jmeter
+      app: slave
   template:
     metadata:
       labels:
-        app: jmeter
+        app: slave
     spec:
       containers:
-      - name: jmeter-slave
+      - name: slave
         image: mnazim1541/jmslave:latest
         command: ["/bin/sh", "-c"]
         args: ["echo 'JMeter slave is ready'; sleep infinity"]
