@@ -36,7 +36,6 @@ spec:
       - name: jmeter-master
         image: mnazim1541/jmmaster:latest
         command: ["/bin/sh", "-c"]
-        args: ["echo 'JMeter master is ready'; sleep infinity"]
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -57,6 +56,5 @@ spec:
       - name: jmeter-slave
         image: mnazim1541/jmslave:latest
         command: ["/bin/sh", "-c"]
-        args: ["echo 'JMeter slave is ready'; sleep infinity"]
 
 
