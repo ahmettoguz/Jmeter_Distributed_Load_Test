@@ -10,7 +10,13 @@ CHECK
     kubectl get services -n jmeter
     
 ENTER POD
-    kubectl exec -it jmeter-master-86f84dbdc6-rmft4 -n jmeter -- /bin/bash
+        
+
+kubectl apply -f k8.yaml
+
+JMETER_SERVICE_SERVICE_HOST
+
+kubectl delete -f k8.yaml
                                                                     
 DELETE
     kubectl delete deployment --all -n jmeter 
@@ -34,7 +40,5 @@ Dns log:
 
 
 
-kubectl apply -f k8.yaml
 
-kubectl delete -f k8.yaml
 
