@@ -10,7 +10,7 @@ metadata:
   namespace: jmeter
 spec:
   selector:
-    run: jemeter
+    app: jmeter  # Common label for both master and slave
   ports:
     - protocol: TCP
       port: 80
@@ -26,18 +26,17 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jmeter-master
+      app: jmeter
   template:
     metadata:
       labels:
-        app: jmeter-master
-        run: jemeter
+        app: jmeter
     spec:
       containers:
       - name: jmeter-master
         image: mnazim1541/jmmaster:latest
         command: ["/bin/sh", "-c"]
-        args: ["echo 'Waiting for JMeter slaves...'; sleep infinity"]
+        args: ["echo 'JMeter master is ready'; sleep infinity"]
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,15 +47,16 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: jmeter-slave
+      app: jmeter
   template:
     metadata:
       labels:
-        app: jmeter-slave
-        run: jemeter
+        app: jmeter
     spec:
       containers:
       - name: jmeter-slave
         image: mnazim1541/jmslave:latest
         command: ["/bin/sh", "-c"]
         args: ["echo 'JMeter slave is ready'; sleep infinity"]
+
+
