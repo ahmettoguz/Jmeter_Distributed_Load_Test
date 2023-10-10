@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: service
+  name: jmeter-service
 spec:
   selector:
     app: slave
@@ -50,5 +50,4 @@ spec:
         image: mnazim1541/jmslave:latest
         command: ["/bin/sh", "-c"]
         args: ["echo 'JMeter slave is ready'; sleep infinity"]
-
 
