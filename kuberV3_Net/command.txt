@@ -10,7 +10,7 @@ CHECK
     kubectl get services -n jmeter
     
 ENTER POD
-    kubectl exec -it jmeter-master-7f9f4cccc7-hwcr5 -n jmeter -- /bin/bash
+    kubectl exec -it jmeter-master-7f9f4cccc7-sqwbb -n jmeter -- /bin/bash
                                                                     
 DELETE
     kubectl delete deployment --all -n jmeter 
