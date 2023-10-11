@@ -1,5 +1,5 @@
 
-
+ kubectl get pods -o wide
 
 docker run -dit --name slave1 bsmithio/jmeter-slave:latest /bin/bash 
 
@@ -17,3 +17,8 @@ docker exec -it master /bin/bash
 -Dclient.rmi.localport=60000 \
 -R slave1,slave2            
 -----------------------------------------------------
+/home/jmeter/apache-jmeter-3.2/bin/jmeter -n -t \
+/home/jmeter/apache-jmeter-3.2/bin/test.jmx \
+-Djava.rmi.server.hostname=master \
+-Dclient.rmi.localport=60000 \
+-R 10.244.0.13  
