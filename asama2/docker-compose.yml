@@ -1,0 +1,16 @@
+version: "3"
+services:
+  master:
+    image: bsmithio/jmeter-master:latest
+    container_name: master
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+
+  slave1:
+    image: bsmithio/jmeter-slave:latest
+    container_name: slave1
+
+  slave2:
+    image: bsmithio/jmeter-slave:latest
+    container_name: slave2

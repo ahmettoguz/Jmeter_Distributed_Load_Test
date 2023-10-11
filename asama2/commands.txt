@@ -1,0 +1,19 @@
+
+
+
+docker run -dit --name slave1 bsmithio/jmeter-slave:latest /bin/bash 
+
+
+sudo docker run -dit --name master bsmithio/jmeter-master:latest /bin/bash
+
+docker cp test.jmx master:/home/jmeter/apache-jmeter-3.2/bin/
+
+docker exec -it master /bin/bash
+
+---------------------test start----------------------
+/home/jmeter/apache-jmeter-3.2/bin/jmeter -n -t \
+/home/jmeter/apache-jmeter-3.2/bin/test.jmx \
+-Djava.rmi.server.hostname=master \
+-Dclient.rmi.localport=60000 \
+-R slave1,slave2            
+-----------------------------------------------------
