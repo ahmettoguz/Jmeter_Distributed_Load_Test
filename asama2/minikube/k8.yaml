@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: jmeter-service
+  name: service
 spec:
   selector:
     app: slave
@@ -14,7 +14,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jmeter-master
+  name: master
 spec:
   replicas: 1
   selector:
@@ -26,15 +26,15 @@ spec:
         app: master
     spec:
       containers:
-      - name: master
-        image: mnazim1541/jmmaster:latest
-        command: ["/bin/sh", "-c"]
-        args: ["echo 'JMeter master is ready'; sleep infinity"]
+        - name: master
+          image: bsmithio/jmeter-master:latest
+          command: ["/bin/sh", "-c"]
+          args: ["echo 'JMeter master is ready'; sleep infinity"]
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jmeter-slave
+  name: slave
 spec:
   replicas: 1
   selector:
@@ -46,8 +46,7 @@ spec:
         app: slave
     spec:
       containers:
-      - name: slave
-        image: mnazim1541/jmslave:latest
-        command: ["/bin/sh", "-c"]
-        args: ["echo 'JMeter slave is ready'; sleep infinity"]
-
+        - name: slave
+          image: bsmithio/jmeter-slave:latest
+          command: ["/bin/sh", "-c"]
+          args: ["echo 'JMeter slave is ready'; sleep infinity"]
