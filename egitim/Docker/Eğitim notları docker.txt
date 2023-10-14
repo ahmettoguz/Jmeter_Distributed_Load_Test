@@ -414,7 +414,10 @@
   volumes: 
     data:
     logs:
-  ========================================================================
+
+========================================================================
+bakcend tarafında build var tek satırla buildi ifade edebiliriz veya docker file'ın ismi farklıysa alt satırında explicit şekilde file name filan verebiliz.
+========================================================================
 
   # up
   docker-compose up
