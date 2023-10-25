@@ -30,6 +30,10 @@ spec:
         image: mnazim1541/jmmaster:latest
         command: ["/bin/sh", "-c"]
         args: ["echo 'JMeter master is ready'; sleep infinity"]
+        env:
+        - name: PODUM
+          value: "jmeter-slave.default"
+
 ---
 apiVersion: apps/v1
 kind: Deployment
