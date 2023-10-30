@@ -8,6 +8,8 @@ kubectl cp slaveIps.txt -n test jmeter-master-89bcf49cb-vl79m:/jmeter/apache-jme
 kubectl cp test.sh -n test jmeter-master-89bcf49cb-vl79m:/jmeter/apache-jmeter-5.1/bin
 kubectl cp loadtest.jmx -n test jmeter-master-89bcf49cb-vl79m:/jmeter/apache-jmeter-5.1/bin
 
+rm slaveIps.txt
+
 # jmeter-master konteyner'ında test.sh scriptini çalıştır
 kubectl exec -it jmeter-master-89bcf49cb-vl79m -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'
 

@@ -19,16 +19,6 @@ kubectl get deployment -n test
 kubectl get service -n test
 kubectl get pods -n test
 
------
-
-.\prepare.sh
-
-kubectl exec -it jmeter-master-89bcf49cb-vl79m -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'
-
-kubectl cp -n test jmeter-master-89bcf49cb-vl79m:/jmeter/apache-jmeter-5.1/bin/result.jtl ./result.jtl
-
-----
-
 export JVM_ARGS="Xms1024m -Xmx3072m"
 
 
