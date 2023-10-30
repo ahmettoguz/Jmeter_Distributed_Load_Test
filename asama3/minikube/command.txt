@@ -13,11 +13,16 @@ ENTER POD
  kubectl exec -it master-78b48ff795-hpqzt -- /bin/bash
         
 minikube start --force
+
 kubectl apply -f k8.yaml
+kubectl delete -f k8.yaml
+
+kubectl apply -f k7.yaml
+kubectl delete -f k7.yaml
+
+kubectl get pod slave-pod -o wide
 
 JMETER_SERVICE_SERVICE_HOST
-
-kubectl delete -f k8.yaml
                                                                     
 DELETE
     kubectl delete deployment --all -n jmeter 

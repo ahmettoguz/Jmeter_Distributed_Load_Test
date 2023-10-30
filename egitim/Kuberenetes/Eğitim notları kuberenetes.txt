@@ -191,10 +191,11 @@ Imperative:
 ========================================================================
 Minikube:
     K8 çalışmak ve çalıştırmak için iyi bir ortam yaratır.
-    $ minikube dashboard
-    $ minikube status
+    $ minikube start 
     $ minikube start --driver=virtualbox
     $ minikube start --driver=docker
+    $ minikube dashboard
+    $ minikube status
 
     Service:
         Servisi dışarı expose edebilmesi için:

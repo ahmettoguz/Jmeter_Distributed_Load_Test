@@ -1,19 +1,57 @@
 apiVersion: v1
-kind: Pod
+kind: Service
 metadata:
-  name: master-pod
+  name: jmeter-service
 spec:
-  containers:
-  - name: master-container
-    image: ubuntu:latest
-    command: ["/bin/bash", "-c", "tail -f /dev/null"]
+  selector:
+    app: slave
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: slave-pod
+  name: jmeter-master
 spec:
-  containers:
-  - name: slave-container
-    image: ubuntu:latest
-    command: ["/bin/bash", "-c", "tail -f /dev/null"]
+  replicas: 1
+  selector:
+    matchLabels:
+      app: master
+  template:
+    metadata:
+      labels:
+        app: master
+    spec:
+      containers:
+      - name: master
+        image: mnazim1541/jmmaster:latest
+        command: ["/bin/sh", "-c"]
+        args: ["echo 'JMeter master is ready'; sleep infinity"]
+        env:
+        - name: PODUM
+          value: "jmeter-slave.default"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-slave
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slave
+  template:
+    metadata:
+      labels:
+        app: slave
+    spec:
+      containers:
+      - name: slave
+        image: mnazim1541/jmslave:latest
+        command: ["/bin/sh", "-c"]
+        args: ["echo 'JMeter slave is ready'; sleep infinity"]
+
