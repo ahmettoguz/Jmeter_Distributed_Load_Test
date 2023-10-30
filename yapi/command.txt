@@ -1,13 +1,16 @@
 --------------------------------------------
 --------------------------------------------
 
+# Prepare files
+.\prepare.sh
+
 # Run test
 kubectl exec <<MASTER_NAME>> -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'
 
 # Copy results
 kubectl cp -n test <<MASTER_NAME>>:/jmeter/apache-jmeter-5.1/bin/result.jtl ./result.jtl
 
-# # Down pods
+# Down pods
 kubectl delete -f k8.yaml
 
 --------------------------------------------
