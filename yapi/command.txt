@@ -13,10 +13,35 @@ ENTER POD
  kubectl exec -it jmeter-master-594f8d7cd5-65t5d -- /bin/bash 
 
 kubectl apply -f k8.yaml
-
-JMETER_SERVICE_SERVICE_HOST
-
 kubectl delete -f k8.yaml
+
+kubectl get deployment -n test
+kubectl get service -n test
+
+kubectl get pods -n test
+
+kubectl cp loadtest.jmx -n test jmeter-master-89bcf49cb-vl79m:/jmeter/apache-jmeter-5.1/bin
+kubectl exec -it jmeter-master-89bcf49cb-vl79m -n test /bin/bash
+cd /jmeter/apache-jmeter-5.1/bin
+export JVM_ARGS="Xms1024m -Xmx3072m"
+                                                       serviceip
+jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R{10.107.178.210}
+
+                                                            slave ips
+jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R 10.244.0.104,10.244.0.106 -l result.jtl
+
+
+Minikube:
+    K8 çalışmak ve çalıştırmak için iyi bir ortam yaratır.
+    $ minikube start 
+    $ minikube start --driver=virtualbox
+    $ minikube start --driver=docker
+    $ minikube status
+    $ minikube dashboard
+
+    Service:
+        Servisi dışarı expose edebilmesi için:
+        $ minikube service jmeter-slaves-svc
                                                                     
 DELETE
     kubectl delete deployment --all -n jmeter 

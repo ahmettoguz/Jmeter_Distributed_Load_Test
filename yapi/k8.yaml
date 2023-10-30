@@ -1,84 +1,85 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: jmeter
+  name: test
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: jmeter-app-service
-  namespace: jmeter
+  name: jmeter-slaves-svc
+  namespace: test
+  labels:
+    jmeter_mode: slave
 spec:
+  type: NodePort
+  ports: 
+    - port: 1099
+      name: first
+      targetPort: 1099
+    - port: 50000
+      name: second
+      targetPort: 50000
   selector:
-    app: jmeter-master
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
+    jmeter_mode: slave
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-communication
-  namespace: jmeter
-spec:
-  podSelector:
-    matchLabels:
-      app: jmeter-master
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app: jmeter-master
-    - podSelector:
-        matchLabels:
-          app: jmeter-slave
-  - from:
-    - podSelector:
-        matchLabels:
-          app: jmeter-slave
-    - podSelector:
-        matchLabels:
-          app: jmeter-master
----
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jmeter-master
-  namespace: jmeter
+  namespace: test
+  labels:
+    jmeter_mode: master
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jmeter-master
+      jmeter_mode: master
   template:
     metadata:
       labels:
-        app: jmeter-master
+        jmeter_mode: master
     spec:
       containers:
-      - name: jmeter-master
-        image: mnazim1541/jmmaster:latest
+      - name: jmmaster
+        image: crisssercedocker/jmeter-master
+        # image: mnazim1541/jmmaster:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 60000
         command: ["/bin/sh", "-c"]
-        args: ["echo 'Waiting for JMeter slaves...'; sleep infinity"]
+        args: ["echo 'JMeter slave is ready'; sleep infinity"]
+      imagePullSecrets:
+      - name: registrypullsecret
+        
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jmeter-slave
-  namespace: jmeter
+  name: jmeter-slaves
+  namespace: test
+  labels:
+    jmeter_mode: master
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: jmeter-slave
+      jmeter_mode: slave
   template:
     metadata:
       labels:
-        app: jmeter-slave
+        jmeter_mode: slave
     spec:
       containers:
-      - name: jmeter-slave
-        image: mnazim1541/jmslave:latest
-        command: ["/bin/sh", "-c"]
-        args: ["echo 'JMeter slave is ready'; sleep infinity"]
+      - name: jmslave
+        # image: mnazim1541/jmslave:latest
+        image: crisssercedocker/jmeter-slave
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 1099
+        - containerPort: 50000
+      imagePullSecrets:
+      - name: registrypullsecret
+        
