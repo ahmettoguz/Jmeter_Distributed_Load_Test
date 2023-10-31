@@ -5,3 +5,5 @@ kubectl config get-contexts
 kubectl config use-context YOUR_CLUSTER_NAME
 
 
+# Connect from droplet (not necessary for local kubectl machine)
+sudo snap connect doctl:kube-config
