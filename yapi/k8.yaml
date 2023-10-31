@@ -61,9 +61,9 @@ metadata:
   name: jmeter-slaves
   namespace: test
   labels:
-    jmeter_mode: master
+    jmeter_mode: slave
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       jmeter_mode: slave
