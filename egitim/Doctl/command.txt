@@ -1,0 +1,7 @@
+# Check kubernetes clusters
+kubectl config get-contexts
+
+# Switch kbuernetes cluster
+kubectl config use-context YOUR_CLUSTER_NAME
+
+
