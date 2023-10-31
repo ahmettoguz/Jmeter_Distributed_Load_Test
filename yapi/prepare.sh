@@ -1,4 +1,90 @@
 #!/bin/sh
+echo 'apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jmeter-slaves-svc
+  namespace: test
+  labels:
+    jmeter_mode: slave
+spec:
+  type: NodePort
+  ports: 
+    - port: 1099
+      name: first
+      targetPort: 1099
+    - port: 50000
+      name: second
+      targetPort: 50000
+  selector:
+    jmeter_mode: slave
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-master
+  namespace: test
+  labels:
+    jmeter_mode: master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      jmeter_mode: master
+  template:
+    metadata:
+      labels:
+        jmeter_mode: master
+    spec:
+      containers:
+      - name: jmmaster
+        image: crisssercedocker/jmeter-master
+        # image: mnazim1541/jmmaster:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 60000
+        command: ["/bin/sh", "-c"]
+        args: ["sleep infinity"]
+      imagePullSecrets:
+      - name: registrypullsecret
+        
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-slaves
+  namespace: test
+  labels:
+    jmeter_mode: slave
+spec:
+  replicas: '$1'
+  selector:
+    matchLabels:
+      jmeter_mode: slave
+  template:
+    metadata:
+      labels:
+        jmeter_mode: slave
+    spec:
+      containers:
+      - name: jmslave
+        # image: mnazim1541/jmslave:latest
+        image: crisssercedocker/jmeter-slave
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 1099
+        - containerPort: 50000
+      imagePullSecrets:
+      - name: registrypullsecret
+        ' > k8.yaml
+
 
 echo '<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.2">
@@ -18,7 +104,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
           <stringProp name="LoopController.loops">1</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">'$1'</stringProp>
+        <stringProp name="ThreadGroup.num_threads">'$2'</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
