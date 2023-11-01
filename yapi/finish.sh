@@ -11,7 +11,7 @@ kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result.jtl ./result
 
 # Write 200 status result in txt
 rm summary.txt
-grep -w -c ',200,' result.jtl > summary.txt
+grep -o 'Request,200,' result.jtl | wc -l > summary.txt
 
 # Down pods
 kubectl delete -f k8.yaml
