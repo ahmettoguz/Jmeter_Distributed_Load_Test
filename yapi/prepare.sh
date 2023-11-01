@@ -1,4 +1,18 @@
-#!/bin/sh
+#!/bin/bash
+
+# Eğer ilk parametre varsa, $1'e ata, yoksa 10'u $1'e ata
+if [ -n "$1" ]; then
+    podCount=$1
+else
+    podCount=1
+fi
+
+# Eğer ikinci parametre varsa, $2'ye ata, yoksa 5'i $2'ye ata
+if [ -n "$2" ]; then
+    threadCount=$2
+else
+    threadCount=10
+fi
 echo 'apiVersion: v1
 kind: Namespace
 metadata:
@@ -45,7 +59,7 @@ metadata:
   labels:
     jmeter_mode: slave
 spec:
-  replicas: '$1'
+  replicas: '$podCount'
   selector:
     matchLabels:
       jmeter_mode: slave
@@ -83,7 +97,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
           <stringProp name="LoopController.loops">1</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">'$2'</stringProp>
+        <stringProp name="ThreadGroup.num_threads">'$threadCount'</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>

@@ -1,3 +1,5 @@
 command.sh
 result.jtl
 summary.txt
+k8.yaml
+loadtest.jmx
