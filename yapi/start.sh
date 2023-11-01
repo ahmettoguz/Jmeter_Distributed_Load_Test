@@ -24,5 +24,7 @@ rm slaveIps.txt
 # Remove previous results
 rm result.jtl
 
-# Generate command.txt
-echo "kubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'" > command.txt
+# Generate command.sh
+echo "kubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'" > command.sh
+chmod 777 command.sh
+

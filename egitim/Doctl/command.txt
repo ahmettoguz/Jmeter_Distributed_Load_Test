@@ -7,3 +7,18 @@ kubectl config use-context YOUR_CLUSTER_NAME
 
 # Connect from droplet (not necessary for local kubectl machine)
 sudo snap connect doctl:kube-config
+
+
+-------------------------------------
+k7:
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo snap install kubectl --classic
+    sudo snap install doctl
+    sudo mkdir /root/.config
+    doctl auth init
+    mkdir /root/.kube
+    sudo snap connect doctl:kube-config
+    kubectl config current-context
+    sudo doctl kubernetes cluster kubeconfig save 18b11c72-6dc3-42f8-bcf5-9e6d60d7ee94
+

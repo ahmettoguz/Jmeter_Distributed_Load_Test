@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Remove file
-rm command.txt
+rm command.sh
 
 # Get master name
 masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items[0].metadata.name}')

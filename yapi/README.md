@@ -9,7 +9,7 @@
 
 3. Dosya konumuna gelip start sh ile podları hazırlıyoruz.
 
-4. command.txt dosyasına testleri başlatıcak komut üretilecek bu komutu terminalde çalıştırıyoruz.
+4. command.sh dosyasına testleri başlatıcak komut üretilecek bu komutu terminalde çalıştırıyoruz.
 
 5. Sonuçları (result.jtl, summary.txt) getirmek ve podları silmek için finish sh çalıştırıyoruz.
 
@@ -24,6 +24,6 @@ chmod 777 finish.sh
 
 .\start.sh
 
-command in command.txt 
+.\command.sh
 
 .\finish.sh
