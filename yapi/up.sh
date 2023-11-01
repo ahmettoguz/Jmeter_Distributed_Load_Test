@@ -27,6 +27,9 @@ fi
 if [ -e "result.jtl" ]; then
     rm result.jtl
 fi
+if [ -e "jmeter.log" ]; then
+    rm jmeter.log
+fi
 
 # Generate run.sh
 echo -e "#!/bin/bash\nkubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'" > run.sh
