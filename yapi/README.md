@@ -17,13 +17,14 @@
 
 *******************
 # Commands
+
+```
 chmod 777 prepare.sh
 chmod 777 start.sh
 chmod 777 result.sh
 chmod 777 down.sh
 
-        // pod  thread
-.\prepare.sh 5 10
+.\prepare.sh 1 10
 
 .\start.sh
 
@@ -32,3 +33,5 @@ chmod 777 down.sh
 .\result.sh
 
 .\down.sh
+
+```
