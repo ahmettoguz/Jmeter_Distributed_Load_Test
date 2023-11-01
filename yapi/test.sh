@@ -9,7 +9,10 @@ IFS=" " read -ra slave_ips <<< "$ips"
 # IP'leri virgülle ayırarak birleştir
 ips=$(IFS=,; echo "${slave_ips[*]}")
 
-rm result.jtl
+# Remove previous results
+if [ -e "result.jtl" ]; then
+    rm result.jtl
+fi
 
 # JMeter testini çalıştır
 jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R $ips -l ./result.jtl
