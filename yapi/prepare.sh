@@ -14,7 +14,9 @@ else
     threadCount=10
 fi
 
+echo
 echo -e "Pod count: $podCount \nThread count: $threadCount"
+echo
 
 echo 'apiVersion: v1
 kind: Namespace
