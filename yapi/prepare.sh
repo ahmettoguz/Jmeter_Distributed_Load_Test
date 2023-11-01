@@ -13,6 +13,9 @@ if [ -n "$2" ]; then
 else
     threadCount=10
 fi
+
+echo -e "Pod count: $podCount \nThread count: $threadCount"
+
 echo 'apiVersion: v1
 kind: Namespace
 metadata:
