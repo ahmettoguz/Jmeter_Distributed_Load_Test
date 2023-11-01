@@ -19,7 +19,3 @@ echo -e "Pass / Total\n$request_200_count / $((total_lines - 1))" > summary.txt
 echo
 cat summary.txt
 echo
-
-
-
-
