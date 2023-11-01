@@ -31,3 +31,6 @@ fi
 # Generate run.sh
 echo -e "#!/bin/bash\nkubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'" > run.sh
 chmod 777 run.sh
+
+# for windows
+# echo "kubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'" > run.txt
