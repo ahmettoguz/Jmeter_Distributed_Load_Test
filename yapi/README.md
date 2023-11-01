@@ -1,4 +1,5 @@
 *******************
+https://github.com/ahmettoguz/jmeter_Test/blob/main/yapi/README.md
 # Description
 
 0. Kubernetes ortamını hazırlıyoruz. Minikube'de çalışılıcaksa komutlar minikube.txt içerisinde.
@@ -26,21 +27,21 @@ chmod 777 down.sh
 ```
 Sırasıyla pod sayısı ve thread sayısı
 ```
-.\prepare.sh 1 10
+./prepare.sh 1 10
 ```
 
 ```
-.\start.sh
+./start.sh
 ```
 
 ```
-.\command.sh
+./command.sh
 ```
 
 ```
-.\result.sh
+./result.sh
 ```
 
 ```
-.\down.sh
+./down.sh
 ```
