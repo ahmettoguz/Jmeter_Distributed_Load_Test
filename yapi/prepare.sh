@@ -5,25 +5,6 @@ metadata:
   name: test
 
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: jmeter-slaves-svc
-  namespace: test
-  labels:
-    jmeter_mode: slave
-spec:
-  type: NodePort
-  ports: 
-    - port: 1099
-      name: first
-      targetPort: 1099
-    - port: 50000
-      name: second
-      targetPort: 50000
-  selector:
-    jmeter_mode: slave
----
 
 apiVersion: apps/v1
 kind: Deployment
@@ -78,12 +59,10 @@ spec:
         # image: mnazim1541/jmslave:latest
         image: crisssercedocker/jmeter-slave
         imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 1099
-        - containerPort: 50000
       imagePullSecrets:
       - name: registrypullsecret
-        ' > k8.yaml
+        
+' > k8.yaml
 
 
 echo '<?xml version="1.0" encoding="UTF-8"?>
