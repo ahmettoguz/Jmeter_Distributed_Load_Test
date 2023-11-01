@@ -14,7 +14,7 @@ rm summary.txt
 total_lines=$(wc -l < result.jtl)
 request_200_count=$(grep -o 'Request,200,' result.jtl | wc -l)
 result=$(echo "scale=2; ($total_lines - 1) / $request_200_count" | bc)
-echo -e "Pass / Total\n$request_200_count / $total_lines" > summary.txt
+echo -e "Pass / Total\n$request_200_count / $((total_lines - 1))" > summary.txt
 
 # Down pods
 kubectl delete -f k8.yaml
