@@ -5,7 +5,7 @@ masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items
 
 # Copy results
 kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result.jtl ./result.jtl
-kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result.jtl ./jmeter.log
+kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/jmeter.log ./jmeter.log
 
 # Write 200 status result in txt
 if [ -e "summary.txt" ]; then
