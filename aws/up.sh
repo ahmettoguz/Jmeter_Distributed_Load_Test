@@ -4,8 +4,8 @@
 kubectl apply -f k8.yaml
 
 # Wait for the pod to be ready
-kubectl wait --for=condition=Ready pod -l jmeter_mode=master -n test
-kubectl wait --for=condition=Ready pod -l jmeter_mode=slave -n test
+kubectl wait --for=condition=Ready pod -l jmeter_mode=master -n test --timeout=5m
+kubectl wait --for=condition=Ready pod -l jmeter_mode=slave -n test --timeout=5m
 
 # Get master name
 masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items[0].metadata.name}')
