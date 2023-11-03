@@ -18,6 +18,7 @@ k7:
     sudo mkdir /root/.config
     doctl auth init
     mkdir /root/.kube
+    
     sudo snap connect doctl:kube-config
     kubectl config current-context
     sudo doctl kubernetes cluster kubeconfig save 18b11c72-6dc3-42f8-bcf5-9e6d60d7ee94
