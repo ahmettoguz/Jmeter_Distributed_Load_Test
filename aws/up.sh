@@ -19,9 +19,9 @@ kubectl cp test.sh -n test "$masterName:/jmeter/apache-jmeter-5.1/bin"
 kubectl cp loadtest.jmx -n test "$masterName:/jmeter/apache-jmeter-5.1/bin"
 
 # Remove template ip txt
-# if [ -e "slaveIps.txt" ]; then
-#     rm slaveIps.txt
-# fi
+if [ -e "slaveIps.txt" ]; then
+    rm slaveIps.txt
+fi
 
 # Remove previous results
 if [ -e "result.jtl" ]; then
