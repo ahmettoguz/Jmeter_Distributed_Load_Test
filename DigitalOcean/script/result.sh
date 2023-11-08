@@ -8,20 +8,23 @@ masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items
 # Create result folder
 mkdir -p ../results/result_${timestamp}
 
+# variable for target directory
+resultDir="../results/result_${timestamp}"
+
 # Copy results
-kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result.jtl ../results/result_${timestamp}/result.jtl
-kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/jmeter.log ../results/result_${timestamp}/jmeter.log
+kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result.jtl $resultDir/result.jtl
+kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/jmeter.log $resultDir/jmeter.log
 
 
-total_lines=$(wc -l < ../results/result_${timestamp}/result.jtl)
-request_200_count=$(grep -o 'Request,200,' ../results/result_${timestamp}/result.jtl | wc -l)
+total_lines=$(wc -l < $resultDir/result.jtl)
+request_200_count=$(grep -o 'Request,200,' $resultDir/result.jtl | wc -l)
 result=$(echo "scale=2; ($total_lines - 1) / $request_200_count" | bc)
 
-echo -e "Pass / Total\n$request_200_count / $((total_lines - 1))" > ../results/result_${timestamp}/summary.txt
+echo -e "Pass / Total\n$request_200_count / $((total_lines - 1))" > $resultDir/summary.txt
 
 # Write also jmeter.log summary
-echo >> ../results/result_${timestamp}/summary.txt
-grep 'summary =' jmeter.log >> ../results/result_${timestamp}/summary.txt
+echo >> $resultDir/summary.txt
+grep 'summary =' $resultDir/jmeter.log >> $resultDir/summary.txt
 
 # Display summary results
-echo -e "\n$(cat ../results/result_${timestamp}/summary.txt)\n"
+echo -e "\n$(cat $resultDir/summary.txt)\n"
