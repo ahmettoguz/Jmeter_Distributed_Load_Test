@@ -1,5 +1,2 @@
-command.sh
-result.jtl
-summary.txt
-k8.yaml
-loadtest.jmx
+jmx_Config
+k8s_Config

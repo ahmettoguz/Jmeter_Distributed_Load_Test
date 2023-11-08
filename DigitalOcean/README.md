@@ -20,10 +20,7 @@ https://github.com/ahmettoguz/jmeter_Test/blob/main/yapi/README.md
 # Commands
 
 ```
-chmod 777 prepare.sh
-chmod 777 up.sh
-chmod 777 result.sh
-chmod 777 down.sh
+chmod +x prepare.sh
 ```
 Sırasıyla pod sayısı ve thread sayısı
 ```

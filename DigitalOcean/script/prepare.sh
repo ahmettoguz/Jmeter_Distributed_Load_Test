@@ -1,22 +1,28 @@
 #!/bin/bash
 
-# Eğer ilk parametre varsa, $1'e ata, yoksa 10'u $1'e ata
+# Give permissions to files
+chmod +x up.sh result.sh down.sh
+
+# Get parameters
 if [ -n "$1" ]; then
     podCount=$1
 else
     podCount=1
 fi
 
-# Eğer ikinci parametre varsa, $2'ye ata, yoksa 5'i $2'ye ata
 if [ -n "$2" ]; then
     threadCount=$2
 else
     threadCount=10
 fi
 
-echo
-echo -e "Pod count: $podCount \nThread count: $threadCount"
-echo
+# Dispay counts
+echo -e "\nPod count: $podCount \nThread count: $threadCount\n"
+
+# Create config folders if not exists 
+mkdir -p ../k8s_Config
+mkdir -p ../jmx_Config
+
 
 echo 'apiVersion: v1
 kind: Namespace
@@ -81,7 +87,7 @@ spec:
       imagePullSecrets:
       - name: registrypullsecret
         
-' > k8.yaml
+' > ../k8s_Config/k8s.yaml
 
 
 echo '<?xml version="1.0" encoding="UTF-8"?>
@@ -173,4 +179,4 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
-' > loadtest.jmx
+' > ../jmx_Config/loadtest.jmx
