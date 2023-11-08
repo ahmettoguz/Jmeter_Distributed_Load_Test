@@ -22,7 +22,7 @@ total_lines=$(wc -l < $resultDir/result.jtl)
 request_200_count=$(grep -o 'Request,200,' $resultDir/result.jtl | wc -l)
 result=$(echo "scale=2; ($total_lines - 1) / $request_200_count" | bc)
 
-echo -e "Pass / Total\n$request_200_count / $((total_lines - 1))" > $resultDir/summary.txt
+echo -e "Pass / Total\n$request_200_count / $((total_lines - 1))" >> $resultDir/summary.txt
 
 # Write also jmeter.log summary
 echo >> $resultDir/summary.txt
