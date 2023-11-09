@@ -1,29 +1,36 @@
 #!/bin/bash
 
+while getopts ":p:t:" opt; do
+  case $opt in
+      p)
+        pod=$OPTARG >&2
+        ;;
+      t)
+        thread=$OPTARG >&2
+        ;;
+  esac
+done
+
+# Set as default
+if [ -z "$pod" ]; then
+    pod=1  
+fi
+
+if [ -z "$thread" ]; then
+    thread=10
+fi
+
 # Give permissions to files
 chmod +x up.sh result.sh down.sh
 
-# Get parameters
-if [ -n "$1" ]; then
-    podCount=$1
-else
-    podCount=1
-fi
-
-if [ -n "$2" ]; then
-    threadCount=$2
-else
-    threadCount=10
-fi
-
 # Dispay counts
-echo -e "\nPod count: $podCount \nThread count: $threadCount\n"
+echo -e "\nPod count: $pod \nThread count: $thread\n"
 
 # Create config folders if not exists 
 mkdir -p ../k8s_Config
 mkdir -p ../jmx_Config
 
-
+# Prepare k8s.yaml file
 echo 'apiVersion: v1
 kind: Namespace
 metadata:
@@ -70,7 +77,7 @@ metadata:
   labels:
     jmeter_mode: slave
 spec:
-  replicas: '$podCount'
+  replicas: '$pod'
   selector:
     matchLabels:
       jmeter_mode: slave
@@ -89,7 +96,7 @@ spec:
         
 ' > ../k8s_Config/k8s.yaml
 
-
+# Prepare jmx file
 echo '<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.2">
   <hashTree>
@@ -108,7 +115,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
           <stringProp name="LoopController.loops">1</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">'$threadCount'</stringProp>
+        <stringProp name="ThreadGroup.num_threads">'$thread'</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
