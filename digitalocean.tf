@@ -10,10 +10,11 @@ terraform {
 }
 
 provider "digitalocean" {
-  token = "${var.do_token}"
+  token = "dop_v1_f863177f79afca079f45d5890f936eeb9541647ce0226bf02a02b04588ff6422"
 }
 
 resource "digitalocean_kubernetes_cluster" "my_k8s" {
+  count = 1
   name = "my_k8s"
   region = "FRA1"
   version = "1.28.2-do.0"
