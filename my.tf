@@ -13,8 +13,8 @@ provider "digitalocean" {
   token = "${var.do_token}"
 }
 
-resource "digitalocean_kubernetes_cluster" "my_k8s" {
-  name = "my_k8ss"
+resource "digitalocean_kubernetes_cluster" "minecraft" {
+  name = "minecraftt"
   region = "fra1"
   version = "1.28.2-do.0"
 
