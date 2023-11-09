@@ -20,6 +20,8 @@ k7:
     mkdir /root/.kube
     
     sudo snap connect doctl:kube-config
+    doctl kubernetes cluster list
+    
     kubectl config current-context
     sudo doctl kubernetes cluster kubeconfig save 18b11c72-6dc3-42f8-bcf5-9e6d60d7ee94
 
