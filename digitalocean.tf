@@ -21,7 +21,3 @@ resource "digitalocean_kubernetes_cluster" "my_k8s" {
     node_count = 2
   }
 }
-
-output "kubeconfig" {
-  value = digitalocean_kubernetes_cluster.k8s.kubeconfig
-}
