@@ -48,7 +48,7 @@ provider "digitalocean" {
 }
 
 resource "digitalocean_kubernetes_cluster" "k8s" {
-  name = "k8ss"
+  name = "k8s"
   region = "fra1"
   version = "1.28.2-do.0"
 

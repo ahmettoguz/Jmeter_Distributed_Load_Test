@@ -1,2 +1,5 @@
 # Get connection with k8 cluster
-kubectl config current-context
+
+cluster_id=$(doctl kubernetes cluster list --format "ID" --no-header)
+sudo doctl kubernetes cluster kubeconfig save "$cluster_id"
+
