@@ -21,7 +21,7 @@ if [ -z "$thread" ]; then
 fi
 
 # Give permissions to files
-chmod +x up.sh result.sh down.sh
+chmod +x up.sh result.sh down.sh ../tf_Config/k8s.tf
 
 # Dispay counts
 echo -e "\nPod count: $pod \nThread count: $thread\n"
@@ -57,7 +57,7 @@ resource "digitalocean_kubernetes_cluster" "minecraft" {
     size = "s-2vcpu-2gb"
     node_count = 2
   }
-}' > ../terraform_Config/k8s.tf
+}' > ../tf_Config/k8s.tf
 
 # Prepare k8s.yaml file
 echo 'apiVersion: v1
