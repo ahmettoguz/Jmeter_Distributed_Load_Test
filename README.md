@@ -1,4 +1,4 @@
 Distributed Jmeter Test
 
 
-export TF_VAR_do_token=dop_v1_493baaf6a612aa278addd51772be0a980121085df5fde9d0aa06f9a9808115f2
+export TF_VAR_do_token=......
