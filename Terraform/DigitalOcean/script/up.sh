@@ -5,6 +5,10 @@ terraform -chdir=../tf_Config init
 terraform -chdir=../tf_Config apply -auto-approve
 echo "k8s Cluster should be created."
 
+# Get connection with k8 cluster
+cluster_id=$(doctl kubernetes cluster list --format "ID" --no-header)
+sudo doctl kubernetes cluster kubeconfig save "$cluster_id"
+
 # Up pods
 kubectl apply -f ../k8s_Config/k8s.yaml
 
