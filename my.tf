@@ -19,7 +19,7 @@ resource "digitalocean_kubernetes_cluster" "minecraft" {
   version = "1.28.2-do.0"
 
   node_pool {
-    name = "my_node_pool"
+    name = "myNodePool"
     size = "s-2vcpu-2gb"
     node_count = 2
   }
