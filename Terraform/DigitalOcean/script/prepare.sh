@@ -1,7 +1,10 @@
 #!/bin/bash
 
-while getopts ":p:t:" opt; do
+while getopts ":n:p:t:" opt; do
   case $opt in
+      n)
+        node=$OPTARG >&2
+        ;;
       p)
         pod=$OPTARG >&2
         ;;
@@ -12,6 +15,10 @@ while getopts ":p:t:" opt; do
 done
 
 # Set as default
+if [ -z "$node" ]; then
+    node=1  
+fi
+
 if [ -z "$pod" ]; then
     pod=1  
 fi
@@ -24,7 +31,7 @@ fi
 chmod +x up.sh result.sh down.sh
 
 # Dispay counts
-echo -e "\nPod count: $pod \nThread count: $thread\n"
+echo -e "\nNode count: $node \nPod count: $pod \nThread count: $thread\n"
 
 # Create config folders if not exists 
 mkdir -p ../tf_Config
@@ -55,7 +62,7 @@ resource "digitalocean_kubernetes_cluster" "k8s" {
   node_pool {
     name = "mynodepool"
     size = "s-2vcpu-2gb"
-    node_count = 1
+    node_count = '$node'
   }
 }' > ../tf_Config/k8s.tf
 

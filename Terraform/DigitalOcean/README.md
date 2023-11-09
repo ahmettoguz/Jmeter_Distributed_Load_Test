@@ -4,9 +4,9 @@
 
 * Script klasöründe prepare.sh dosyasına executable yetkisi veriyoruz.
 
-* prepare sh ile terraform, k8s ve jmx dosyalarını configürasyonları yapılıyor. (-p -t, sıraysıla pod ve thread sayıları)
+* prepare sh ile terraform, k8s ve jmx dosyalarını configürasyonları yapılıyor. (-n -p -t, sıraysıla Node, Pod ve Thread sayıları)
   
-* up sh ile podları hazırlıyoruz ve testleri koşuyoruz
+* up sh ile nodları ve podları hazırlıyoruz. Testleri koşuyoruz
 
 * Sonuçları results klasörüne getirmek silmek için result.sh çalıştırıyoruz.
 
@@ -17,10 +17,18 @@
 # Commands
 
 ```
+cd /jmeter_Test/Terraform/DigitalOcean/script
+```
+
+```
+export TF_VAR_do_token=<token>
+```
+
+```
 chmod +x prepare.sh
 ```
 ```
-./prepare.sh -p 1 -t 10
+./prepare.sh -n 1 -p 1 -t 10
 ```
 
 ```
