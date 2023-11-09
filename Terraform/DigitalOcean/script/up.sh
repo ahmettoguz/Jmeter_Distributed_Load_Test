@@ -1,11 +1,17 @@
 #!/bin/bash
 
+# Create k8s infrastructure with terraform
+terraform -chdir=../tf_Config init
+terraform -chdir=../tf_Config apply -auto-approve
+echo "k8s Cluster should be created."
+
 # Up pods
 kubectl apply -f ../k8s_Config/k8s.yaml
 
 # Wait for the pod to be ready
 kubectl wait --for=condition=Ready pod -l jmeter_mode=master -n test --timeout=5m
 kubectl wait --for=condition=Ready pod -l jmeter_mode=slave -n test --timeout=5m
+echo "pods should be up."
 
 # Get slave pod IPs and save to slaveIps.txt
 kubectl get pods -n test -l jmeter_mode=slave -o jsonpath='{.items[*].status.podIP}' > ../k8s_Config/slaveIps.txt
