@@ -21,7 +21,7 @@ if [ -z "$thread" ]; then
 fi
 
 # Give permissions to files
-chmod +x up.sh result.sh down.sh ../tf_Config/k8s.tf
+chmod +x up.sh result.sh down.sh
 
 # Dispay counts
 echo -e "\nPod count: $pod \nThread count: $thread\n"
