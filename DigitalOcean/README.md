@@ -1,22 +1,17 @@
-*******************
-https://github.com/ahmettoguz/jmeter_Test/blob/main/yapi/README.md
 # Description
 
-0. Kubernetes ortamını hazırlıyoruz. Minikube'de çalışılıcaksa komutlar minikube.txt içerisinde.
+* Script klasöründe prepare.sh dosyasına executable yetkisi veriyoruz.
 
-1. sh dosyalarına x veriyoruz.
+* prepare sh ile jmx ve pod sayılarını belirliyoruz.  
 
-2. jmeter dosyası ve k8 yaml dosyaları 0.sh dosyasında sırasıyla pod ve thread sayısı olarak verilerek dosyalar oluşturulur.
+* up sh ile podları hazırlıyoruz ve testleri koşuyoruz
 
-3. Dosya konumuna gelip up sh ile podları hazırlıyoruz.
+* Sonuçları results klasörüne getirmek silmek için result.sh çalıştırıyoruz.
 
-4. run.sh dosyasına testleri başlatıcak komut üretilecek bu komutu terminalde çalıştırıyoruz.
+* Oluşturulan podları silmek için down sh çalıştırıyoruz.
 
-5. Sonuçları (result.jtl, summary.txt) getirmek ve podları silmek için result sh çalıştırıyoruz.
+</br>
 
-6. Oluşturulan podları silmek için down sh çalıştırıyoruz.
-
-*******************
 # Commands
 
 ```
@@ -29,10 +24,6 @@ Sırasıyla pod sayısı ve thread sayısı
 
 ```
 ./up.sh
-```
-
-```
-./run.sh
 ```
 
 ```
