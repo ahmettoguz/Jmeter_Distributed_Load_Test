@@ -2,8 +2,8 @@
 
 * Script klasöründe prepare.sh dosyasına executable yetkisi veriyoruz.
 
-* prepare sh ile jmx ve pod sayılarını belirliyoruz.  
-
+* prepare sh ile k8s ve jmx dosyalarını configürasyonları yapılıyor. (-p -t, sıraysıla pod ve thread sayıları)
+  
 * up sh ile podları hazırlıyoruz ve testleri koşuyoruz
 
 * Sonuçları results klasörüne getirmek silmek için result.sh çalıştırıyoruz.
@@ -17,9 +17,8 @@
 ```
 chmod +x prepare.sh
 ```
-Sırasıyla pod sayısı ve thread sayısı
 ```
-./prepare.sh 1 10
+./prepare.sh -p 1 -t 10
 ```
 
 ```
