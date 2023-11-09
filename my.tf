@@ -1,6 +1,13 @@
-  provider "digitalocean" {
-  version = "1.22.2"
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+      version = "2.32.0"
+    }
+  }
 }
+
+provider "digitalocean" {}
 
 resource "digitalocean_kubernetes_cluster" "my_k8s" {
   name = "my_k8ss"
