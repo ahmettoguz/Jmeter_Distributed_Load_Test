@@ -47,15 +47,15 @@ provider "digitalocean" {
   token = "${var.do_token}"
 }
 
-resource "digitalocean_kubernetes_cluster" "minecraft" {
-  name = "minecraftt"
+resource "digitalocean_kubernetes_cluster" "k8s" {
+  name = "k8ss"
   region = "fra1"
   version = "1.28.2-do.0"
 
   node_pool {
     name = "mynodepool"
     size = "s-2vcpu-2gb"
-    node_count = 2
+    node_count = 1
   }
 }' > ../tf_Config/k8s.tf
 
