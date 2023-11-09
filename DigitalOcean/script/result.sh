@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
-timestamp="UTC-3" date +"%Y-%m-%d_%H-%M-%S"; 
+# get time stamp
+timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # Get master name
 masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items[0].metadata.name}')
