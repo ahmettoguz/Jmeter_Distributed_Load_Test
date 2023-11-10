@@ -19,13 +19,9 @@ module "eks" {
   cluster_name    = var.cluster_name
   cluster_version = "1.21"
   
-  worker_groups = {
-    eks_nodes = {
-      desired_capacity = 2
-      max_capacity     = 3
-      min_capacity     = 1
-      instance_type    = "t3.micro"
-    }
-  }
+  desired_size = 1
+
+  instance_types = ["t3.micro"]
+  capacity_type  = "SPOT"
 }
 
