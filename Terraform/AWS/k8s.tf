@@ -30,3 +30,13 @@ module "eks_node_group" {
   instance_types     = "t3.micro"
   desired_size       = 2
 }
+
+
+resource "aws_eks_node_group" "example" {
+  cluster_name    = "k8s"
+  node_group_name = "k8spool"
+ 
+  scaling_config {
+    desired_size = 2
+ }
+}
