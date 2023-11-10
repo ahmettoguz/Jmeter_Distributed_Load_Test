@@ -19,14 +19,15 @@ terraform {
 
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
+  version         = "x.y.z"  # Kullanılabilir olan en son sürümü belirtin
   cluster_name    = var.cluster_name
   cluster_version = "1.21"
 
   node_groups = {
     eks_nodes = {
       desired_capacity = 2
-
-      instance_type = "t3.micro"
+      instance_type    = "t3.micro"
     }
   }
 }
+
