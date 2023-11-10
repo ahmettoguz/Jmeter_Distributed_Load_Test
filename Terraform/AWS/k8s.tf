@@ -33,6 +33,7 @@ module "eks_node_group" {
 
 
 resource "aws_eks_node_group" "example" {
+  source = "./"
   cluster_name    = "k8s"
   node_group_name = "k8spool"
  
