@@ -19,7 +19,7 @@ module "eks" {
   cluster_name    = var.cluster_name
   cluster_version = "1.21"
 
-  node_groups = {
+  workers = {
     eks_nodes = {
       desired_capacity = 2
       instance_type    = "t3.micro"
