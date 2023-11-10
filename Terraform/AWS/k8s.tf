@@ -13,6 +13,10 @@ provider "aws" {
   region     = var.region
 }
 
+terraform {
+  required_version = ">= 0.14, < 0.16"
+}
+
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = var.cluster_name
