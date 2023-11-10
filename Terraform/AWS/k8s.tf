@@ -19,7 +19,7 @@ terraform {
 
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
-  version         = "x.y.z"  # Kullanılabilir olan en son sürümü belirtin
+  version         = "19.19.0"  # Kullanılabilir olan en son sürümü belirtin
   cluster_name    = var.cluster_name
   cluster_version = "1.21"
 
