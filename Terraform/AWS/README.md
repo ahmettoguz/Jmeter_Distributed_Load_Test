@@ -1,10 +1,25 @@
 # Prerequisite
 Terraformu kuracağız. 
-    wget https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip
-    unzip terraform_0.15.5_linux_amd64.zip
+    wget https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
+    unzip terraform_1.6.0_linux_amd64.zip
     mkdir -p ~/bin
     mv terraform ~/bin/
     export PATH=~/bin:$PATH
+
+Iam user oluştur:
+    IAM -> User -> Create
+        Programmatic access
+        AWS Management Console access
+
+    Permissions:
+        AmazonEKSClusterPolicy
+        AmazonEKSServicePolicy
+        AmazonEC2FullAccess
+        IAMFullAccess
+        AmazonVPCFullAccess
+
+
+
 
 # Description
 
@@ -41,7 +56,7 @@ chmod +x token.sh
 ```
 
 ```
-source token.sh <yourToken>
+source token.sh acesskey securitykey
 ```
 
 ```
