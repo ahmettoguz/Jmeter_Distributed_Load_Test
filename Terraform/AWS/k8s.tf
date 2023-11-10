@@ -18,10 +18,12 @@ module "eks" {
   version         = "19.19.0"  # Kullanılabilir olan en son sürümü belirtin
   cluster_name    = var.cluster_name
   cluster_version = "1.21"
-
-  workers = {
+  
+ node_groups = {
     eks_nodes = {
       desired_capacity = 2
+      max_capacity     = 3
+      min_capacity     = 1
       instance_type    = "t3.micro"
     }
   }
