@@ -14,5 +14,5 @@ if [ -e "result.jtl" ]; then
     rm result.jtl
 fi
 
-# Run jmeter tesr
+# Run jmeter test
 jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R $ips -l ./result.jtl

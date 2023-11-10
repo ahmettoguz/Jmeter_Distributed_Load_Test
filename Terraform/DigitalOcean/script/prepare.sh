@@ -14,7 +14,7 @@ while getopts ":n:p:t:" opt; do
   esac
 done
 
-# Set as default
+# Set default if parameters are not valid
 if [ -z "$node" ]; then
     node=1  
 fi
@@ -26,9 +26,6 @@ fi
 if [ -z "$thread" ]; then
     thread=10
 fi
-
-# Give permissions to files
-chmod +x up.sh result.sh down.sh
 
 # Dispay counts
 echo -e "\nNode count: $node \nPod count: $pod \nThread count: $thread\n"
@@ -65,6 +62,7 @@ resource "digitalocean_kubernetes_cluster" "k8s" {
     node_count = '$node'
   }
 }' > ../tf_Config/k8s.tf
+# -------------------------------------------------------------
 
 # Prepare k8s.yaml file
 echo 'apiVersion: v1
@@ -131,6 +129,7 @@ spec:
       - name: registrypullsecret
         
 ' > ../k8s_Config/k8s.yaml
+# -------------------------------------------------------------
 
 # Prepare jmx file
 echo '<?xml version="1.0" encoding="UTF-8"?>

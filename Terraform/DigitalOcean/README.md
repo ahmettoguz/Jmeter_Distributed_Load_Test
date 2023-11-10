@@ -24,11 +24,7 @@ chmod +x token.sh
 ```
 
 ```
-./token.sh crt
-```
-
-```
-chmod +x prepare.sh
+source token.sh <yourToken>
 ```
 
 ```
