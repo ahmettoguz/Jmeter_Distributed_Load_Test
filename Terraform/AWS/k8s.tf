@@ -24,8 +24,8 @@ module "eks_cluster" {
 }
 
 
-
 module "eks_node_group" {
+  source             = "."
   subnet_ids         = module.this.enabled ? module.subnets.public_subnet_ids : ["filler_string_for_enabled_is_false"]
   cluster_name       = module.this.enabled ? module.eks_cluster.eks_cluster_id : "disabled"
 
