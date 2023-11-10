@@ -13,10 +13,6 @@ provider "aws" {
   region     = var.region
 }
 
-terraform {
-  required_version = ">= 0.14, < 0.16"
-}
-
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "19.19.0"  # Kullanılabilir olan en son sürümü belirtin
