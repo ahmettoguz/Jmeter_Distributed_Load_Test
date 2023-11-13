@@ -21,10 +21,10 @@ let shFileName;
 let parameters;
 let out;
 
-async function executeSh(shPath, shFileName, parameters) {
+async function executeSh(shPath, shCommand, shFileName, parameters) {
   return new Promise((resolve, reject) => {
     let output: string[] = [];
-    const proc = cp.spawn("sh", [shFileName, ...parameters], {
+    const proc = cp.spawn(shCommand, [shFileName, ...parameters], {
       cwd: shPath,
       shell: true,
     });
@@ -33,7 +33,8 @@ async function executeSh(shPath, shFileName, parameters) {
       output.push(data.toString());
     });
     proc.on("close", (code) => {
-      // console.info(`child process close all stdio with code ${code}`);
+      if (code != 0)
+        console.info(`child process close all stdio with code ${code}`);
     });
     proc.on("exit", (data) => {
       resolve(output);
@@ -50,10 +51,11 @@ app.get("/digitalOceanTerraform", async (req, res) => {
 
   // execute prepare sh file
   shFileName = "prepare.sh";
-  parameters = ["-n", "50", "-p", "1", "-t", "10"];
-  out = await executeSh(shPath, shFileName, parameters);
+  parameters = ["-n", "2", "-p", "1", "-t", "10"];
+  out = await executeSh(shPath, "sh", shFileName, parameters);
   out = out.map((str) => str.replaceAll("\n", ""));
   console.info(out);
+  
 
   res.status(200).json(out);
 });
