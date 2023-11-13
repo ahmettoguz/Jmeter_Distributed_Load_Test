@@ -19,11 +19,13 @@ app.use(express.urlencoded({ extended: true }));
 // ----------------------------------------------------------------------------
 let shFileName;
 let parameters;
+let out;
 
-async function executeShell(shPath, shFileName, parameters) {
+async function executeSh(shPath, shFileName, parameters) {
   return new Promise((resolve, reject) => {
     let output = [];
-    const proc = cp.spawn("sh", [shPath + "/" + shFileName, ...parameters], {
+    const proc = cp.spawn("sh", [shFileName, ...parameters], {
+      cwd: shPath,
       shell: true,
     });
 
@@ -46,9 +48,10 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   // execute prepare sh file
   shFileName = "prepare.sh";
   parameters = ["-n", "50", "-p", "1", "-t", "10"];
-  const out = await executeShell(shPath, shFileName, parameters);
-
+  out = await executeSh(shPath, shFileName, parameters);
+  out = out.map((str) => str.replaceAll("\n", ""));
   console.info(out);
+
   res.status(200).json(out);
 });
 
