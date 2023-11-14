@@ -61,6 +61,12 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   out = out.map((str) => str.replaceAll("\n", ""));
   console.info(out);
 
+  // execute up sh file
+  parameters = ["up.sh"];
+  out = await executeSh(shPath, "sh", parameters);
+  out = out.map((str) => str.replaceAll("\n", ""));
+  console.info(out);
+
   res.status(200).json(out);
 });
 
