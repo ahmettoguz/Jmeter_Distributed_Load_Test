@@ -4,7 +4,7 @@
 
 - Script dizinine gidip digital ocean api tokenimizi expose ediyoruz.
 
-- prepare sh ile terraform, k8s ve jmx dosyalarını configürasyonları yapılıyor. (-n -p -t, sıraysıla Node, Pod ve Thread sayıları)
+- prepare sh ile terraform, k8s ve jmx dosyalarını configürasyonları yapılıyor. (-n -p -t -d -u, sıraysıla: Node sayısı, Pod sayısı, Thread sayısı, Duration, Target Url)
 
 - up sh ile nodları ve podları hazırlayıp kaldırıyoruz ardından testleri koşuyoruz.
 
@@ -37,7 +37,7 @@ source token.sh <yourToken>
 ```
 
 ```
-./prepare.sh -n 1 -p 1 -t 10
+./prepare.sh -n 1 -p 1 -t 10 -d 10 -u aws.amazon.com
 ```
 
 ```

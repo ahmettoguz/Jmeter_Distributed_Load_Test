@@ -47,6 +47,8 @@ async function runDigitalOceanTerraform(req) {
   const podCount = req.query.podCount;
   const threadCount = req.query.threadCount;
   const apiToken = req.query.apiToken;
+  const targetUrl = req.query.targetUrl;
+  const duration = req.query.duration;
 
   const shPath = "../Terraform/DigitalOcean/script";
 
@@ -65,6 +67,10 @@ async function runDigitalOceanTerraform(req) {
     podCount,
     "-t",
     threadCount,
+    "-d",
+    duration,
+    "-u",
+    targetUrl
   ];
   out = await executeSh(shPath, "sh", parameters);
   // out = out.map((str) => str.replaceAll("\n", ""));
@@ -92,8 +98,8 @@ app.get("/", async (req, res) => {
   res.status(200).json("Service is up.");
 });
 
-app.get("/digitalOceanTerraform", async (req, res) => {
-  console.info("Incoming request to: /digitalOceanTerraform");
+app.get("/dotf", async (req, res) => {
+  console.info("Incoming request to: /dotf");
   runDigitalOceanTerraform(req);
   res.status(200).json("Running tests.");
 });

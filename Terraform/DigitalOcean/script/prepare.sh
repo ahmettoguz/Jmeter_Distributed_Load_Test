@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts ":n:p:t:" opt; do
+while getopts ":n:p:t:d:u:" opt; do
   case $opt in
       n)
         node=$OPTARG >&2
@@ -10,6 +10,12 @@ while getopts ":n:p:t:" opt; do
         ;;
       t)
         thread=$OPTARG >&2
+        ;;
+      d)
+        duration=$OPTARG >&2
+        ;;
+      u)
+        targetUrl=$OPTARG >&2
         ;;
   esac
 done
@@ -27,10 +33,20 @@ if [ -z "$thread" ]; then
     thread=10
 fi
 
+if [ -z "$targetUrl" ]; then
+    duration=10
+fi
+
+if [ -z "$targetUrl" ]; then
+    targetUrl="aws.amazon.com"
+fi
+
 # Dispay counts
 echo "Node count: $node"
 echo "Pod count: $pod"
 echo "Thread count: $thread"
+echo "Duration: $duration"
+echo "Target url: $targetUrl"
 
 # Create config folders if not exists 
 mkdir -p ../tf_Config
@@ -155,8 +171,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
         <stringProp name="ThreadGroup.num_threads">'$thread'</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">'$duration'</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
       </ThreadGroup>
@@ -166,7 +182,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">aws.amazon.com</stringProp>
+          <stringProp name="HTTPSampler.domain">'$targetUrl'</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.path">/</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
