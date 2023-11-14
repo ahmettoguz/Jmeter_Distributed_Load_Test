@@ -17,7 +17,6 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 
 // ----------------------------------------------------------------------------
-let parameters;
 
 async function executeSh(shPath, shCommand, parameters) {
   return new Promise((resolve, reject) => {
@@ -49,14 +48,29 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/digitalOceanTerraform", async (req, res) => {
+  const nodeCount = req.query.nodeCount;
+  const podCount = req.query.podCount;
+  const threadCount = req.query.threadCount;
+  const apiToken = req.query.threadCount;
+  
   const shPath = "../Terraform/DigitalOcean/script";
+
+  let parameters;
   let out;
 
   // set token without file because node env is using
-  process.env.TF_VAR_do_token = req.query.apiToken;
+  process.env.TF_VAR_do_token = apiToken;
 
   // execute prepare sh file
-  parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
+  parameters = [
+    "prepare.sh",
+    "-n",
+    nodeCount,
+    "-p",
+    podCount,
+    "-t",
+    threadCount,
+  ];
   out = await executeSh(shPath, "sh", parameters);
   // out = out.map((str) => str.replaceAll("\n", ""));
   console.info(out, "\nprepare.sh çalıştırıldı.");
