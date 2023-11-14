@@ -54,16 +54,12 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   // set token without file because source command is not working with childprocess
   const apiToken = req.query.apiToken;
   process.env.TF_VAR_do_token = apiToken;
-  parameters = ["token.sh", apiToken];
-  out = await executeSh(shPath, "sh", parameters);
-  out = out.map((str) => str.replaceAll("\n", ""));
-  console.info(process.env);
 
   // execute prepare sh file
-  // parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
-  // out = await executeSh(shPath, "sh", parameters);
-  // out = out.map((str) => str.replaceAll("\n", ""));
-  // console.info(out);
+  parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
+  out = await executeSh(shPath, "sh", parameters);
+  out = out.map((str) => str.replaceAll("\n", ""));
+  console.info(out);
 
   res.status(200).json(out);
 });
