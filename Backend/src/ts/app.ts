@@ -54,12 +54,13 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   // execute ls
   out = await executeSh(shPath, "ls", parameters);
   console.info(out);
-
-  const apiToken = req.query.apiToken;
-  parameters = ["token.sh", apiToken];
-  out = await executeSh(shPath, "source", parameters);
-  out = out.map((str) => str.replaceAll("\n", ""));
-  console.info(out);
+  
+  // execute token sh file
+  // const apiToken = req.query.apiToken;
+  // parameters = ["token.sh", apiToken];
+  // out = await executeSh(shPath, "source", parameters);
+  // out = out.map((str) => str.replaceAll("\n", ""));
+  // console.info(out);
 
   // execute prepare sh file
   // parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
