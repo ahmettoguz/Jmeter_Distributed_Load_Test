@@ -48,7 +48,7 @@ function setToken(shPath, apiToken) {
 
   cp.exec(
     command,
-    { cwd: shPath, env: process.env, shell: "/bin/bash" },
+    { cwd: shPath, shell: "/bin/bash" },
     (error, stdout, stderr) => {
       if (error) {
         console.error(`Hata oluştu: ${error.message}`);
