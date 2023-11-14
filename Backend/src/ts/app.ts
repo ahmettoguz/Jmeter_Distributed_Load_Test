@@ -49,8 +49,6 @@ async function runDigitalOceanTerraform(req) {
   const targetUrl = req.body.targetUrl;
   const duration = req.body.duration;
 
-  console.log(req);
-
   const shPath = "../Terraform/DigitalOcean/script";
 
   let parameters;
