@@ -62,6 +62,9 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   out = out.map((str) => str.replaceAll("\n", ""));
   console.info(out);
 
+  console.info(process.env);
+
+
   // execute prepare sh file
   // parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
   // out = await executeSh(shPath, "sh", parameters);
