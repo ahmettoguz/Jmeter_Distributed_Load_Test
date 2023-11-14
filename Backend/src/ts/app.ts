@@ -62,6 +62,8 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   // set token without file because node env is using
   process.env.TF_VAR_do_token = apiToken;
 
+  console.log(process.env);
+
   // execute prepare sh file
   parameters = [
     "prepare.sh",
