@@ -27,7 +27,6 @@ async function executeSh(shPath, shCommand, parameters) {
       shell: "/bin/bash",
       env: process.env,
     });
-
     proc.stdout.on("data", (data) => {
       // console.info(data.toString());
       output.push(data.toString());
@@ -45,26 +44,6 @@ async function executeSh(shPath, shCommand, parameters) {
   });
 }
 
-function setToken(shPath, apiToken) {
-  const command = `source token.sh ${apiToken}`;
-
-  cp.exec(
-    command,
-    { cwd: shPath, env: process.env, shell: "/bin/bash" },
-    (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Hata oluştu: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.error(`Hata çıktısı: ${stderr}`);
-        return;
-      }
-      console.log(`Başarıyla çalıştırıldı. Çıktı: ${stdout}`);
-    }
-  );
-}
-
 app.get("/", async (req, res) => {
   res.status(200).send("Service is up");
 });
@@ -73,22 +52,29 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   const shPath = "../Terraform/DigitalOcean/script";
   let out;
 
-  // set token without file because source command is not working with childprocess
-  setToken(shPath, req.query.apiToken);
+  // set token without file because node env is using
   process.env.TF_VAR_do_token = req.query.apiToken;
 
   // execute prepare sh file
   parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
   out = await executeSh(shPath, "sh", parameters);
-  out = out.map((str) => str.replaceAll("\n", ""));
-  console.info("Prepare sh bitti: ", out);
+  // out = out.map((str) => str.replaceAll("\n", ""));
+  console.info(out, "\nprepare.sh çalıştırıldı.");
 
-  console.log(process.env);
   // execute up sh file
   parameters = ["up.sh"];
   out = await executeSh(shPath, "sh", parameters);
-  out = out.map((str) => str.replaceAll("\n", ""));
-  console.info("Up sh bitti: ", out);
+  console.info(out, "\nup.sh çalıştırıldı.");
+
+  // execute result sh file
+  parameters = ["result.sh"];
+  out = await executeSh(shPath, "sh", parameters);
+  console.info(out, "\nresult.sh çalıştırıldı.");
+
+  // execute down sh file
+  parameters = ["result.sh"];
+  out = await executeSh(shPath, "sh", parameters);
+  console.info(out, "\ndown.sh çalıştırıldı.");
 
   // res.status(200).json(out);
 });
