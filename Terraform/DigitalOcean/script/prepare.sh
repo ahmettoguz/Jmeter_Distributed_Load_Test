@@ -28,7 +28,9 @@ if [ -z "$thread" ]; then
 fi
 
 # Dispay counts
-echo -e "\nNode count: $node \nPod count: $pod \nThread count: $thread\n"
+echo "Node count: $node"
+echo "Pod count: $pod"
+echo "Thread count: $thread"
 
 # Create config folders if not exists 
 mkdir -p ../tf_Config
