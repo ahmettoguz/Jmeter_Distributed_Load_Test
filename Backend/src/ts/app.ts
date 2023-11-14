@@ -42,7 +42,6 @@ async function executeSh(shPath, shCommand, parameters) {
 }
 
 async function runDigitalOceanTerraform(req) {
-  // http://142.93.164.127/<....>&nodeCount=1&podCount=3&threadCount=20&duration=10&targetUrl=aws.amazon.com
   const nodeCount = req.query.nodeCount;
   const podCount = req.query.podCount;
   const threadCount = req.query.threadCount;
@@ -99,6 +98,13 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/dotf", async (req, res) => {
+  // http://142.93.164.127/dotf?apiToken=<....>&nodeCount=1&podCount=3&threadCount=20&duration=10&targetUrl=aws.amazon.com
+  console.info("Incoming request to: /dotf");
+  runDigitalOceanTerraform(req);
+  res.status(200).json("Running tests.");
+});
+
+app.post("/dotf", async (req, res) => {
   console.info("Incoming request to: /dotf");
   runDigitalOceanTerraform(req);
   res.status(200).json("Running tests.");
