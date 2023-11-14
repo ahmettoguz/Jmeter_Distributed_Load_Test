@@ -52,7 +52,7 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   const nodeCount = req.query.nodeCount;
   const podCount = req.query.podCount;
   const threadCount = req.query.threadCount;
-  const apiToken = req.query.threadCount;
+  const apiToken = req.query.apiToken;
 
   const shPath = "../Terraform/DigitalOcean/script";
 
