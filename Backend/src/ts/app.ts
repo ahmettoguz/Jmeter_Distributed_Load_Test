@@ -24,11 +24,12 @@ async function executeSh(shPath, shCommand, parameters) {
     let output: string[] = [];
     const proc = cp.spawn(shCommand, parameters, {
       cwd: shPath,
-      shell: true,
+      shell: "/bin/bash",
+      env: process.env,
     });
 
     proc.stdout.on("data", (data) => {
-      console.info(data.toString());
+      // console.info(data.toString());
       output.push(data.toString());
     });
     proc.stderr.on("data", (data) => {
@@ -74,6 +75,7 @@ app.get("/digitalOceanTerraform", async (req, res) => {
 
   // set token without file because source command is not working with childprocess
   setToken(shPath, req.query.apiToken);
+  process.env.TF_VAR_do_token = req.query.apiToken;
 
   // execute prepare sh file
   parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
@@ -81,6 +83,7 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   out = out.map((str) => str.replaceAll("\n", ""));
   console.info("Prepare sh bitti: ", out);
 
+  console.log(process.env);
   // execute up sh file
   parameters = ["up.sh"];
   out = await executeSh(shPath, "sh", parameters);
