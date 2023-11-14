@@ -51,7 +51,10 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   const shPath = "../Terraform/DigitalOcean/script";
   let out;
   
-  // execute token sh file
+  // execute ls
+  out = await executeSh(shPath, "ls", parameters);
+  console.info(out);
+
   const apiToken = req.query.apiToken;
   parameters = ["token.sh", apiToken];
   out = await executeSh(shPath, "source", parameters);
