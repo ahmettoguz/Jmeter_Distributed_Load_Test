@@ -50,20 +50,14 @@ app.get("/", async (req, res) => {
 app.get("/digitalOceanTerraform", async (req, res) => {
   const shPath = "../Terraform/DigitalOcean/script";
   let out;
-  
-  // execute ls
-  // out = await executeSh(shPath, "ls", parameters);
-  // console.info(out);
-  
-  // execute token sh file
+
+  // set token without file because source command is not working with childprocess
   const apiToken = req.query.apiToken;
-  parameters = [apiToken];
-  out = await executeSh(shPath, "./token.sh", parameters);
+  process.env.TF_VAR_do_token = apiToken;
+  parameters = ["token.sh", apiToken];
+  out = await executeSh(shPath, "sh", parameters);
   out = out.map((str) => str.replaceAll("\n", ""));
-  console.info(out);
-
   console.info(process.env);
-
 
   // execute prepare sh file
   // parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
