@@ -28,6 +28,7 @@ async function executeSh(shPath, shCommand, parameters) {
     });
 
     proc.stdout.on("data", (data) => {
+      console.info(data.toString());
       output.push(data.toString());
     });
     proc.stderr.on("data", (data) => {
@@ -78,15 +79,15 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
   out = await executeSh(shPath, "sh", parameters);
   out = out.map((str) => str.replaceAll("\n", ""));
-  console.info("Prepare sh çalıştırıldı: ", out);
+  console.info("Prepare sh bitti: ", out);
 
   // execute up sh file
   parameters = ["up.sh"];
   out = await executeSh(shPath, "sh", parameters);
   out = out.map((str) => str.replaceAll("\n", ""));
-  console.info("Up sh çalıştırıldı: ", out);
+  console.info("Up sh bitti: ", out);
 
-  res.status(200).json(out);
+  // res.status(200).json(out);
 });
 
 app.listen(port, () => {
