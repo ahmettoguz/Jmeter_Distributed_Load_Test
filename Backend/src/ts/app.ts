@@ -88,10 +88,12 @@ async function runDigitalOceanTerraform(req) {
 
 // ------------------------------------------------- End Points
 app.get("/", async (req, res) => {
-  res.status(200).send("Service is up.");
+  console.info("Incoming request to: /");
+  res.status(200).json("Service is up.");
 });
 
 app.get("/digitalOceanTerraform", async (req, res) => {
+  console.info("Incoming request to: /digitalOceanTerraform");
   runDigitalOceanTerraform(req);
   res.status(200).json("Running tests.");
 });
