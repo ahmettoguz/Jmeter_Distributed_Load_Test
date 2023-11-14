@@ -2,7 +2,6 @@ const express = require("express");
 const cp = require("child_process");
 
 const app = express();
-
 const port = 80;
 
 app.use((req, res, next) => {
@@ -16,8 +15,7 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true }));
 
-// ----------------------------------------------------------------------------
-
+// -------------------------------------------------- Functions
 async function executeSh(shPath, shCommand, parameters) {
   return new Promise((resolve, reject) => {
     let output: string[] = [];
@@ -43,11 +41,7 @@ async function executeSh(shPath, shCommand, parameters) {
   });
 }
 
-app.get("/", async (req, res) => {
-  res.status(200).send("Service is up");
-});
-
-app.get("/digitalOceanTerraform", async (req, res) => {
+async function runDigitalOceanTerraform(req) {
   // http://142.93.164.127/digitalOceanTerraform?apiToken=<...>&nodeCount=3&podCount=3&threadCount=20
   const nodeCount = req.query.nodeCount;
   const podCount = req.query.podCount;
@@ -61,7 +55,7 @@ app.get("/digitalOceanTerraform", async (req, res) => {
 
   // set token without file because node env is using
   process.env.TF_VAR_do_token = apiToken;
-  
+
   // execute prepare sh file
   parameters = [
     "prepare.sh",
@@ -72,28 +66,36 @@ app.get("/digitalOceanTerraform", async (req, res) => {
     "-t",
     threadCount,
   ];
-  executeSh(shPath, "sh", parameters);
+  out = await executeSh(shPath, "sh", parameters);
   // out = out.map((str) => str.replaceAll("\n", ""));
-  console.info("\nprepare.sh çalıştırıldı.");
+  console.info(out, "\nprepare.sh çalıştırıldı.");
 
   // execute up sh file
   parameters = ["up.sh"];
-  executeSh(shPath, "sh", parameters);
-  console.info("\nup.sh çalıştırıldı.");
+  out = await executeSh(shPath, "sh", parameters);
+  console.info(out, "\nup.sh çalıştırıldı.");
 
   // execute result sh file
   parameters = ["result.sh"];
-  executeSh(shPath, "sh", parameters);
-  console.info("\nresult.sh çalıştırıldı.");
+  out = await executeSh(shPath, "sh", parameters);
+  console.info(out, "\nresult.sh çalıştırıldı.");
 
   // execute down sh file
   parameters = ["down.sh"];
-  executeSh(shPath, "sh", parameters);
-  console.info("\ndown.sh çalıştırıldı.");
+  out = await executeSh(shPath, "sh", parameters);
+  console.info(out, "\ndown.sh çalıştırıldı.");
+}
 
-  res.status(200).json("Testler başladı");
+// ------------------------------------------------- End Points
+app.get("/", async (req, res) => {
+  res.status(200).send("Service is up.");
+});
+
+app.get("/digitalOceanTerraform", async (req, res) => {
+  runDigitalOceanTerraform(req);
+  res.status(200).json("Running tests.");
 });
 
 app.listen(port, () => {
-  console.log(`App is running on : http://localhost:${port}`);
+  console.log(`App is running on port: ${port}`);
 });
