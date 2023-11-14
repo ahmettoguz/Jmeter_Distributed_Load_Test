@@ -48,7 +48,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/digitalOceanTerraform", async (req, res) => {
-  // http://142.93.164.127/digitalOceanTerraform?apiToken=dop_v1_d19f670660cd159a9f56f8ad1d9876435c07aaec6521eed9743b3498f5113407&nodeCount=3&podCount=3&threadCount=20
+  // http://142.93.164.127/digitalOceanTerraform?apiToken=<...>&nodeCount=3&podCount=3&threadCount=20
   const nodeCount = req.query.nodeCount;
   const podCount = req.query.podCount;
   const threadCount = req.query.threadCount;
