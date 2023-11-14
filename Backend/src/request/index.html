@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="input-div"> 
+        <form method="post" action="http://142.93.164.127/dotf/">
+            <fieldset>
+                <legend>Test inputları</legend>
+                <ul>
+                    <li>
+                        <label for="apiToken">apiToken:</label>
+                        <input type="password" id="apiToken" name="apiToken" value="">
+                    </li>
+                    <li>
+                        <label for="nodeCount">nodeCount:</label>
+                        <input type="text" id="nodeCount" name="nodeCount" value="1">
+                    </li>
+                    <li>
+                        <label for="podCount">podCount:</label>
+                        <input type="text" id="podCount" name="podCount" value="3">
+                    </li>
+                    <li>
+                        <label for="threadCount">threadCount:</label>
+                        <input type="text" id="threadCount" name="threadCount" value="20">
+                    </li>
+                    <li>
+                        <label for="targetUrl">targetUrl:</label>
+                        <input type="text" id="targetUrl" name="targetUrl" value="aws.amazon.com">
+                    </li>
+                    <li>
+                        <label for="duration">duration:</label>
+                        <input type="text" id="duration" name="duration" value="10">
+                    </li>
+                </ul>
+                <button click="runTest()"> Testi başlat </button>
+            </fieldset>
+        </form>
+    </div>
+    <div id="results">
+    </div>
+    <script src="app.js"> </script>
+</body>
+</html>

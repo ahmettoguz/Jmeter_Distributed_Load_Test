@@ -1,0 +1,63 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8; /* Daha açık bir arkaplan rengi */
+}
+
+#input-div {
+    background-color: #ffffff; /* Beyaz arkaplan */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Hafif bir gölgelendirme */
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+    color: #333; /* Koyu gri renk */
+}
+
+input {
+    width: 200px;
+    padding: 8px; /* Daha geniş bir iç içe geçme alanı */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    margin: 0 auto; /* Yatayda ortalamak için */
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+legend {
+    font-size: 24px;
+    color: #333; /* Koyu gri renk */
+    margin-bottom: 15px;
+    font-weight: bold;
+}
