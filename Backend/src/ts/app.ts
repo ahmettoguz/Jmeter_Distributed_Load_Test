@@ -17,20 +17,21 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 
 // ----------------------------------------------------------------------------
-let shFileName;
 let parameters;
-let out;
 
-async function executeSh(shPath, shCommand, shFileName, parameters) {
+async function executeSh(shPath, shCommand, parameters) {
   return new Promise((resolve, reject) => {
     let output: string[] = [];
-    const proc = cp.spawn(shCommand, [shFileName, ...parameters], {
+    const proc = cp.spawn(shCommand, parameters, {
       cwd: shPath,
       shell: true,
     });
 
     proc.stdout.on("data", (data) => {
       output.push(data.toString());
+    });
+    proc.stderr.on("data", (data) => {
+      console.error(data.toString());
     });
     proc.on("close", (code) => {
       if (code != 0)
@@ -48,14 +49,20 @@ app.get("/", async (req, res) => {
 
 app.get("/digitalOceanTerraform", async (req, res) => {
   const shPath = "../Terraform/DigitalOcean/script";
-
-  // execute prepare sh file
-  shFileName = "prepare.sh";
-  parameters = ["-n", "2", "-p", "1", "-t", "10"];
-  out = await executeSh(shPath, "sh", shFileName, parameters);
+  let out;
+  
+  // execute token sh file
+  const apiToken = req.query.apiToken;
+  parameters = ["token.sh", apiToken];
+  out = await executeSh(shPath, "source", parameters);
   out = out.map((str) => str.replaceAll("\n", ""));
   console.info(out);
-  
+
+  // execute prepare sh file
+  // parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
+  // out = await executeSh(shPath, "sh", parameters);
+  // out = out.map((str) => str.replaceAll("\n", ""));
+  // console.info(out);
 
   res.status(200).json(out);
 });
