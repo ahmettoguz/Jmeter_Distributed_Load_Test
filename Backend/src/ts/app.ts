@@ -44,7 +44,7 @@ async function executeSh(shPath, shCommand, parameters) {
 }
 
 function setToken(shPath, apiToken) {
-  const command = `. ./token.sh ${apiToken}`;
+  const command = `source ./token.sh ${apiToken}`;
 
   cp.exec(
     command,
