@@ -72,7 +72,7 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   console.info(out, "\nresult.sh çalıştırıldı.");
 
   // execute down sh file
-  parameters = ["result.sh"];
+  parameters = ["down.sh"];
   out = await executeSh(shPath, "sh", parameters);
   console.info(out, "\ndown.sh çalıştırıldı.");
 
