@@ -42,7 +42,7 @@ async function executeSh(shPath, shCommand, parameters) {
 }
 
 async function runDigitalOceanTerraform(req) {
-  // http://142.93.164.127/digitalOceanTerraform?apiToken=<...>&nodeCount=3&podCount=3&threadCount=20
+  // http://142.93.164.127/<....>&nodeCount=1&podCount=3&threadCount=20&duration=10&targetUrl=aws.amazon.com
   const nodeCount = req.query.nodeCount;
   const podCount = req.query.podCount;
   const threadCount = req.query.threadCount;
