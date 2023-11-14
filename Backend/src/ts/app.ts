@@ -61,9 +61,7 @@ app.get("/digitalOceanTerraform", async (req, res) => {
 
   // set token without file because node env is using
   process.env.TF_VAR_do_token = apiToken;
-
-  console.log(process.env);
-
+  
   // execute prepare sh file
   parameters = [
     "prepare.sh",
@@ -74,26 +72,26 @@ app.get("/digitalOceanTerraform", async (req, res) => {
     "-t",
     threadCount,
   ];
-  out = await executeSh(shPath, "sh", parameters);
+  executeSh(shPath, "sh", parameters);
   // out = out.map((str) => str.replaceAll("\n", ""));
-  console.info(out, "\nprepare.sh çalıştırıldı.");
+  console.info("\nprepare.sh çalıştırıldı.");
 
   // execute up sh file
   parameters = ["up.sh"];
-  out = await executeSh(shPath, "sh", parameters);
-  console.info(out, "\nup.sh çalıştırıldı.");
+  executeSh(shPath, "sh", parameters);
+  console.info("\nup.sh çalıştırıldı.");
 
   // execute result sh file
   parameters = ["result.sh"];
-  out = await executeSh(shPath, "sh", parameters);
-  console.info(out, "\nresult.sh çalıştırıldı.");
+  executeSh(shPath, "sh", parameters);
+  console.info("\nresult.sh çalıştırıldı.");
 
   // execute down sh file
   parameters = ["down.sh"];
-  out = await executeSh(shPath, "sh", parameters);
-  console.info(out, "\ndown.sh çalıştırıldı.");
+  executeSh(shPath, "sh", parameters);
+  console.info("\ndown.sh çalıştırıldı.");
 
-  // res.status(200).json(out);
+  res.status(200).json("Testler başladı");
 });
 
 app.listen(port, () => {
