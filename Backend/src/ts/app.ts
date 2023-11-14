@@ -44,21 +44,23 @@ async function executeSh(shPath, shCommand, parameters) {
 }
 
 function setToken(shPath, apiToken) {
-  // Çalıştırılacak komut
+  const command = `. ./token.sh ${apiToken}`;
 
-  const command = `source ./token.sh ${apiToken}`;
-
-  cp.exec(command, { cwd: shPath }, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Hata oluştu: ${error.message}`);
-      return;
+  cp.exec(
+    command,
+    { cwd: shPath, env: process.env, shell: "/bin/bash" },
+    (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Hata oluştu: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.error(`Hata çıktısı: ${stderr}`);
+        return;
+      }
+      console.log(`Başarıyla çalıştırıldı. Çıktı: ${stdout}`);
     }
-    if (stderr) {
-      console.error(`Hata çıktısı: ${stderr}`);
-      return;
-    }
-    console.log(`Başarıyla çalıştırıldı. Çıktı: ${stdout}`);
-  });
+  );
 }
 
 app.get("/", async (req, res) => {
