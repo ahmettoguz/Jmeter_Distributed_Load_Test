@@ -43,12 +43,12 @@ async function executeSh(shPath, shCommand, parameters) {
   });
 }
 
-function setToken(apiToken) {
+function setToken(shPath, apiToken) {
   // Çalıştırılacak komut
 
   const command = `. ./token.sh ${apiToken}`;
 
-  cp.exec(command, (error, stdout, stderr) => {
+  cp.exec(command, { cwd: shPath }, (error, stdout, stderr) => {
     if (error) {
       console.error(`Hata oluştu: ${error.message}`);
       return;
@@ -70,7 +70,7 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   let out;
 
   // set token without file because source command is not working with childprocess
-  setToken(req.query.apiToken);
+  setToken(shPath, req.query.apiToken);
 
   // // execute prepare sh file
   // parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
