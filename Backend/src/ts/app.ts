@@ -97,12 +97,12 @@ app.get("/", async (req, res) => {
   res.status(200).json("Service is up.");
 });
 
-app.get("/dotf", async (req, res) => {
-  // http://142.93.164.127/dotf?apiToken=<....>&nodeCount=1&podCount=3&threadCount=20&duration=10&targetUrl=aws.amazon.com
-  console.info("Incoming request to get: /dotf");
-  runDigitalOceanTerraform(req);
-  res.status(200).json("Running tests.");
-});
+// app.get("/dotf", async (req, res) => {
+//   // http://142.93.164.127/dotf?apiToken=<....>&nodeCount=1&podCount=3&threadCount=20&duration=10&targetUrl=aws.amazon.com
+//   console.info("Incoming request to get: /dotf");
+//   runDigitalOceanTerraform(req);
+//   res.status(200).json("Running tests.");
+// });
 
 app.post("/dotf", async (req, res) => {
   console.info("Incoming request to post: /dotf");
