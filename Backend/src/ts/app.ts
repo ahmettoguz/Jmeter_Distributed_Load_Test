@@ -44,11 +44,11 @@ async function executeSh(shPath, shCommand, parameters) {
 }
 
 function setToken(shPath, apiToken) {
-  const command = `source ./token.sh ${apiToken}`;
+  const command = `source token.sh ${apiToken}`;
 
   cp.exec(
     command,
-    { cwd: shPath, shell: "/bin/bash" },
+    { cwd: shPath, env: process.env, shell: "/bin/bash" },
     (error, stdout, stderr) => {
       if (error) {
         console.error(`Hata oluştu: ${error.message}`);
@@ -74,17 +74,17 @@ app.get("/digitalOceanTerraform", async (req, res) => {
   // set token without file because source command is not working with childprocess
   setToken(shPath, req.query.apiToken);
 
-  // // execute prepare sh file
-  // parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
-  // out = await executeSh(shPath, "sh", parameters);
-  // out = out.map((str) => str.replaceAll("\n", ""));
-  // console.info(out);
+  // execute prepare sh file
+  parameters = ["prepare.sh", "-n", "2", "-p", "1", "-t", "10"];
+  out = await executeSh(shPath, "sh", parameters);
+  out = out.map((str) => str.replaceAll("\n", ""));
+  console.info(out);
 
-  // // execute up sh file
-  // parameters = ["up.sh"];
-  // out = await executeSh(shPath, "sh", parameters);
-  // out = out.map((str) => str.replaceAll("\n", ""));
-  // console.info(out);
+  // execute up sh file
+  parameters = ["up.sh"];
+  out = await executeSh(shPath, "sh", parameters);
+  out = out.map((str) => str.replaceAll("\n", ""));
+  console.info(out);
 
   res.status(200).json(out);
 });
