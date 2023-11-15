@@ -92,8 +92,11 @@ async function runDigitalOceanTerraform(req) {
 }
 
 // ------------------------------------------------- End Points
-app.get("/", async (req, res) => {
-  console.info(`Incoming request endpoint: /\nMethod: ${req.method}\nIp: ${req.ip}`);
+ap  p.get("/", async (req, res) => {
+  console.info(
+    `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
+  );
+
   const response = {
     status: 200,
     state: true,
@@ -103,7 +106,10 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/dotf", async (req, res) => {
-  console.info(`Incoming request endpoint: /dotf\nMethod: ${req.method}\nIp: ${req.ip}`);
+  console.info(
+    `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
+  );
+
   runDigitalOceanTerraform(req);
 
   const response = {
