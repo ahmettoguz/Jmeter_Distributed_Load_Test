@@ -25,7 +25,7 @@ async function executeSh(shPath, shCommand, parameters) {
       env: process.env,
     });
     proc.stdout.on("data", (data) => {
-      // console.info(data.toString());
+      console.info(data.toString());
       output.push(data.toString());
     });
     proc.stderr.on("data", (data) => {
@@ -73,22 +73,22 @@ async function runDigitalOceanTerraform(req) {
   ];
   out = await executeSh(shPath, "sh", parameters);
   // out = out.map((str) => str.replaceAll("\n", ""));
-  console.info(out, "\nprepare.sh çalıştırıldı.");
+  console.info("\nprepare.sh finished.");
 
   // execute up sh file
   parameters = ["up.sh"];
-  out = await executeSh(shPath, "sh", parameters);
-  console.info(out, "\nup.sh çalıştırıldı.");
+  await executeSh(shPath, "sh", parameters);
+  console.info("\nup.sh finished.");
 
   // execute result sh file
   parameters = ["result.sh"];
-  out = await executeSh(shPath, "sh", parameters);
-  console.info(out, "\nresult.sh çalıştırıldı.");
+  await executeSh(shPath, "sh", parameters);
+  console.info("\nresult.sh finished.");
 
   // execute down sh file
   parameters = ["down.sh"];
-  out = await executeSh(shPath, "sh", parameters);
-  console.info(out, "\ndown.sh çalıştırıldı.");
+  await executeSh(shPath, "sh", parameters);
+  console.info("\ndown.sh finished.");
 }
 
 // ------------------------------------------------- End Points
