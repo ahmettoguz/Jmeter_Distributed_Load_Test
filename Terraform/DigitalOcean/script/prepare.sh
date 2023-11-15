@@ -76,7 +76,7 @@ resource "digitalocean_kubernetes_cluster" "k8s" {
 
   node_pool {
     name = "mynodepool"
-    size = "s-1vcpu-1gb"
+    size = "s-2vcpu-2gb"
     node_count = '$node'
   }
 }' > ../tf_Config/k8s.tf
