@@ -61,3 +61,32 @@ legend {
     margin-bottom: 15px;
     font-weight: bold;
 }
+
+#input-div select {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#input-div select option {
+    font-size: 16px;
+}
+
+/* Varsayılan seçeneği belirgin hale getiriyoruz */
+#input-div select option[value="digitalocean"] {
+    font-weight: bold;
+    color: green;
+}
+
+/* Diğer seçenekleri devre dışı bırakıyoruz */
+#input-div select option[value="amazon"],
+#input-div select option[value="azure"] {
+    color: gray;
+}
+#input-div form:nth-child(2) {
+    margin-top: 30px;
+}
+

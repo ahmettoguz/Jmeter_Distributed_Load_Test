@@ -3,29 +3,57 @@
 <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+		#input-div:nth-child(2) {
+			margin-left: 50px;
+		}
+		
+		.bluebutton {
+			background-color: #87ceeb 	;
+		}
+		
+		.bluebutton:hover {
+			background-color: #0077cc; 
+		}
+	</style>
 </head>
-
+	
+<!-- http://142.93.164.127/dotf?duration=10&targetUrl=aws.amazon.com -->
 <body>
-    <div id="input-div"> 
+	<div id="input-div">
+		<form method="get" action="http://142.93.164.127/">
+			<fieldset>
+				<legend> Servis Durumu </legend>
+				<button class="bluebutton" type="submit"> Kontrol et </button>
+			</fieldset>
+		</form>
         <form method="post" action="http://142.93.164.127/dotf/">
             <fieldset>
                 <legend>Test inputları</legend>
                 <ul>
+					<li>
+                        <label for="cloudProvider">Cloud Provider:</label>
+                        <select id="cloudProvider" name="cloudProvider"> 
+                            <option value="digitalocean" selected>DigitalOcean</option>
+                            <option value="amazon" disabled>Amazon</option>
+                            <option value="azure" disabled>Azure</option>
+                        </select>
+                    </li>
                     <li>
                         <label for="apiToken">apiToken:</label>
                         <input type="password" id="apiToken" name="apiToken" value="">
                     </li>
                     <li>
                         <label for="nodeCount">nodeCount:</label>
-                        <input type="text" id="nodeCount" name="nodeCount" value="1">
+                        <input type="text" id="nodeCount" name="nodeCount" value="5">
                     </li>
                     <li>
                         <label for="podCount">podCount:</label>
-                        <input type="text" id="podCount" name="podCount" value="3">
+                        <input type="text" id="podCount" name="podCount" value="10">
                     </li>
                     <li>
                         <label for="threadCount">threadCount:</label>
-                        <input type="text" id="threadCount" name="threadCount" value="20">
+                        <input type="text" id="threadCount" name="threadCount" value="100">
                     </li>
                     <li>
                         <label for="targetUrl">targetUrl:</label>
@@ -33,10 +61,10 @@
                     </li>
                     <li>
                         <label for="duration">duration:</label>
-                        <input type="text" id="duration" name="duration" value="10">
+                        <input type="text" id="duration" name="duration" value="300">
                     </li>
                 </ul>
-                <button click="runTest()"> Testi başlat </button>
+                <button type="submit"> Testi başlat </button>
             </fieldset>
         </form>
     </div>
