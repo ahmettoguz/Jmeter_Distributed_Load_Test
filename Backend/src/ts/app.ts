@@ -69,7 +69,7 @@ async function runDigitalOceanTerraform(req) {
     "-d",
     duration,
     "-u",
-    targetUrl
+    targetUrl,
   ];
   out = await executeSh(shPath, "sh", parameters);
   // out = out.map((str) => str.replaceAll("\n", ""));
@@ -94,13 +94,25 @@ async function runDigitalOceanTerraform(req) {
 // ------------------------------------------------- End Points
 app.get("/", async (req, res) => {
   console.info("Incoming request to: /");
-  res.status(200).json("Service is up.");
+  const response = {
+    status: 200,
+    state: true,
+    message: "Service is up.",
+  };
+  res.status(200).json(response);
 });
 
 app.post("/dotf", async (req, res) => {
   console.info("Incoming request to post: /dotf");
   runDigitalOceanTerraform(req);
-  res.status(200).json("Running tests.");
+
+  const response = {
+    status: 200,
+    state: true,
+    message: "Operations started.",
+    data: ["no data yet."],
+  };
+  res.status(200).json(response);
 });
 
 app.listen(port, () => {

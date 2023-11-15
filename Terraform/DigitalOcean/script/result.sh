@@ -17,17 +17,24 @@ kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result.jtl $resultD
 kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/jmeter.log $resultDir/jmeter.log
 
 # Write summary file
-echo -e "\nResults saved to: $resultDir\n" > $resultDir/summary.txt
+echo "Results saved to: $resultDir" > $resultDir/summary.txt
 
 total_lines=$(wc -l < $resultDir/result.jtl)
-request_200_count=$(grep -o 'Request,200,' $resultDir/result.jtl | wc -l)
-result=$(echo "scale=2; ($total_lines - 1) / $request_200_count" | bc)
 
-echo -e "Pass / Total\n$request_200_count / $((total_lines - 1))" >> $resultDir/summary.txt
+if [ "$total_lines" -ne 0 ]; then
+  total_lines=$((total_lines - 1))
+fi
+
+request_200_count=$(grep -o 'Request,200,' $resultDir/result.jtl | wc -l)
+result=$(echo "scale=2; $total_lines / $request_200_count" | bc)
+
+echo "Pass / Total" >> $resultDir/summary.txt
+echo "$request_200_count / $total_lines" >> $resultDir/summary.txt
 
 # Write also jmeter.log summary
 echo >> $resultDir/summary.txt
 grep 'summary =' $resultDir/jmeter.log >> $resultDir/summary.txt
 
 # Display summary results
-echo -e "\n$(cat $resultDir/summary.txt)\n"
+echo 
+echo "$(cat $resultDir/summary.txt)"
