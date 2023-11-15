@@ -20,7 +20,6 @@ kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/jmeter.log $resultD
 echo "Results saved to: $resultDir" > $resultDir/summary.txt
 
 total_lines=$(wc -l < $resultDir/result.jtl)
-
 if [ "$total_lines" -ne 0 ]; then
   total_lines=$((total_lines - 1))
 fi
@@ -28,6 +27,7 @@ fi
 request_200_count=$(grep -o 'Request,200,' $resultDir/result.jtl | wc -l)
 result=$(echo "scale=2; $total_lines / $request_200_count" | bc)
 
+echo 
 echo "Pass / Total" >> $resultDir/summary.txt
 echo "$request_200_count / $total_lines" >> $resultDir/summary.txt
 

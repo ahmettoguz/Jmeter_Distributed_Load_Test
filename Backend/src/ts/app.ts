@@ -93,7 +93,7 @@ async function runDigitalOceanTerraform(req) {
 
 // ------------------------------------------------- End Points
 app.get("/", async (req, res) => {
-  console.info("Incoming request to: /");
+  console.info(`Incoming request endpoint: /\nMethod: ${req.method}\nIp: ${req.ip}`);
   const response = {
     status: 200,
     state: true,
@@ -103,7 +103,7 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/dotf", async (req, res) => {
-  console.info("Incoming request to post: /dotf");
+  console.info(`Incoming request endpoint: /dotf\nMethod: ${req.method}\nIp: ${req.ip}`);
   runDigitalOceanTerraform(req);
 
   const response = {
