@@ -3,7 +3,7 @@
 # Aim of that script is to create pods.
 
 # Get connection with k8 cluster.
-az aks get-credentials --resource-group k8srg --name k8s
+echo "y" | az aks get-credentials --resource-group k8srg --name k8s
 
 # Up pods
 kubectl apply -f ../k8s_Config/k8s.yaml
