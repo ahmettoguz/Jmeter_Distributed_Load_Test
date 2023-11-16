@@ -36,7 +36,7 @@ cd ~/jmeter_Test/Terraform/Azure/script
 ```
 
 ```
-chmod +x token.sh
+chmod +x token.sh prepare.sh upTerraform.sh
 ```
 
 ```
