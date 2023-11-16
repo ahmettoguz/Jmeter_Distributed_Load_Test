@@ -52,7 +52,6 @@ async function runDigitalOceanTerraform(req) {
   const shPath = "../Terraform/DigitalOcean/script";
 
   let parameters;
-  let out;
 
   // set token without file because node env is using
   process.env.TF_VAR_do_token = apiToken;
@@ -71,7 +70,7 @@ async function runDigitalOceanTerraform(req) {
     "-u",
     targetUrl,
   ];
-  out = await executeSh(shPath, "sh", parameters);
+  await executeSh(shPath, "sh", parameters);
   // out = out.map((str) => str.replaceAll("\n", ""));
   console.info("\nprepare.sh finished.");
 
@@ -89,6 +88,44 @@ async function runDigitalOceanTerraform(req) {
   parameters = ["down.sh"];
   await executeSh(shPath, "sh", parameters);
   console.info("\ndown.sh finished.");
+}
+
+async function runAzureTerraform(req) {
+  // const nodeCount = req.body.nodeCount;
+
+  const shPath = "../Terraform/Azure/script";
+  let parameters;
+
+  // execute prepare sh file params: node count, pod count 
+  // TODO hard coded node and pod count
+  parameters = ["prepare.sh", "2", "5"];
+  await executeSh(shPath, "sh", parameters);
+  console.info("\nprepare.sh finished.");
+
+  // execute upTerraform sh file
+  parameters = ["upTerraform.sh"];
+  await executeSh(shPath, "sh", parameters);
+  console.info("\nupTerraform.sh finished.");
+
+  // execute upCluster sh file
+  parameters = ["upCluster.sh"];
+  await executeSh(shPath, "sh", parameters);
+  console.info("\nupCluster.sh finished.");
+
+  // execute sh runTest sh file
+  parameters = ["runTest.sh"];
+  await executeSh(shPath, "sh", parameters);
+  console.info("\nrunTest.sh finished.");
+
+  // execute result sh file
+  parameters = ["result.sh"];
+  await executeSh(shPath, "sh", parameters);
+  console.info("\nresult.sh finished.");
+
+  // execute down sh file
+  parameters = ["downTerraform.sh"];
+  await executeSh(shPath, "sh", parameters);
+  console.info("\ndownTerraform.sh finished.");
 }
 
 // ------------------------------------------------- End Points
@@ -111,6 +148,22 @@ app.post("/dotf", async (req, res) => {
   );
 
   runDigitalOceanTerraform(req);
+
+  const response = {
+    status: 200,
+    state: true,
+    message: "Operations started.",
+    data: ["no data yet."],
+  };
+  res.status(200).json(response);
+});
+
+app.get("/aztf", async (req, res) => {
+  console.info(
+    `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
+  );
+
+  runAzureTerraform(req);
 
   const response = {
     status: 200,
