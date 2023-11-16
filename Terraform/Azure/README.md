@@ -6,13 +6,19 @@
 
 - Script dizinine gidip service principal id ve passwordumuzu expose ediyoruz.
 
-- prepare sh ile terraform, k8s ve jmx dosyalarını configürasyonları yapılıyor. (-n -p -t -d -u, sıraysıla: Node sayısı, Pod sayısı, Thread sayısı, Duration, Target Url)
+- prepare.sh ile terraform, k8s configürasyonları yapılıyor.
 
-- up sh ile nodları ve podları hazırlayıp kaldırıyoruz ardından testleri koşuyoruz.
+- up upTerraform.sh ile clusterı ve nodları kaldırıyoruz.
 
-- Sonuçları results dizinine getirmek için result.sh çalıştırıyoruz.
+- upCluster.sh sh ile podları hazırlayıp kaldırıyoruz.
 
-- Oluşturulan podları, nodeları ve cluster'ı silmek için down sh çalıştırıyoruz.
+-  runTest.sh ile testleri koşuyoruz.
+
+- result.sh ile sonuçları results dizinine getiriyoruz.
+
+- downCluster.sh ile oluşturulan podları siliyoruz (downTerraform yapılacaksa bu adıma gerek yok. Podlar otomatik silinicek).
+
+- downTerraform.sh ile oluşturulan nodeları ve clusterı siliyoruz.
 
 </br>
 
@@ -36,7 +42,7 @@ cd ~/jmeter_Test/Terraform/Azure/script
 ```
 
 ```
-chmod +x token.sh prepare.sh upTerraform.sh upCluster.sh runTest.sh result.sh
+chmod +x token.sh prepare.sh upTerraform.sh upCluster.sh runTest.sh result.sh downCluster.sh downTerraform.sh
 ```
 
 ```
@@ -62,4 +68,12 @@ sh runTest.sh
 
 ```
 sh result.sh
+```
+
+```
+sh downCluster.sh
+```
+
+```
+sh downTerraform.sh
 ```
