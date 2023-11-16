@@ -1,0 +1,53 @@
+# Description
+
+- Home dizinine gidip projeyi çekiyoruz.
+
+- Script dizinine gidip service principal id ve passwordumuzu expose ediyoruz.
+
+- prepare sh ile terraform, k8s ve jmx dosyalarını configürasyonları yapılıyor. (-n -p -t -d -u, sıraysıla: Node sayısı, Pod sayısı, Thread sayısı, Duration, Target Url)
+
+- up sh ile nodları ve podları hazırlayıp kaldırıyoruz ardından testleri koşuyoruz.
+
+- Sonuçları results dizinine getirmek için result.sh çalıştırıyoruz.
+
+- Oluşturulan podları, nodeları ve cluster'ı silmek için down sh çalıştırıyoruz.
+
+</br>
+
+# Commands
+
+```
+cd ~
+```
+
+```
+git clone https://github.com/ahmettoguz/jmeter_Test
+```
+
+```
+cd ~/jmeter_Test/Terraform/Azure/script
+```
+
+```
+chmod +x token.sh
+```
+
+```
+sh token.sh <service principle id> <service principle password>
+```
+---
+```
+./prepare.sh -n 1 -p 1 -t 10 -d 10 -u aws.amazon.com
+```
+
+```
+./up.sh
+```
+
+```
+./result.sh
+```
+
+```
+./down.sh
+```

@@ -1,3 +1,46 @@
-az aks get-credentials --resource-group k8s --name k8s
+https://medium.com/turknettech/how-to-create-azure-kubernetes-service-cluster-with-terraform-dd85baeff5cd
 
+------------------------------------------------------------------------
+Azure cli:
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+az login
+
+az account list --query "[].{Name:name,SubscriptionId:id}"
+
+take subscription name to following
+------------------------------------------------------------------------
+az account show --subscription <subscription_name> --query id
+az account show --subscription "Azure subscription 1" --query id
+
+take id to following
+------------------------------------------------------------------------
+gui den de subscription altında role assignment ın orada aynı zamanda.
+create sp (service principal)
+
+az ad sp create-for-rbac - name <service_principal_name> - role Contributor - scopes /subscriptions/<subscription_id>
+az ad sp create-for-rbac --name MyAzuraSp --role Contributor --scopes /subscriptions/4...4
+
+verdiği çıktı:
+    {
+    "appId": "f...9",
+    "displayName": "MyAzuraSp",
+    "password": "S...l",
+    "tenant": "8...e"
+    }
+
+------------------------------------------------------------------------
+tf dosyası için ssh lazım demiş 
+ssh-keygen -t rsa -b 2048
+bunu rootta yap.
+------------------------------------------------------------------------
+enve yaz verileri ve setle ? şimdilik buna gerek yok gibi
+source .connection.env
+------------------------------------------------------------------------
+terraform init
+terraform apply
+terraform destroy
+------------------------------------------------------------------------
+
+az aks get-credentials --resource-group k8s --name k8s
 kubectl config current-context
