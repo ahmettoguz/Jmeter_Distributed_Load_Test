@@ -1,3 +1,4 @@
+
 variable "aks_service_principal_app_id" {
   default = ""
 }
@@ -38,7 +39,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   default_node_pool {
     name       = "agentpool"
     vm_size    = "Standard_D2_v2"
-    node_count = 1
+    node_count = 80
   }
   linux_profile {
     admin_username = "ahmet"
@@ -56,3 +57,4 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     client_secret = var.aks_service_principal_client_secret
   }
 }
+
