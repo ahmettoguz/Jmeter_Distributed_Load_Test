@@ -24,5 +24,5 @@ if ! kubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmete
     echo "Fail"
     exit 1
 fi
-echo "Test run is successfull"
+echo "Test run is completed."
 echo "Success"
