@@ -51,11 +51,3 @@ sh token.sh <service principle id> <service principle password>
 ```
 ./upTerraform.sh
 ```
-
-```
-./result.sh
-```
-
-```
-./down.sh
-```
