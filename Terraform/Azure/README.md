@@ -49,7 +49,7 @@ sh token.sh <service principle id> <service principle password>
 ```
 
 ```
-./up.sh
+./upTerraform.sh
 ```
 
 ```

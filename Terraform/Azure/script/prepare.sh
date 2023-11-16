@@ -147,3 +147,4 @@ spec:
 # -------------------------------------------------------------
 
 echo "Terraform and kubernetes cluster files created."
+echo "Success"

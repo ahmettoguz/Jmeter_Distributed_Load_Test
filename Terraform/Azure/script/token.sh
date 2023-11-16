@@ -18,3 +18,4 @@ aks_service_principal_client_secret = '$app_secret > ../tf_Config/terraform.tfva
 
 # Give output.
 echo "The token variables have been set."
+echo "Success"

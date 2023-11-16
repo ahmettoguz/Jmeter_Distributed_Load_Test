@@ -17,3 +17,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "K8s cluster created."
+echo "Success"
