@@ -3,7 +3,7 @@
 # Aim of that script is to create pods.
 
 # Get connection with k8 cluster and save config file.
-az aks get-credentials --resource-group k8srg --name k8saz
+az aks get-credentials --resource-group k8srg --name k8saz --overwrite-existing
 
 # Up pods
 kubectl apply -f ../k8s_Config/k8s.yaml
