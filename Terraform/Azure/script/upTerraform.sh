@@ -6,6 +6,7 @@
 terraform -chdir=../tf_Config init
 if [ $? -ne 0 ]; then
     echo "Terraform init failed."
+    echo "Fail"
     exit 1
 fi
 
@@ -13,6 +14,7 @@ fi
 terraform -chdir=../tf_Config apply -auto-approve
 if [ $? -ne 0 ]; then
     echo "Terraform apply failed."
+    echo "Fail"
     exit 1
 fi
 
