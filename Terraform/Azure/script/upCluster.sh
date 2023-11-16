@@ -1,16 +1,23 @@
+#!/bin/bash
+
+# Aim of that script is to create pods and prepare test environment in pods.
 
 # Get connection with k8 cluster
-cluster_id=$(doctl kubernetes cluster list --format "ID" --no-header)
-
 az aks get-credentials --resource-group k8srg --name k8s
 
-# # Up pods
-# kubectl apply -f ../k8s_Config/k8s.yaml
+# Up pods
+kubectl apply -f ../k8s_Config/k8s.yaml
 
-# # Wait for the pod to be ready
-# kubectl wait --for=condition=Ready pod -l jmeter_mode=master -n test --timeout=5m
-# kubectl wait --for=condition=Ready pod -l jmeter_mode=slave -n test --timeout=5m
-# echo "pods should be up."
+# Wait for the pod to be ready
+if
+    ! kubectl wait --for=condition=Ready pod -l jmeter_mode=master -n test --timeout=2m || \
+    ! kubectl wait --for=condition=Ready pod -l jmeter_mode=slave -n test --timeout=2m
+then
+    echo "Pods failed to start. Exiting script."
+    echo "Fail"
+    exit 1
+fi
+echo "Pods are up."
 
 # # Get slave pod IPs and save to slaveIps.txt
 # kubectl get pods -n test -l jmeter_mode=slave -o jsonpath='{.items[*].status.podIP}' > ../k8s_Config/slaveIps.txt
