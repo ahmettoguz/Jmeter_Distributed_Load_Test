@@ -44,13 +44,13 @@ resource "azurerm_resource_group" "rg" {
   name     = "k8srg"
 }
 
-resource "azurerm_kubernetes_cluster" "k8s" {
+resource "azurerm_kubernetes_cluster" "k8saz" {
   depends_on = [azurerm_resource_group.rg] 
   location            = azurerm_resource_group.rg.location
-  name                = "k8s"
+  name                = "k8saz"
   resource_group_name = azurerm_resource_group.rg.name
 
-  dns_prefix          = "k8s"
+  dns_prefix          = "k8saz"
   tags                = {
     Environment = "Development"
   }
