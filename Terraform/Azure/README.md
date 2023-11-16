@@ -36,7 +36,7 @@ cd ~/jmeter_Test/Terraform/Azure/script
 ```
 
 ```
-chmod +x token.sh prepare.sh upTerraform.sh upCluster.sh runTest.sh
+chmod +x token.sh prepare.sh upTerraform.sh upCluster.sh runTest.sh result.sh
 ```
 
 ```
@@ -45,17 +45,21 @@ sh token.sh <service principle id> <service principle password>
 ---
 
 ```
-./prepare.sh <node count> <pod count>
+sh prepare.sh <node count> <pod count>
 ```
 
 ```
-./upTerraform.sh
+sh upTerraform.sh
 ```
 
 ```
-./upCluster.sh
+sh upCluster.sh
 ```
 
 ```
-./runTest.sh
+sh runTest.sh
+```
+
+```
+sh result.sh
 ```
