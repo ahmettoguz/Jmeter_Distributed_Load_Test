@@ -45,7 +45,7 @@ sh token.sh <service principle id> <service principle password>
 ---
 
 ```
-./prepare.sh -n 1 -p 1 -t 10 -d 10 -u aws.amazon.com
+./prepare.sh 2 3
 ```
 
 ```
