@@ -13,8 +13,10 @@ app_id=$1
 app_secret=$2
 
 # Write file.
-echo 'aks_service_principal_app_id = '"$app_id"'
-aks_service_principal_client_secret = '"$app_secret" > ../tf_Config/terraform.tfvars
+cat > ../tf_Config/terraform.tfvars <<EOL 
+aks_service_principal_app_id = "$app_id"
+aks_service_principal_client_secret = "$app_secret"
+EOL
 
 # Give output.
 echo "The token variables have been set."
