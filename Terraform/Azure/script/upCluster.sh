@@ -13,7 +13,7 @@ if
     ! kubectl wait --for=condition=Ready pod -l jmeter_mode=master -n test --timeout=2m || \
     ! kubectl wait --for=condition=Ready pod -l jmeter_mode=slave -n test --timeout=2m
 then
-    echo "Pods failed to start. Exiting script."
+    echo "Pods failed to start."
     echo "Fail"
     exit 1
 fi

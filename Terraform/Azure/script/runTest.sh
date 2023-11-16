@@ -1,4 +1,6 @@
+#!/bin/bash
 
+# Aim of that script is to create test environment and run test.
 
 # Get slave pod IPs and save to slaveIps.txt
 kubectl get pods -n test -l jmeter_mode=slave -o jsonpath='{.items[*].status.podIP}' > ../k8s_Config/slaveIps.txt
@@ -17,6 +19,10 @@ if [ -e "../k8s_Config/slaveIps.txt" ]; then
 fi
 
 # Move test sh and run test
-kubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'
-
+if ! kubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'; then
+    echo "Failed to execute the test script."
+    echo "Fail"
+    exit 1
+fi
+echo "Test run is successfull"
 echo "Success"
