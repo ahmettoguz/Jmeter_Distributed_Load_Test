@@ -33,10 +33,10 @@ async function executeSh(shPath, shCommand, parameters) {
     });
     proc.on("close", (code) => {
       if (code === 0) {
-        console.info(`child process closed with success (code ${code})`);
+        console.info(`Child process closed with success code: ${code}`);
         resolve({ success: true, output });
       } else {
-        console.error(`child process closed with error (code ${code})`);
+        console.error(`Child process closed with error code: ${code}`);
         reject({ success: false, output });
       }
     });
@@ -99,74 +99,75 @@ async function runDigitalOceanTerraform(req) {
 }
 
 async function runAzureTerraform(req) {
-  // const nodeCount = req.body.nodeCount;
-
   const shPath = "../Terraform/Azure/script";
   let result;
   let parameters;
 
-  // execute prepare sh file params: node count, pod count
-  // TODO hard coded node and pod count
-  parameters = ["prepare.sh", "2", "5"];
-  result = await executeSh(shPath, "sh", parameters);
-  console.info("\nprepare.sh finished.");
+  try {
+    // execute prepare sh file params: node count, pod count
+    // TODO hard coded node and pod count
+    parameters = ["prepare.sh", "2", "5"];
+    result = await executeSh(shPath, "sh", parameters);
+    console.info("\nprepare.sh finished.");
 
-  if (!result.success) {
-    console.info("Process is Failed!");
-    process.exit(1);
-  }
+    if (!result.success) {
+      console.info("Process is Failed!");
+      throw new Error("prepare.sh failed");
+    }
 
-  // execute upTerraform sh file
-  parameters = ["upTerraform.sh"];
-  result = await executeSh(shPath, "sh", parameters);
-  console.info("\nupTerraform.sh finished.");
+    // execute upTerraform sh file
+    parameters = ["upTerraform.sh"];
+    result = await executeSh(shPath, "sh", parameters);
+    console.info("\nupTerraform.sh finished.");
 
-  if (!result.success) {
-    console.info("Process is Failed!");
-    process.exit(1);
-  }
+    if (!result.success) {
+      console.info("Process is Failed!");
+      throw new Error("upTerraform.sh failed");
+    }
 
-  // execute upCluster sh file
-  parameters = ["upCluster.sh"];
-  result = await executeSh(shPath, "sh", parameters);
-  console.info("\nupCluster.sh finished.");
+    // execute upCluster sh file
+    parameters = ["upCluster.sh"];
+    result = await executeSh(shPath, "sh", parameters);
+    console.info("\nupCluster.sh finished.");
 
-  if (!result.success) {
-    console.info("Process is Failed!");
-    process.exit(1);
-  }
+    if (!result.success) {
+      console.info("Process is Failed!");
+      throw new Error("upCluster.sh failed");
+    }
 
-  // execute sh runTest sh file
-  parameters = ["runTest.sh"];
-  result = await executeSh(shPath, "sh", parameters);
-  console.info("\nrunTest.sh finished.");
+    // execute sh runTest sh file
+    parameters = ["runTest.sh"];
+    result = await executeSh(shPath, "sh", parameters);
+    console.info("\nrunTest.sh finished.");
 
-  if (!result.success) {
-    console.info("Process is Failed!");
-    process.exit(1);
-  }
+    if (!result.success) {
+      console.info("Process is Failed!");
+      throw new Error("runTest.sh failed");
+    }
 
-  // execute result sh file
-  parameters = ["result.sh"];
-  result = await executeSh(shPath, "sh", parameters);
-  console.info("\nresult.sh finished.");
+    // execute result sh file
+    parameters = ["result.sh"];
+    result = await executeSh(shPath, "sh", parameters);
+    console.info("\nresult.sh finished.");
 
-  if (!result.success) {
-    console.info("Process is Failed!");
-    process.exit(1);
-  }
+    if (!result.success) {
+      console.info("Process is Failed!");
+      throw new Error("result.sh failed");
+    }
 
-  // execute down sh file
-  parameters = ["downTerraform.sh"];
-  result = await executeSh(shPath, "sh", parameters);
-  console.info("\ndownTerraform.sh finished.");
+    // execute down sh file
+    parameters = ["downTerraform.sh"];
+    result = await executeSh(shPath, "sh", parameters);
+    console.info("\ndownTerraform.sh finished.");
 
-  if (!result.success) {
-    console.info("Process is Failed!");
-    process.exit(1);
+    if (!result.success) {
+      console.info("Process is Failed!");
+      throw new Error("downTerraform.sh failed");
+    }
+  } catch (error: any) {
+    console.error("Error:", error.message);
   }
 }
-
 // ------------------------------------------------- End Points
 app.get("/", async (req, res) => {
   console.info(
