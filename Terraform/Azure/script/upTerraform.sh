@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Aim of that script is to allocate resources. Create k8s infrastructure with terraform
+# Aim of that script is to allocate resources. Create k8s infrastructure with terraform.
 
 # Init terraform and check status
 terraform -chdir=../tf_Config init
