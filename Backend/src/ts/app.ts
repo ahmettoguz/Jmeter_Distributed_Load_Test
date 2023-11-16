@@ -40,8 +40,11 @@ async function executeSh(shPath, shCommand, parameters) {
         reject({ success: false, output });
       }
     });
-    proc.on("exit", (data) => {
-      resolve(output);
+    proc.on("exit", (code) => {
+      if (code !== 0) {
+        console.error(`child process exited with non-zero code: ${code}`);
+        reject({ success: false, output });
+      }
     });
   });
 }
@@ -125,7 +128,7 @@ async function runAzureTerraform(req) {
 
   // execute upCluster sh file
   parameters = ["upCluster.sh"];
-  await executeSh(shPath, "sh", parameters);
+  result = await executeSh(shPath, "sh", parameters);
   console.info("\nupCluster.sh finished.");
 
   if (!result.success) {
@@ -135,7 +138,7 @@ async function runAzureTerraform(req) {
 
   // execute sh runTest sh file
   parameters = ["runTest.sh"];
-  await executeSh(shPath, "sh", parameters);
+  result = await executeSh(shPath, "sh", parameters);
   console.info("\nrunTest.sh finished.");
 
   if (!result.success) {
@@ -145,7 +148,7 @@ async function runAzureTerraform(req) {
 
   // execute result sh file
   parameters = ["result.sh"];
-  await executeSh(shPath, "sh", parameters);
+  result = await executeSh(shPath, "sh", parameters);
   console.info("\nresult.sh finished.");
 
   if (!result.success) {
@@ -155,7 +158,7 @@ async function runAzureTerraform(req) {
 
   // execute down sh file
   parameters = ["downTerraform.sh"];
-  await executeSh(shPath, "sh", parameters);
+  result = await executeSh(shPath, "sh", parameters);
   console.info("\ndownTerraform.sh finished.");
 
   if (!result.success) {
