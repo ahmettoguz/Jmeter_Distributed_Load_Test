@@ -1,5 +1,12 @@
-Distributed Jmeter Test
+# Distributed Jmeter Test
 
-Dependencies:
+## Dependencies:
+
 * Kubectl
 * Terraform
+
+* az
+* doctl
+
+* NodeJs
+
