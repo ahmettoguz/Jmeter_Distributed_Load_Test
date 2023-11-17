@@ -70,57 +70,8 @@ async function executeSh(shPath, shCommand, parameters) {
   });
 }
 
-async function runDigitalOceanTerraform(req) {
-  const nodeCount = req.body.nodeCount;
-  const podCount = req.body.podCount;
-  const threadCount = req.body.threadCount;
-  const apiToken = req.body.apiToken;
-  const targetUrl = req.body.targetUrl;
-  const duration = req.body.duration;
-
-  const shPath = "../Terraform/DigitalOcean/script";
-
-  let parameters;
-
-  // set token without file because node env is using
-  process.env.TF_VAR_do_token = apiToken;
-
-  // execute prepare sh file
-  parameters = [
-    "prepare.sh",
-    "-n",
-    nodeCount,
-    "-p",
-    podCount,
-    "-t",
-    threadCount,
-    "-d",
-    duration,
-    "-u",
-    targetUrl,
-  ];
-  await executeSh(shPath, "sh", parameters);
-  // out = out.map((str) => str.replaceAll("\n", ""));
-  console.info("\nprepare.sh finished.");
-
-  // execute up sh file
-  parameters = ["up.sh"];
-  await executeSh(shPath, "sh", parameters);
-  console.info("\nup.sh finished.");
-
-  // execute result sh file
-  parameters = ["result.sh"];
-  await executeSh(shPath, "sh", parameters);
-  console.info("\nresult.sh finished.");
-
-  // execute down sh file
-  parameters = ["down.sh"];
-  await executeSh(shPath, "sh", parameters);
-  console.info("\ndown.sh finished.");
-}
-
-async function runAzureTerraform(req) {
-  const shPath = "../Terraform/Azure/script";
+async function runAllSteps(req, cloudProvider) {
+  const shPath = `../Terraform/${cloudProvider}/script`;
   let result;
   let parameters;
 
@@ -189,6 +140,7 @@ async function runAzureTerraform(req) {
     console.error("Error:", error.message);
   }
 }
+
 // ------------------------------------------------- End Points
 app.get("/", async (req, res) => {
   console.info(
@@ -209,50 +161,46 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   );
 
   const cloudProvider = req.body.cloudProvider;
+  const uploadedFile = req.file;
 
-  switch (cloudProvider) {
-    case "DigitalOcean":
-      runDigitalOceanTerraform(req);
-      break;
+  // check cloud provider
+  if (
+    cloudProvider != "DigitalOcean" ||
+    cloudProvider != "Azure" ||
+    cloudProvider != "AWS"
+  )
+    return res.status(400).json({
+      status: 400,
+      state: false,
+      message: "Cloud provider is invalid!",
+    });
 
-    case "Azure":
-      // check file
-      const uploadedFile = req.file;
-      if (uploadedFile == undefined) {
-        return res.status(400).json({
-          status: 400,
-          state: false,
-          message: "Jmx file is not provided!",
-        });
-      }
-
-      // place jmx file to related path
-      try {
-        moveJmxFile(
-          "./upload/loadtest.jmx",
-          "../Terraform/Azure/jmx_Config/loadtest.jmx"
-        );
-      } catch (error) {
-        console.error("Cannot move file", error);
-        return res.status(502).json({
-          status: 502,
-          state: false,
-          message: "Cannot move file!",
-        });
-      }
-
-      runAzureTerraform(req);
-      
-      break;
-
-    default:
-      return res.status(400).json({
-        status: 400,
-        state: false,
-        message: "Cloud provider is invalid!",
-      });
-      break;
+  // check file
+  if (uploadedFile == undefined) {
+    return res.status(400).json({
+      status: 400,
+      state: false,
+      message: "Jmx file is not provided!",
+    });
   }
+
+  // place jmx file to related path
+  try {
+    moveJmxFile(
+      "./upload/loadtest.jmx",
+      `../Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`
+    );
+  } catch (error) {
+    console.error("Cannot move file", error);
+    return res.status(502).json({
+      status: 502,
+      state: false,
+      message: "Cannot move file!",
+    });
+  }
+
+  // start sh operations
+  if (cloudProvider !== "AWS") runAllSteps(req, cloudProvider);
 
   return res.status(200).json({
     status: 200,
@@ -263,7 +211,6 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 });
 
 // ----------------------------------------------------------- Temp file operations
-
 app.post("/temp", upload.single("jmxFile"), (req, res) => {
   console.info(
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
