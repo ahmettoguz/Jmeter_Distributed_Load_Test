@@ -1,6 +1,7 @@
 const express = require("express");
 const cp = require("child_process");
 const multer = require("multer");
+const fs = require("fs");
 
 const app = express();
 const port = 80;
@@ -229,6 +230,16 @@ app.post("/runTest", async (req, res) => {
   res.status(200).json(response);
 });
 
+// ----------------------------------------------------------- Temp file operations
+function moveJmxFile(currentPath, targetPath) {
+  try {
+    fs.rename(currentPath, targetPath, function (err) {
+      if (err) throw err;
+      console.log("Successfully renamed - AKA moved!");
+    });
+  } catch (error) {}
+}
+
 app.post("/temp", upload.single("jmxFile"), (req, res) => {
   console.info(
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
@@ -236,12 +247,17 @@ app.post("/temp", upload.single("jmxFile"), (req, res) => {
 
   const uploadedFile = req.file;
   const cloudProvider = req.body.cloudProvider;
-  
+
   switch (cloudProvider) {
     case "DigitalOcean":
       break;
 
     case "Azure":
+      try {
+        moveJmxFile("./upload/loadtest.jmx", "../Terraform/Azure/jmx_Config/");
+      } catch (error) {
+        console.log("nurada");
+      }
       break;
 
     default:
@@ -252,6 +268,7 @@ app.post("/temp", upload.single("jmxFile"), (req, res) => {
       };
       res.status(400).json(response);
       return;
+
       break;
   }
 
