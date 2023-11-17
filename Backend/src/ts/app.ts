@@ -241,7 +241,8 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
         });
       }
 
-      // runAzureTerraform(req);
+      runAzureTerraform(req);
+      
       break;
 
     default:
