@@ -8,7 +8,7 @@ const fs = require("fs");
 const app = express();
 const port = 80;
 
-// middleware
+// -------------------------------------------------- Middleware
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -30,7 +30,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+
 // -------------------------------------------------- Functions
+function moveJmxFile(currentPath, targetPath) {
+  fs.rename(currentPath, targetPath, function (err) {
+    if (err) throw err;
+  });
+}
+
 async function executeSh(shPath, shCommand, parameters) {
   return new Promise((resolve, reject) => {
     let output: string[] = [];
@@ -231,11 +238,7 @@ app.post("/runTest", async (req, res) => {
 });
 
 // ----------------------------------------------------------- Temp file operations
-function moveJmxFile(currentPath, targetPath) {
-  fs.rename(currentPath, targetPath, function (err) {
-    if (err) throw err;
-  });
-}
+
 
 app.post("/temp", upload.single("jmxFile"), (req, res) => {
   console.info(
