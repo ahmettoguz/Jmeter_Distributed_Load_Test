@@ -1,156 +1,4 @@
-#!/bin/bash
-
-while getopts ":n:p:t:d:u:" opt; do
-  case $opt in
-      n)
-        node=$OPTARG >&2
-        ;;
-      p)
-        pod=$OPTARG >&2
-        ;;
-      t)
-        thread=$OPTARG >&2
-        ;;
-      d)
-        duration=$OPTARG >&2
-        ;;
-      u)
-        targetUrl=$OPTARG >&2
-        ;;
-  esac
-done
-
-# Set default if parameters are not valid
-if [ -z "$node" ]; then
-    node=1  
-fi
-
-if [ -z "$pod" ]; then
-    pod=1  
-fi
-
-if [ -z "$thread" ]; then
-    thread=10
-fi
-
-if [ -z "$targetUrl" ]; then
-    duration=10
-fi
-
-if [ -z "$targetUrl" ]; then
-    targetUrl="aws.amazon.com"
-fi
-
-# Dispay counts
-echo "Node count: $node"
-echo "Pod count: $pod"
-echo "Thread count: $thread"
-echo "Duration: $duration"
-echo "Target url: $targetUrl"
-
-# Create config folders if not exists 
-mkdir -p ../tf_Config
-mkdir -p ../k8s_Config
-mkdir -p ../jmx_Config
-
-# Prepare terraform file
-echo 'variable "do_token" {}
-
-terraform {
-  required_providers {
-    digitalocean = {
-      source = "digitalocean/digitalocean"
-      version = "2.32.0"
-    }
-  }
-}
-
-provider "digitalocean" {
-  token = "${var.do_token}"
-}
-
-resource "digitalocean_kubernetes_cluster" "k8s" {
-  name = "k8s"
-  region = "fra1"
-  version = "1.28.2-do.0"
-
-  node_pool {
-    name = "nodepooldo"
-    size = "s-2vcpu-2gb"
-    node_count = '$node'
-  }
-}' > ../tf_Config/k8s.tf
-# -------------------------------------------------------------
-
-# Prepare k8s.yaml file
-echo 'apiVersion: v1
-kind: Namespace
-metadata:
-  name: test
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: jmeter-master
-  namespace: test
-  labels:
-    jmeter_mode: master
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      jmeter_mode: master
-  template:
-    metadata:
-      labels:
-        jmeter_mode: master
-    spec:
-      containers:
-      - name: jmmaster
-        image: crisssercedocker/jmeter-master
-        # image: mnazim1541/jmmaster:latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 60000
-        command: ["/bin/sh", "-c"]
-        args: ["sleep infinity"]
-      imagePullSecrets:
-      - name: registrypullsecret
-        
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: jmeter-slaves
-  namespace: test
-  labels:
-    jmeter_mode: slave
-spec:
-  replicas: '$pod'
-  selector:
-    matchLabels:
-      jmeter_mode: slave
-  template:
-    metadata:
-      labels:
-        jmeter_mode: slave
-    spec:
-      containers:
-      - name: jmslave
-        # image: mnazim1541/jmslave:latest
-        image: crisssercedocker/jmeter-slave
-        imagePullPolicy: IfNotPresent
-      imagePullSecrets:
-      - name: registrypullsecret
-        
-' > ../k8s_Config/k8s.yaml
-# -------------------------------------------------------------
-
-# Prepare jmx file
-echo '<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.2">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
@@ -168,11 +16,11 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
           <stringProp name="LoopController.loops">1</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">'$thread'</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.delayedStart">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">'$duration'</stringProp>
+        <stringProp name="ThreadGroup.duration">10</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
       </ThreadGroup>
@@ -182,7 +30,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">'$targetUrl'</stringProp>
+          <stringProp name="HTTPSampler.domain">aws.amazon.com</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.path">/</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -239,4 +87,4 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
-' > ../jmx_Config/loadtest.jmx
+
