@@ -8,7 +8,7 @@
 
 - upTerraform.sh ile clusterı ve nodları kaldırıyoruz.
 
-- upCluster.sh sh ile podları hazırlayıp kaldırıyoruz.
+- upCluster.sh sh ile podları hazırlayıp kaldırıyoruz. (Sudo komutu windows makinelerde çalışmayabilir.)
 
 - runTest.sh ile testleri koşuyoruz.
 
