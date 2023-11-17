@@ -192,11 +192,11 @@ app.post("/runTest", async (req, res) => {
   const cloudProvider = req.body.cloudProvider;
 
   switch (cloudProvider) {
-    case "digitalocean":
+    case "DigitalOcean":
       runDigitalOceanTerraform(req);
       break;
 
-    case "azure":
+    case "Azure":
       runAzureTerraform(req);
       break;
 
@@ -233,10 +233,10 @@ app.post("/temp", upload.single("jmxFile"), (req, res) => {
   console.log(cloudProvider);
 
   switch (cloudProvider) {
-    case "digitalocean":
+    case "DigitalOcean":
       break;
 
-    case "azure":
+    case "Azure":
       break;
 
     default:
