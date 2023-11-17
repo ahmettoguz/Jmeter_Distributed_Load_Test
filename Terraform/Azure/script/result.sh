@@ -29,4 +29,3 @@ echo "$(cat $resultDir/summary.txt)"
 
 echo "Results saved."
 echo "Success"
-

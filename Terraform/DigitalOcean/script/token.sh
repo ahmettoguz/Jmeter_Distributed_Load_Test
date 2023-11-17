@@ -1,7 +1,21 @@
 #!/bin/bash
 
-# Set api token of digital ocean to environment variable
-export TF_VAR_do_token=$1 
+# Aim of that script is to generate file that store token.
 
-# Give permissions to files
-chmod +x prepare.sh up.sh result.sh down.sh
+# Check parameters.
+if [ $# -ne 1 ]; then
+  echo "Invalid parameters! use following."
+  echo "$0 <api key>"
+  exit 1
+fi
+
+apiKey=$1
+
+# Write file.
+cat > ../tf_Config/terraform.tfvars <<EOL 
+do_token = "$apiKey"
+EOL
+
+# Give output.
+echo "The token variable have been set."
+echo "Success"

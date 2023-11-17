@@ -1,57 +1,20 @@
 #!/bin/bash
 
-while getopts ":n:p:t:d:u:" opt; do
-  case $opt in
-      n)
-        node=$OPTARG >&2
-        ;;
-      p)
-        pod=$OPTARG >&2
-        ;;
-      t)
-        thread=$OPTARG >&2
-        ;;
-      d)
-        duration=$OPTARG >&2
-        ;;
-      u)
-        targetUrl=$OPTARG >&2
-        ;;
-  esac
-done
+# Aim of that script is to generate terraform plan and k8s cluster.
 
-# Set default if parameters are not valid
-if [ -z "$node" ]; then
-    node=1  
+# Check parameters.
+if [ $# -ne 2 ]; then
+  echo "Invalid parameters! use following."
+  echo "$0 <node count> <pod count>"
+  exit 1
 fi
 
-if [ -z "$pod" ]; then
-    pod=1  
-fi
-
-if [ -z "$thread" ]; then
-    thread=10
-fi
-
-if [ -z "$targetUrl" ]; then
-    duration=10
-fi
-
-if [ -z "$targetUrl" ]; then
-    targetUrl="aws.amazon.com"
-fi
+node=$1
+pod=$2
 
 # Dispay counts
 echo "Node count: $node"
 echo "Pod count: $pod"
-echo "Thread count: $thread"
-echo "Duration: $duration"
-echo "Target url: $targetUrl"
-
-# Create config folders if not exists 
-mkdir -p ../tf_Config
-mkdir -p ../k8s_Config
-mkdir -p ../jmx_Config
 
 # Prepare terraform file
 echo '
@@ -80,7 +43,7 @@ resource "digitalocean_kubernetes_cluster" "k8sdo" {
   node_pool {
     name = "nodepooldo"
     size = "s-2vcpu-2gb"
-    node_count = 1
+    node_count = '$node'
   }
 }
 ' > ../tf_Config/k8s.tf
@@ -153,94 +116,5 @@ spec:
 ' > ../k8s_Config/k8s.yaml
 # -------------------------------------------------------------
 
-# Prepare jmx file
-echo '<?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.2">
-  <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.tearDown_on_shutdown">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
-      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-        <collectionProp name="Arguments.arguments"/>
-      </elementProp>
-    </TestPlan>
-    <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <stringProp name="LoopController.loops">1</stringProp>
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-        </elementProp>
-        <stringProp name="ThreadGroup.num_threads">'$thread'</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-        <boolProp name="ThreadGroup.delayedStart">false</boolProp>
-        <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">'$duration'</stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
-      </ThreadGroup>
-      <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
-          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">'$targetUrl'</stringProp>
-          <stringProp name="HTTPSampler.protocol">https</stringProp>
-          <stringProp name="HTTPSampler.path">/</stringProp>
-          <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-          <boolProp name="HTTPSampler.image_parser">false</boolProp>
-          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-          <boolProp name="HTTPSampler.md5">false</boolProp>
-          <intProp name="HTTPSampler.ipSourceType">0</intProp>
-        </HTTPSamplerProxy>
-        <hashTree/>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
-          <objProp>
-            <name>saveConfig</name>
-            <value class="SampleSaveConfiguration">
-              <time>true</time>
-              <latency>true</latency>
-              <timestamp>true</timestamp>
-              <success>true</success>
-              <label>true</label>
-              <code>true</code>
-              <message>true</message>
-              <threadName>true</threadName>
-              <dataType>true</dataType>
-              <encoding>false</encoding>
-              <assertions>true</assertions>
-              <subresults>true</subresults>
-              <responseData>false</responseData>
-              <samplerData>false</samplerData>
-              <xml>false</xml>
-              <fieldNames>true</fieldNames>
-              <responseHeaders>false</responseHeaders>
-              <requestHeaders>false</requestHeaders>
-              <responseDataOnError>false</responseDataOnError>
-              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-              <assertionsResultsToSave>0</assertionsResultsToSave>
-              <bytes>true</bytes>
-              <sentBytes>true</sentBytes>
-              <url>true</url>
-              <threadCounts>true</threadCounts>
-              <idleTime>true</idleTime>
-              <connectTime>true</connectTime>
-            </value>
-          </objProp>
-          <stringProp name="filename"></stringProp>
-        </ResultCollector>
-        <hashTree/>
-      </hashTree>
-    </hashTree>
-  </hashTree>
-</jmeterTestPlan>
-' > ../jmx_Config/loadtest.jmx
+echo "Terraform and kubernetes cluster files created."
+echo "Success"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Aim of that script is to bring results to local
+
 # get time stamp
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 
@@ -19,22 +21,11 @@ kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/jmeter.log $resultD
 # Write summary file
 echo "Results saved to: $resultDir"
 
-total_lines=$(wc -l < $resultDir/result.jtl)
-if [ "$total_lines" -ne 0 ]; then
-  total_lines=$((total_lines - 1))
-fi
-
-request_200_count=$(grep -o 'Request,200,' $resultDir/result.jtl | wc -l)
-result=$(echo "scale=2; $total_lines / $request_200_count" | bc)
-
-echo 
-echo "Pass / Total" > $resultDir/summary.txt
-echo "$request_200_count / $total_lines" >> $resultDir/summary.txt
-
-# Write also jmeter.log summary
-echo >> $resultDir/summary.txt
-grep 'summary =' $resultDir/jmeter.log >> $resultDir/summary.txt
+# Write jmeter.log summary
+grep 'summary =' $resultDir/jmeter.log > $resultDir/summary.txt
 
 # Display summary results
-echo 
 echo "$(cat $resultDir/summary.txt)"
+
+echo "Results saved."
+echo "Success"
