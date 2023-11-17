@@ -38,4 +38,9 @@ form input {
   border-radius: 3px;
   padding: 20px;
   text-align: center;
+  transition: 500ms;
+}
+
+.submit-btn:active {
+  opacity: 0.7;
 }
