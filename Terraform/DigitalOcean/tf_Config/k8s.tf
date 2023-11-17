@@ -1,4 +1,6 @@
-variable "do_token" {}
+variable "do_token" {
+  default = ""
+}
 
 terraform {
   required_providers {
@@ -10,7 +12,7 @@ terraform {
 }
 
 provider "digitalocean" {
-  token = "${var.do_token}"
+  token = var.do_token
 }
 
 resource "digitalocean_kubernetes_cluster" "k8sdo" {

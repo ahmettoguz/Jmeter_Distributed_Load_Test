@@ -54,7 +54,10 @@ mkdir -p ../k8s_Config
 mkdir -p ../jmx_Config
 
 # Prepare terraform file
-echo 'variable "do_token" {}
+echo '
+variable "do_token" {
+  default = ""
+}
 
 terraform {
   required_providers {
@@ -66,24 +69,26 @@ terraform {
 }
 
 provider "digitalocean" {
-  token = "${var.do_token}"
+  token = var.do_token
 }
 
-resource "digitalocean_kubernetes_cluster" "k8s" {
-  name = "k8s"
+resource "digitalocean_kubernetes_cluster" "k8sdo" {
+  name = "k8sdo"
   region = "fra1"
   version = "1.28.2-do.0"
 
   node_pool {
     name = "nodepooldo"
     size = "s-2vcpu-2gb"
-    node_count = '$node'
+    node_count = 1
   }
-}' > ../tf_Config/k8s.tf
+}
+' > ../tf_Config/k8s.tf
 # -------------------------------------------------------------
 
 # Prepare k8s.yaml file
-echo 'apiVersion: v1
+echo '
+apiVersion: v1
 kind: Namespace
 metadata:
   name: test
@@ -145,7 +150,6 @@ spec:
         imagePullPolicy: IfNotPresent
       imagePullSecrets:
       - name: registrypullsecret
-        
 ' > ../k8s_Config/k8s.yaml
 # -------------------------------------------------------------
 
