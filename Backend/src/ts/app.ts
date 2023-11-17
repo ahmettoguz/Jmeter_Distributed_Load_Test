@@ -165,8 +165,8 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 
   // check cloud provider
   if (
-    cloudProvider != "DigitalOcean" ||
-    cloudProvider != "Azure" ||
+    cloudProvider != "DigitalOcean" &&
+    cloudProvider != "Azure" &&
     cloudProvider != "AWS"
   )
     return res.status(400).json({

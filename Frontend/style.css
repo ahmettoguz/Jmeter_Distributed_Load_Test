@@ -1,92 +1,46 @@
+/* style.css */
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f8f8; /* Daha açık bir arkaplan rengi */
+  background-color: rgb(6, 26, 27);
+}
+* {
+  box-sizing: border-box;
+}
+.container {
+  max-width: 500px;
+  margin: 60px auto;
+}
+.container h1 {
+  text-align: center;
+  color: white;
+}
+form {
+  background-color: white;
+  padding: 30px;
+}
+form .input-group {
+  margin-bottom: 15px;
+}
+form label {
+  display: block;
+  margin-bottom: 10px;
+}
+form input {
+  padding: 12px 20px;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+.submit-btn {
+  width: 100%;
+  border: none;
+  background: rgb(37, 83, 3);
+  font-size: 18px;
+  color: white;
+  border-radius: 3px;
+  padding: 20px;
+  text-align: center;
+  transition: 500ms;
 }
 
-#input-div {
-    background-color: #ffffff; /* Beyaz arkaplan */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Hafif bir gölgelendirme */
+.submit-btn:active {
+  opacity: 0.7;
 }
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-ul li {
-    margin-bottom: 10px;
-}
-
-label {
-    display: inline-block;
-    width: 150px;
-    font-weight: bold;
-    color: #333; /* Koyu gri renk */
-}
-
-input {
-    width: 200px;
-    padding: 8px; /* Daha geniş bir iç içe geçme alanı */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 18px;
-    display: block;
-    margin: 0 auto; /* Yatayda ortalamak için */
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-legend {
-    font-size: 24px;
-    color: #333; /* Koyu gri renk */
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-#input-div select {
-    width: 200px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-#input-div select option {
-    font-size: 16px;
-}
-
-/* Varsayılan seçeneği belirgin hale getiriyoruz */
-#input-div select option[value="digitalocean"] {
-    font-weight: bold;
-    color: green;
-}
-
-/* Diğer seçenekleri devre dışı bırakıyoruz */
-#input-div select option[value="amazon"],
-#input-div select option[value="azure"] {
-    color: gray;
-}
-#input-div form:nth-child(2) {
-    margin-top: 30px;
-}
-
