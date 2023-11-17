@@ -30,7 +30,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
 // -------------------------------------------------- Functions
 function moveJmxFile(currentPath, targetPath) {
   fs.rename(currentPath, targetPath, function (err) {
@@ -204,7 +203,7 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.post("/runTest", async (req, res) => {
+app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   console.info(
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
   );
@@ -217,7 +216,32 @@ app.post("/runTest", async (req, res) => {
       break;
 
     case "Azure":
-      runAzureTerraform(req);
+      // check file
+      const uploadedFile = req.file;
+      if (uploadedFile == undefined) {
+        return res.status(400).json({
+          status: 400,
+          state: false,
+          message: "Jmx file is not provided!",
+        });
+      }
+
+      // place jmx file to related path
+      try {
+        moveJmxFile(
+          "./upload/loadtest.jmx",
+          "../Terraform/Azure/jmx_Config/loadtest.jmx"
+        );
+      } catch (error) {
+        console.error("Cannot move file", error);
+        return res.status(502).json({
+          status: 502,
+          state: false,
+          message: "Cannot move file!",
+        });
+      }
+
+      // runAzureTerraform(req);
       break;
 
     default:
@@ -238,7 +262,6 @@ app.post("/runTest", async (req, res) => {
 });
 
 // ----------------------------------------------------------- Temp file operations
-
 
 app.post("/temp", upload.single("jmxFile"), (req, res) => {
   console.info(
