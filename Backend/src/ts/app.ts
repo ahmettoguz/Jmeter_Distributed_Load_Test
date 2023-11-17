@@ -1,3 +1,5 @@
+import { stat } from "fs";
+
 const express = require("express");
 const cp = require("child_process");
 const multer = require("multer");
@@ -187,12 +189,12 @@ app.get("/", async (req, res) => {
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
   );
 
-  const response = {
+  return res.status(200).json({
     status: 200,
     state: true,
-    message: "Service is up.",
-  };
-  res.status(200).json(response);
+    message: "Service is up",
+    data: ["no data yet."],
+  });
 });
 
 app.post("/runTest", async (req, res) => {
@@ -212,32 +214,27 @@ app.post("/runTest", async (req, res) => {
       break;
 
     default:
-      const response = {
+      return res.status(400).json({
         status: 400,
         state: false,
         message: "Cloud provider is invalid!",
-      };
-      res.status(400).json(response);
+      });
       break;
   }
 
-  const response = {
+  return res.status(200).json({
     status: 200,
     state: true,
     message: "Operations started with " + cloudProvider,
     data: ["no data yet."],
-  };
-  res.status(200).json(response);
+  });
 });
 
 // ----------------------------------------------------------- Temp file operations
 function moveJmxFile(currentPath, targetPath) {
-  try {
-    fs.rename(currentPath, targetPath, function (err) {
-      if (err) throw err;
-      console.log("Successfully renamed - AKA moved!");
-    });
-  } catch (error) {}
+  fs.rename(currentPath, targetPath, function (err) {
+    if (err) throw err;
+  });
 }
 
 app.post("/temp", upload.single("jmxFile"), (req, res) => {
@@ -245,40 +242,53 @@ app.post("/temp", upload.single("jmxFile"), (req, res) => {
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
   );
 
+  // check file
   const uploadedFile = req.file;
-  const cloudProvider = req.body.cloudProvider;
+  if (uploadedFile == undefined) {
+    return res.status(400).json({
+      status: 400,
+      state: false,
+      message: "Jmx file is not provided!",
+    });
+  }
 
+  const cloudProvider = req.body.cloudProvider;
   switch (cloudProvider) {
     case "DigitalOcean":
       break;
 
     case "Azure":
+      // place jmx file to related path
       try {
-        moveJmxFile("./upload/loadtest.jmx", "../Terraform/Azure/jmx_Config/");
+        moveJmxFile(
+          "./upload/loadtest.jmx",
+          "../Terraform/Azure/jmx_Config/loadtest.jmx"
+        );
       } catch (error) {
-        console.log("nurada");
+        console.error("Cannot move file", error);
+        return res.status(502).json({
+          status: 502,
+          state: false,
+          message: "Cannot move file!",
+        });
       }
       break;
 
     default:
-      const response = {
+      return res.status(400).json({
         status: 400,
         state: false,
         message: "Cloud provider is invalid!",
-      };
-      res.status(400).json(response);
-      return;
-
+      });
       break;
   }
 
-  const response = {
+  return res.status(200).json({
     status: 200,
     state: true,
     message: "Operations started with " + cloudProvider,
     data: ["no data yet."],
-  };
-  res.status(200).json(response);
+  });
 });
 
 app.listen(port, () => {
