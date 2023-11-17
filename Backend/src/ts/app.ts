@@ -219,8 +219,7 @@ app.post("/runTest", async (req, res) => {
   res.status(200).json(response);
 });
 
-app.post("/temp", upload.single("file"), (req, res) => {
-  
+app.post("/temp", upload.single("jmxFile"), (req, res) => {
   console.info(
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
   );
@@ -260,5 +259,5 @@ app.post("/temp", upload.single("file"), (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`App is running on port: ${port}`);
+  console.log(`App is running on : http://localhost:${port}`);
 });
