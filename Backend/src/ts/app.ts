@@ -182,28 +182,31 @@ app.get("/", async (req, res) => {
   res.status(200).json(response);
 });
 
-app.post("/dotf", async (req, res) => {
+app.post("/runTest", async (req, res) => {
   console.info(
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
   );
 
-  runDigitalOceanTerraform(req);
+  const cloudProvider = req.body.cloudProvider;
 
-  const response = {
-    status: 200,
-    state: true,
-    message: "Operations started.",
-    data: ["no data yet."],
-  };
-  res.status(200).json(response);
-});
+  switch (cloudProvider) {
+    case "DigitalOcean":
+      runDigitalOceanTerraform(req);
+      break;
 
-app.get("/aztf", async (req, res) => {
-  console.info(
-    `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
-  );
+    case "Azure":
+      runAzureTerraform(req);
+      break;
 
-  runAzureTerraform(req);
+    default:
+      const response = {
+        status: 400,
+        state: false,
+        message: "Cloud provided is invalid!",
+      };
+      res.status(400).json(response);
+      break;
+  }
 
   const response = {
     status: 200,
