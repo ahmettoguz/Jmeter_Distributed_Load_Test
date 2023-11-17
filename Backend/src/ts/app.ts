@@ -4,7 +4,22 @@ const multer = require("multer");
 
 const app = express();
 const port = 80;
-const upload = multer();
+
+// multer file operation options
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Dosyanın kaydedileceği klasör
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${file.originalname.slice(
+        file.originalname.lastIndexOf(".")
+      )}`
+    ); 
+  },
+});
+const upload = multer({ storage: storage });
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
