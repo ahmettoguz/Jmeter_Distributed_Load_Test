@@ -8,15 +8,15 @@
 
 - prepare.sh ile terraform, k8s configürasyonları yapılıyor.
 
-- up upTerraform.sh ile clusterı ve nodları kaldırıyoruz.
+- upTerraform.sh ile clusterı ve nodları kaldırıyoruz.
 
 - upCluster.sh sh ile podları hazırlayıp kaldırıyoruz.
 
--  runTest.sh ile testleri koşuyoruz.
+- runTest.sh ile testleri koşuyoruz.
 
 - result.sh ile sonuçları results dizinine getiriyoruz.
 
-- downCluster.sh ile oluşturulan podları siliyoruz (downTerraform yapılacaksa bu adıma gerek yok. Podlar otomatik silinicek).
+- downCluster.sh ile oluşturulan podları siliyoruz (downTerraform yapılacaksa bu adıma gerek yok. Podlar otomatik silinecek).
 
 - downTerraform.sh ile oluşturulan nodeları ve clusterı siliyoruz.
 

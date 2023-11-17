@@ -2,15 +2,21 @@
 
 - Home dizinine gidip projeyi çekiyoruz.
 
-- Script dizinine gidip digital ocean api tokenimizi expose ediyoruz.
+- Script dizinine gidip apiKeyi expose ediyoruz.
 
-- prepare sh ile terraform, k8s ve jmx dosyalarını configürasyonları yapılıyor. (-n -p -t -d -u, sıraysıla: Node sayısı, Pod sayısı, Thread sayısı, Duration, Target Url)
+- prepare.sh ile terraform, k8s configürasyonları yapılıyor.
 
-- up sh ile nodları ve podları hazırlayıp kaldırıyoruz ardından testleri koşuyoruz.
+- upTerraform.sh ile clusterı ve nodları kaldırıyoruz.
 
-- Sonuçları results dizinine getirmek için result.sh çalıştırıyoruz.
+- upCluster.sh sh ile podları hazırlayıp kaldırıyoruz.
 
-- Oluşturulan podları, nodeları ve cluster'ı silmek için down sh çalıştırıyoruz.
+- runTest.sh ile testleri koşuyoruz.
+
+- result.sh ile sonuçları results dizinine getiriyoruz.
+
+- downCluster.sh ile oluşturulan podları siliyoruz (downTerraform yapılacaksa bu adıma gerek yok. Podlar otomatik silinecek).
+
+- downTerraform.sh ile oluşturulan nodeları ve clusterı siliyoruz.
 
 </br>
 
@@ -24,30 +30,45 @@ cd ~
 git clone https://github.com/ahmettoguz/jmeter_Test
 ```
 
+---
+
 ```
 cd ~/jmeter_Test/Terraform/DigitalOcean/script
 ```
 
 ```
-chmod +x token.sh
+chmod +x token.sh prepare.sh upTerraform.sh upCluster.sh runTest.sh result.sh downCluster.sh downTerraform.sh
 ```
 
 ```
-source token.sh <yourToken>
+sh token.sh <api key>
+```
+---
+
+```
+sh prepare.sh <node count> <pod count>
 ```
 
 ```
-./prepare.sh -n 1 -p 1 -t 10 -d 10 -u aws.amazon.com
+sh upTerraform.sh
 ```
 
 ```
-./up.sh
+sh upCluster.sh
 ```
 
 ```
-./result.sh
+sh runTest.sh
 ```
 
 ```
-./down.sh
+sh result.sh
+```
+
+```
+sh downCluster.sh
+```
+
+```
+sh downTerraform.sh
 ```
