@@ -5,22 +5,7 @@ const multer = require("multer");
 const app = express();
 const port = 80;
 
-// multer file operation options
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Dosyanın kaydedileceği klasör
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${file.originalname.slice(
-        file.originalname.lastIndexOf(".")
-      )}`
-    ); 
-  },
-});
-const upload = multer({ storage: storage });
-
+// middleware
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -29,8 +14,18 @@ app.use((req, res, next) => {
   res.header("X-Content-Type-Options", "nosniff");
   next();
 });
-
 app.use(express.urlencoded({ extended: true }));
+
+// multer file options
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./upload/"); // Dosyanın kaydedileceği klasör
+  },
+  filename: (req, file, cb) => {
+    cb(null, "loadtest.jmx");
+  },
+});
+const upload = multer({ storage: storage });
 
 // -------------------------------------------------- Functions
 async function executeSh(shPath, shCommand, parameters) {
@@ -219,7 +214,7 @@ app.post("/runTest", async (req, res) => {
       const response = {
         status: 400,
         state: false,
-        message: "Cloud provided is invalid!",
+        message: "Cloud provider is invalid!",
       };
       res.status(400).json(response);
       break;
@@ -239,14 +234,9 @@ app.post("/temp", upload.single("jmxFile"), (req, res) => {
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
   );
 
-  console.log("----");
   const uploadedFile = req.file;
-  console.log(uploadedFile);
-  console.log("----");
-
   const cloudProvider = req.body.cloudProvider;
-  console.log(cloudProvider);
-
+  
   switch (cloudProvider) {
     case "DigitalOcean":
       break;
@@ -258,9 +248,10 @@ app.post("/temp", upload.single("jmxFile"), (req, res) => {
       const response = {
         status: 400,
         state: false,
-        message: "Cloud provided is invalid!",
+        message: "Cloud provider is invalid!",
       };
       res.status(400).json(response);
+      return;
       break;
   }
 
