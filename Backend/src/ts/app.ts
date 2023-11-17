@@ -190,11 +190,11 @@ app.post("/runTest", async (req, res) => {
   const cloudProvider = req.body.cloudProvider;
 
   switch (cloudProvider) {
-    case "DigitalOcean":
+    case "digitalocean":
       runDigitalOceanTerraform(req);
       break;
 
-    case "Azure":
+    case "azure":
       runAzureTerraform(req);
       break;
 
@@ -211,7 +211,40 @@ app.post("/runTest", async (req, res) => {
   const response = {
     status: 200,
     state: true,
-    message: "Operations started.",
+    message: "Operations started with " + cloudProvider,
+    data: ["no data yet."],
+  };
+  res.status(200).json(response);
+});
+
+app.post("/temp", async (req, res) => {
+  console.info(
+    `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
+  );
+
+  const cloudProvider = req.body.cloudProvider;
+
+  switch (cloudProvider) {
+    case "digitalocean":
+      break;
+
+    case "azure":
+      break;
+
+    default:
+      const response = {
+        status: 400,
+        state: false,
+        message: "Cloud provided is invalid!",
+      };
+      res.status(400).json(response);
+      break;
+  }
+
+  const response = {
+    status: 200,
+    state: true,
+    message: "Operations started with " + cloudProvider,
     data: ["no data yet."],
   };
   res.status(200).json(response);
