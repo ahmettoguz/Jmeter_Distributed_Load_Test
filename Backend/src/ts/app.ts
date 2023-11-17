@@ -1,8 +1,10 @@
 const express = require("express");
 const cp = require("child_process");
+const multer = require("multer");
 
 const app = express();
 const port = 80;
+const upload = multer();
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -217,12 +219,19 @@ app.post("/runTest", async (req, res) => {
   res.status(200).json(response);
 });
 
-app.post("/temp", async (req, res) => {
+app.post("/temp", upload.single("file"), (req, res) => {
+  
   console.info(
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
   );
 
+  console.log("----");
+  const uploadedFile = req.file;
+  console.log(uploadedFile);
+  console.log("----");
+
   const cloudProvider = req.body.cloudProvider;
+  console.log(cloudProvider);
 
   switch (cloudProvider) {
     case "digitalocean":
