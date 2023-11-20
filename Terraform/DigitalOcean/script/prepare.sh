@@ -5,7 +5,7 @@
 # Check parameters.
 if [ $# -ne 4 ]; then
   echo "Invalid parameters! use following."
-  echo "$0 <node count> <pod count>"
+  echo "$0 <node count> <pod count> <thread count> <duration>"
   exit 1
 fi
 
