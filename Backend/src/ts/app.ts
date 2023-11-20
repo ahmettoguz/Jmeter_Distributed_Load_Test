@@ -85,7 +85,13 @@ async function runAllSteps(
   try {
     // execute prepare sh file params: node count, pod count
     // TODO hard coded node and pod count
-    parameters = ["prepare.sh", plannedPodCount, plannedNodeCount, threadCount, duration];
+    parameters = [
+      "prepare.sh",
+      plannedNodeCount,
+      plannedPodCount,
+      threadCount,
+      duration,
+    ];
     result = await executeSh(shPath, "sh", parameters);
     console.info("\nprepare.sh finished.");
 
@@ -169,7 +175,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   const cloudProvider = req.body.cloudProvider;
   const virtualUser = req.body.virtualUser;
   const uploadedFile = req.file;
-  
+
   const duration = 300;
   const threadCount = 200;
   const plannedPodCount = Math.ceil(virtualUser / threadCount);
