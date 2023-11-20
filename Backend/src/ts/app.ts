@@ -58,13 +58,13 @@ async function executeSh(shPath, shCommand, parameters) {
         resolve({ success: true, output });
       } else {
         console.error(`Child process closed with error code: ${code}`);
-        reject({ success: false, output });
+        resolve({ success: false, output });
       }
     });
     proc.on("exit", (code) => {
       if (code !== 0) {
         console.error(`child process exited with non-zero code: ${code}`);
-        reject({ success: false, output });
+        resolve({ success: false, output });
       }
     });
   });
