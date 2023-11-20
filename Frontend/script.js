@@ -10,6 +10,7 @@ function submitForm(e) {
   let cloudProvider = $("#cloudProvider").val();
   var ajaxData = new FormData();
 
+  ajaxData.append("virtualUser", 200);
   ajaxData.append("cloudProvider", cloudProvider);
   ajaxData.append("jmxFile", file);
 

@@ -172,8 +172,8 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   
   const duration = 300;
   const threadCount = 200;
-  const plannedPodCount = virtualUser / threadCount;
-  const plannedNodeCount = plannedPodCount / 4;
+  const plannedPodCount = Math.ceil(virtualUser / threadCount);
+  const plannedNodeCount = Math.ceil(plannedPodCount / 4);
 
   // check cloud provider
   if (
