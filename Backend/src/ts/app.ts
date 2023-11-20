@@ -151,7 +151,6 @@ app.get("/", async (req, res) => {
     status: 200,
     state: true,
     message: "Service is up",
-    data: ["no data yet."],
   });
 });
 
@@ -206,7 +205,6 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
     status: 200,
     state: true,
     message: "Operations started with " + cloudProvider,
-    data: ["no data yet."],
   });
 });
 
@@ -261,7 +259,6 @@ app.post("/temp", upload.single("jmxFile"), (req, res) => {
     status: 200,
     state: true,
     message: "Operations started with " + cloudProvider,
-    data: ["no data yet."],
   });
 });
 
