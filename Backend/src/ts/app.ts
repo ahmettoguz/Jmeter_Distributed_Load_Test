@@ -95,8 +95,6 @@ async function runAllSteps(
     result = await executeSh(shPath, "sh", parameters);
     console.info("\nprepare.sh finished.");
 
-    console.log("console: ", result);
-
     if (!result.success) {
       console.info("Process is Failed!");
       throw new Error("prepare.sh failed");
