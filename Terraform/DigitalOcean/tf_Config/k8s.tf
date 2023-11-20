@@ -1,3 +1,4 @@
+
 variable "do_token" {
   default = ""
 }
@@ -26,3 +27,4 @@ resource "digitalocean_kubernetes_cluster" "k8sdo" {
     node_count = 1
   }
 }
+

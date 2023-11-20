@@ -1,3 +1,4 @@
+
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -60,5 +61,4 @@ spec:
         imagePullPolicy: IfNotPresent
       imagePullSecrets:
       - name: registrypullsecret
-        
 

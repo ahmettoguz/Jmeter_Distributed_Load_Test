@@ -75,7 +75,7 @@ async function runAllSteps(
   cloudProvider,
   plannedNodeCount,
   plannedPodCount,
-  threadCount,
+  threadCountPerPod,
   duration
 ) {
   const shPath = `../Terraform/${cloudProvider}/script`;
@@ -89,7 +89,7 @@ async function runAllSteps(
       "prepare.sh",
       plannedNodeCount,
       plannedPodCount,
-      threadCount,
+      threadCountPerPod,
       duration,
     ];
     result = await executeSh(shPath, "sh", parameters);
@@ -177,8 +177,8 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   const uploadedFile = req.file;
 
   const duration = 300;
-  const threadCount = 100;
-  const plannedPodCount = Math.ceil(virtualUser / threadCount);
+  const threadCountPerPod = 100;
+  const plannedPodCount = Math.ceil(virtualUser / threadCountPerPod);
   const plannedNodeCount = Math.ceil(plannedPodCount / 4);
 
   // check cloud provider
@@ -224,7 +224,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
       cloudProvider,
       plannedNodeCount,
       plannedPodCount,
-      threadCount,
+      threadCountPerPod,
       duration
     );
 

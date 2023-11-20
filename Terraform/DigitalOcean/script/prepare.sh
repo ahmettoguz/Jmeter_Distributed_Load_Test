@@ -120,18 +120,27 @@ spec:
 
 # in jmx file change thread count
 if grep -q '<stringProp name="ThreadGroup.num_threads">.*<\/stringProp>' ../jmx_Config/loadtest.jmx; then
-  sed -i 's|<stringProp name="ThreadGroup.num_threads">.*</stringProp>|<stringProp name="ThreadGroup.num_threads">'\''$thread'\''</stringProp>|' ../jmx_Config/loadtest.jmx
+  sed -i 's|<stringProp name="ThreadGroup.num_threads">.*</stringProp>|<stringProp name="ThreadGroup.num_threads">'$thread'</stringProp>|' ../jmx_Config/loadtest.jmx
 else
     echo "Fail"
     exit 1
 fi
 
-if grep -q '<boolProp name="ThreadGroup.scheduler">\([^<]*\)</boolProp>' jmeterDosyasi.xml; then
-  sed -i 's|<boolProp name="ThreadGroup.scheduler">\([^<]*\)</boolProp>|<boolProp name="ThreadGroup.scheduler">true</boolProp>|g' ../jmx_Config/loadtest.jmx
+# in jmx file change duration boolean
+if grep -q '<boolProp name="ThreadGroup.scheduler">.*</boolProp>' ../jmx_Config/loadtest.jmx; then
+  sed -i 's|<boolProp name="ThreadGroup.scheduler">.*</boolProp>|<boolProp name="ThreadGroup.scheduler">true</boolProp>|g' ../jmx_Config/loadtest.jmx
 else
-  echo "Belirtilen desen bulunamadı."
+    echo "Fail"
+    exit 1
 fi
 
+# in jmx file change duration
+if grep -q '<boolProp name="ThreadGroup.scheduler">.*</boolProp>' ../jmx_Config/loadtest.jmx; then
+  sed -i 's|<stringProp name="ThreadGroup.duration">.*</stringProp>|<stringProp name="ThreadGroup.duration">'$duration'</stringProp>|g' ../jmx_Config/loadtest.jmx
+else
+    echo "Fail"
+    exit 1
+fi
 
 echo "Terraform and kubernetes cluster files created."
 echo "Success"
