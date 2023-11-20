@@ -51,7 +51,7 @@ sh token.sh <service principle id> <service principle password>
 ---
 
 ```
-sh prepare.sh <node count> <pod count>
+sh prepare.sh <node count> <pod count> <thread count> <duration>
 ```
 
 ```

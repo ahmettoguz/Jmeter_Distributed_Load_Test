@@ -8,9 +8,10 @@ function submitForm(e) {
 
   let file = $("#file")[0].files[0];
   let cloudProvider = $("#cloudProvider").val();
+  let virtualUser = $("#virtualUser").val();
   var ajaxData = new FormData();
 
-  ajaxData.append("virtualUser", 200);
+  ajaxData.append("virtualUser", virtualUser);
   ajaxData.append("cloudProvider", cloudProvider);
   ajaxData.append("jmxFile", file);
 

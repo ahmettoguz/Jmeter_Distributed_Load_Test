@@ -46,7 +46,7 @@ sh token.sh <api key>
 ---
 
 ```
-sh prepare.sh <node count> <pod count>
+sh prepare.sh <node count> <pod count> <thread count> <duration>
 ```
 
 ```
