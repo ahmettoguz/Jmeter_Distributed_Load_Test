@@ -38,7 +38,7 @@ function moveJmxFile(currentPath, targetPath) {
 }
 
 async function executeSh(shPath, shCommand, parameters) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     let output: string[] = [];
     const proc = cp.spawn(shCommand, parameters, {
       cwd: shPath,
@@ -235,6 +235,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
     data: [
       `Planned node count : ${plannedNodeCount}`,
       `Planned pod count : ${plannedPodCount}`,
+      `Thread count for each pod: ${threadCountPerPod}`,
       `Cloud Provider : ${cloudProvider}`,
     ],
   });
