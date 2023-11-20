@@ -70,7 +70,14 @@ async function executeSh(shPath, shCommand, parameters) {
   });
 }
 
-async function runAllSteps(req, cloudProvider) {
+async function runAllSteps(
+  req,
+  cloudProvider,
+  plannedNodeCount,
+  plannedPodCount,
+  threadCount,
+  duration
+) {
   const shPath = `../Terraform/${cloudProvider}/script`;
   let result;
   let parameters;
@@ -78,7 +85,7 @@ async function runAllSteps(req, cloudProvider) {
   try {
     // execute prepare sh file params: node count, pod count
     // TODO hard coded node and pod count
-    parameters = ["prepare.sh", "2", "5"];
+    parameters = ["prepare.sh", plannedPodCount, plannedNodeCount, threadCount, duration];
     result = await executeSh(shPath, "sh", parameters);
     console.info("\nprepare.sh finished.");
 
@@ -160,7 +167,13 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   );
 
   const cloudProvider = req.body.cloudProvider;
+  const virtualUser = req.body.virtualUser;
   const uploadedFile = req.file;
+  
+  const duration = 300;
+  const threadCount = 200;
+  const plannedPodCount = virtualUser / threadCount;
+  const plannedNodeCount = plannedPodCount / 4;
 
   // check cloud provider
   if (
@@ -199,12 +212,25 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   }
 
   // start sh operations
-  if (cloudProvider !== "AWS") runAllSteps(req, cloudProvider);
+  if (cloudProvider !== "AWS")
+    runAllSteps(
+      req,
+      cloudProvider,
+      plannedNodeCount,
+      plannedPodCount,
+      threadCount,
+      duration
+    );
 
   return res.status(200).json({
     status: 200,
     state: true,
-    message: "Operations started with " + cloudProvider,
+    message: "Operations started.",
+    data: [
+      `Planned node count : ${plannedNodeCount}`,
+      `Planned pod count : ${plannedPodCount}`,
+      `Cloud Provider : ${cloudProvider}`,
+    ],
   });
 });
 
