@@ -20,32 +20,62 @@ echo "Pod count: $pod"
 
 # Prepare terraform file
 echo '
-variable "do_token" {
+variable "aks_service_principal_app_id" {
+  default = ""
+}
+
+variable "aks_service_principal_client_secret" {
   default = ""
 }
 
 terraform {
   required_providers {
-    digitalocean = {
-      source = "digitalocean/digitalocean"
-      version = "2.32.0"
+    azurerm = {
+      source = "hashicorp/azurerm"
+      version = "3.80.0"
     }
   }
 }
 
-provider "digitalocean" {
-  token = var.do_token
+provider "azurerm" {
+  features {}
 }
 
-resource "digitalocean_kubernetes_cluster" "k8sdo" {
-  name = "k8sdo"
-  region = "fra1"
-  version = "1.28.2-do.0"
+resource "azurerm_resource_group" "rg" {
+  location = "Germany West Central"
+  name     = "k8srg"
+}
 
-  node_pool {
-    name = "nodepooldo"
-    size = "s-2vcpu-2gb"
+resource "azurerm_kubernetes_cluster" "k8saz" {
+  depends_on = [azurerm_resource_group.rg] 
+  location            = azurerm_resource_group.rg.location
+  name                = "k8saz"
+  resource_group_name = azurerm_resource_group.rg.name
+
+  dns_prefix          = "k8saz"
+  tags                = {
+    Environment = "Development"
+  }
+
+  default_node_pool {
+    name       = "agentpool"
+    vm_size    = "Standard_D2_v2"
     node_count = '$node'
+  }
+  linux_profile {
+    admin_username = "ahmet"
+
+    ssh_key {
+      key_data = file("~/.ssh/id_rsa.pub")
+    }
+  }
+  network_profile {
+    network_plugin    = "kubenet"
+    load_balancer_sku = "standard"
+  }
+  service_principal {
+    client_id     = var.aks_service_principal_app_id
+    client_secret = var.aks_service_principal_client_secret
   }
 }
 ' > ../tf_Config/k8s.tf
@@ -114,7 +144,7 @@ spec:
         image: crisssercedocker/jmeter-slave
         imagePullPolicy: IfNotPresent
       imagePullSecrets:
-      - name: registrypullsecret
+      - name: registrypullsecret   
 ' > ../k8s_Config/k8s.yaml
 # -------------------------------------------------------------
 

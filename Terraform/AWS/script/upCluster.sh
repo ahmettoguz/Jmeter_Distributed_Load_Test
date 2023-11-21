@@ -3,11 +3,10 @@
 # Aim of that script is to create pods.
 
 # Get connection with k8 cluster and save config file.
-cluster_id=$(doctl kubernetes cluster list --format "ID" --no-header)
-sudo doctl kubernetes cluster kubeconfig save "$cluster_id"
+aws eks --region eu-north-1 update-kubeconfig --name k8saws --no-verify-ssl
 
 # Up pods
-kubectl apply -f ../k8s_Config/k8s.yaml
+kubectl apply -f ../k8s_Config/k8s.yaml --insecure-skip-tls-verify
 
 # Wait for the pod to be ready.
 if
