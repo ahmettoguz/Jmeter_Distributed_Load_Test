@@ -20,63 +20,86 @@ echo "Pod count: $pod"
 
 # Prepare terraform file
 echo '
-variable "aks_service_principal_app_id" {
+variable "access_key" {
   default = ""
 }
 
-variable "aks_service_principal_client_secret" {
+variable "secret_key" {
   default = ""
 }
 
 terraform {
   required_providers {
-    azurerm = {
-      source = "hashicorp/azurerm"
-      version = "3.80.0"
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
   }
 }
 
-provider "azurerm" {
-  features {}
+provider "aws" {
+  region = "eu-north-1"
+  access_key = var.access_key
+  secret_key = var.secret_key
 }
 
-resource "azurerm_resource_group" "rg" {
-  location = "Germany West Central"
-  name     = "k8srg"
+resource "aws_vpc" "k8saws_vpc" {
+  cidr_block = "10.0.0.0/16"
 }
 
-resource "azurerm_kubernetes_cluster" "k8saz" {
-  depends_on = [azurerm_resource_group.rg] 
-  location            = azurerm_resource_group.rg.location
-  name                = "k8saz"
-  resource_group_name = azurerm_resource_group.rg.name
+resource "aws_subnet" "k8saws_subnet" {
+  vpc_id                  = aws_vpc.k8saws_vpc.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = "eu-north-1a"
+}
 
-  dns_prefix          = "k8saz"
-  tags                = {
-    Environment = "Development"
+resource "aws_subnet" "k8saws_subnet_2" {
+  vpc_id                  = aws_vpc.k8saws_vpc.id
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = "eu-north-1b"
+}
+
+resource "aws_security_group" "k8saws_security_group" {
+  vpc_id = aws_vpc.k8saws_vpc.id
+}
+
+resource "aws_instance" "k8saws_instance" {
+  count           = 2
+  ami             = "ami-0416c18e75bd69567"
+  instance_type   = "t3.micro"
+  subnet_id       = aws_subnet.k8saws_subnet.id
+  security_groups  = [aws_security_group.k8saws_security_group.id]
+
+  tags = {
+    Name = "k8saws-instance-${count.index + 1}"
+  }
+}
+
+resource "aws_eks_cluster" "k8saws_cluster" {
+  name     = "k8saws"
+  role_arn = aws_iam_role.eks_cluster.arn
+  vpc_config {
+    subnet_ids = [aws_subnet.k8saws_subnet.id, aws_subnet.k8saws_subnet_2.id]
   }
 
-  default_node_pool {
-    name       = "agentpool"
-    vm_size    = "Standard_D2_v2"
-    node_count = '$node'
-  }
-  linux_profile {
-    admin_username = "ahmet"
+  depends_on = [aws_instance.k8saws_instance]  # worker nodes'dan önce EC2 instances'ları oluşturulsun
+}
 
-    ssh_key {
-      key_data = file("~/.ssh/id_rsa.pub")
-    }
-  }
-  network_profile {
-    network_plugin    = "kubenet"
-    load_balancer_sku = "standard"
-  }
-  service_principal {
-    client_id     = var.aks_service_principal_app_id
-    client_secret = var.aks_service_principal_client_secret
-  }
+resource "aws_iam_role" "eks_cluster" {
+  name = "eks-cluster"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "eks.amazonaws.com",
+        },
+      },
+    ],
+  })
 }
 ' > ../tf_Config/k8s.tf
 # -------------------------------------------------------------
