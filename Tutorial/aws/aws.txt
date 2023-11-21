@@ -1,3 +1,27 @@
 kubectl config current-context
 
-aws eks --region eu-north-1 update-kubeconfig --name k8s
+aws eks --region eu-north-1 update-kubeconfig --name k8saws
+
+aws eks --region eu-north-1 update-kubeconfig --name k8saws --no-verify-ssl
+
+---------------------------------------------------------
+IAM ROLES FOR eks
+AmazonEC2FullAccess	   
+AmazonEKSClusterPolicy
+AmazonEKSServicePolicy
+AmazonVPCFullAccess  	
+IAMFullAccess
+---------------------------------------------------------
+inline policy
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "eksadministrator",
+            "Effect": "Allow",
+            "Action": "eks:*",
+            "Resource": "*"
+        }
+    ]
+}
+---------------------------------------------------------

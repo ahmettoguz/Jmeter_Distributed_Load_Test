@@ -32,14 +32,20 @@ resource "aws_subnet" "k8saws_subnet" {
   availability_zone       = "eu-north-1a"
 }
 
+resource "aws_subnet" "k8saws_subnet_2" {
+  vpc_id                  = aws_vpc.k8saws_vpc.id
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = "eu-north-1b"
+}
+
 resource "aws_security_group" "k8saws_security_group" {
   vpc_id = aws_vpc.k8saws_vpc.id
 }
 
 resource "aws_instance" "k8saws_instance" {
   count           = 2
-  ami             = "ami-0c55b159cbfafe1f0"
-  instance_type   = "t2.micro"
+  ami             = "ami-0416c18e75bd69567"
+  instance_type   = "t3.micro"
   subnet_id       = aws_subnet.k8saws_subnet.id
   security_groups  = [aws_security_group.k8saws_security_group.id]
 
@@ -52,7 +58,7 @@ resource "aws_eks_cluster" "k8saws_cluster" {
   name     = "k8saws"
   role_arn = aws_iam_role.eks_cluster.arn
   vpc_config {
-    subnet_ids = [aws_subnet.k8saws_subnet.id]
+    subnet_ids = [aws_subnet.k8saws_subnet.id, aws_subnet.k8saws_subnet_2.id]
   }
 
   depends_on = [aws_instance.k8saws_instance]  # worker nodes'dan önce EC2 instances'ları oluşturulsun
