@@ -220,15 +220,14 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   }
 
   // start sh operations
-  if (cloudProvider !== "AWS")
-    runAllSteps(
-      req,
-      cloudProvider,
-      plannedNodeCount,
-      plannedPodCount,
-      threadCountPerPod,
-      duration
-    );
+  runAllSteps(
+    req,
+    cloudProvider,
+    plannedNodeCount,
+    plannedPodCount,
+    threadCountPerPod,
+    duration
+  );
 
   return res.status(200).json({
     status: 200,
