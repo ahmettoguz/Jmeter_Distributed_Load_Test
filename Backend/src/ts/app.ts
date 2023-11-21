@@ -151,6 +151,11 @@ async function runAllSteps(
     }
   } catch (error: any) {
     console.error("Error:", error.message);
+
+    // down terraform if there was an error
+    parameters = ["downTerraform.sh"];
+    result = await executeSh(shPath, "sh", parameters);
+    console.info("\ndownTerraform.sh finished.");
   }
 }
 
