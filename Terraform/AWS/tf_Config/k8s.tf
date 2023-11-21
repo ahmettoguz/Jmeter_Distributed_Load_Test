@@ -42,17 +42,6 @@ resource "aws_security_group" "k8saws_security_group" {
   vpc_id = aws_vpc.k8saws_vpc.id
 }
 
-resource "aws_instance" "k8saws_instance" {
-  count           = 2
-  ami             = "ami-0416c18e75bd69567"
-  instance_type   = "t3.micro"
-  subnet_id       = aws_subnet.k8saws_subnet.id
-  security_groups  = [aws_security_group.k8saws_security_group.id]
-
-  tags = {
-    Name = "k8saws-instance-${count.index + 1}"
-  }
-}
 
 resource "aws_eks_cluster" "k8saws_cluster" {
   name     = "k8saws"
@@ -62,21 +51,4 @@ resource "aws_eks_cluster" "k8saws_cluster" {
   }
 
   depends_on = [aws_instance.k8saws_instance]  # worker nodes'dan önce EC2 instances'ları oluşturulsun
-}
-
-resource "aws_iam_role" "eks_cluster" {
-  name = "eks-cluster"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = "sts:AssumeRole",
-        Effect = "Allow",
-        Principal = {
-          Service = "eks.amazonaws.com",
-        },
-      },
-    ],
-  })
 }
