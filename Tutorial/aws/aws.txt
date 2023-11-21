@@ -4,6 +4,16 @@ aws eks --region eu-north-1 update-kubeconfig --name k8saws
 
 aws eks --region eu-north-1 update-kubeconfig --name k8saws --no-verify-ssl
 
+#!/bin/bash
+
+# Aim of that script is to create pods.
+
+# Get connection with k8 cluster and save config file.
+aws eks --region eu-north-1 update-kubeconfig --name k8saws --no-verify-ssl
+
+# Up pods
+kubectl apply -f ../k8s_Config/k8s.yaml --insecure-skip-tls-verify
+
 ---------------------------------------------------------
 IAM ROLES FOR eks
 AmazonEC2FullAccess	   
