@@ -116,7 +116,6 @@ resource "aws_eks_node_group" "k8sawsiamnodegroup" {
     aws_subnet.k8saws_subnet_2.id
   ]
 
-  iam_role_attach_cni_policy = true
   capacity_type  = "ON_DEMAND"
   instance_types = ["t3.micro"]
 
