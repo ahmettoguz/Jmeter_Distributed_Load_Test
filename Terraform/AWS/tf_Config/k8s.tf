@@ -22,34 +22,104 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
-resource "aws_vpc" "k8saws_vpc" {
+resource "aws_vpc" "k8sawsvpc" {
   cidr_block = "10.0.0.0/16"
 
   enable_dns_support   = true
   enable_dns_hostnames = true
 }
 
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.k8sawsvpc.id
+}
+
 resource "aws_subnet" "k8saws_subnet" {
-  vpc_id                  = aws_vpc.k8saws_vpc.id
+  vpc_id                  = aws_vpc.k8sawsvpc.id
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "eu-north-1a"
   map_public_ip_on_launch = true
 
-  depends_on = [aws_vpc.k8saws_vpc]
+  tags = {
+    "Name" = "subnet"
+    "kubernetes.io/role/elb" = "1"
+    "kubernetes.io/cluster/k8sawscluster" = "owned"
+  }
+
+  depends_on = [aws_vpc.k8sawsvpc]
 }
 
 resource "aws_subnet" "k8saws_subnet_2" {
-  vpc_id                  = aws_vpc.k8saws_vpc.id
+  vpc_id                  = aws_vpc.k8sawsvpc.id
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "eu-north-1b"
   map_public_ip_on_launch = true
 
-  depends_on = [aws_vpc.k8saws_vpc]
+   tags = {
+    "Name" = "subnet2"
+    "kubernetes.io/role/elb" = "1"
+    "kubernetes.io/cluster/k8sawscluster" = "owned"
+  }
+
+  depends_on = [aws_vpc.k8sawsvpc]
 }
 
-resource "aws_security_group" "k8saws_security_group" {
-  vpc_id = aws_vpc.k8saws_vpc.id
+resource "aws_eip" "nat" {
+  vpc = true
+
+  tags = {
+    Name = "nat"
+  }
 }
+
+resource "aws_nat_gateway" "nat" {
+  allocation_id = aws_eip.nat.id
+  subnet_id = aws_subnet.k8saws_subnet.id
+
+  tags = {
+    Name = "nat"
+  }
+
+  depends_on = [aws_internet_gateway.igw]
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.k8sawsvpc.id
+
+  route = [
+    {
+      cidr_block = "0.0.0.0/0"
+      nat_gateway_id = aws_nat_gateway.nat.id
+      carrier_gateway_id = ""
+      destination_prefix_list_id = ""
+      egress_only_gateway_id = ""
+      gateway_id = ""
+      instance_id = ""
+      ipv6_cidr_block = ""
+      local_gateway_id = ""
+      network_interface_id = ""
+      transit_gateway_id = ""
+      vpc_endpoint_id = ""
+      vpc_peering_connection_id = ""
+    },
+  ]
+
+  tags = "public"
+}
+
+resource "aws_route_table_association" "public_eu_north_1a"{
+  subnet_id = aws_subnet.k8saws_subnet.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public_eu_north_1b"{
+  subnet_id = aws_subnet.k8saws_subnet_2.id
+  route_table_id = aws_route_table.public.id
+}
+
+
+
+
+
 
 resource "aws_iam_role" "k8sawsiamcluster" {
   name = "k8sawsiamcluster"
@@ -75,14 +145,14 @@ resource "aws_iam_role_policy_attachment" "demo-AmazonEKSClusterPolicy" {
   role       = aws_iam_role.k8sawsiamcluster.name
 }
 
-resource "aws_eks_cluster" "k8saws_cluster" {
+resource "aws_eks_cluster" "k8sawscluster" {
   name     = "k8saws"
   role_arn = aws_iam_role.k8sawsiamcluster.arn
   vpc_config {
     subnet_ids = [aws_subnet.k8saws_subnet.id, aws_subnet.k8saws_subnet_2.id]
   }
 
- depends_on = [aws_iam_role_policy_attachment.demo-AmazonEKSClusterPolicy, aws_vpc.k8saws_vpc]
+ depends_on = [aws_iam_role_policy_attachment.demo-AmazonEKSClusterPolicy, aws_vpc.k8sawsvpc]
 }
 
 resource "aws_iam_role" "k8sawsiamnode" {
@@ -116,7 +186,7 @@ resource "aws_iam_role_policy_attachment" "nodes-AmazonEC2ContainerRegistryReadO
 }
 
 resource "aws_eks_node_group" "k8sawsiamnodegroup" {
-  cluster_name    = aws_eks_cluster.k8saws_cluster.name
+  cluster_name    = aws_eks_cluster.k8sawscluster.name
   node_group_name = "k8sawsiamnodegroup"
   node_role_arn   = aws_iam_role.k8sawsiamnode.arn
 
@@ -142,29 +212,29 @@ resource "aws_eks_node_group" "k8sawsiamnodegroup" {
     aws_iam_role_policy_attachment.nodes-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.nodes-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.nodes-AmazonEC2ContainerRegistryReadOnly,
-    aws_vpc.k8saws_vpc,
+    aws_vpc.k8sawsvpc,
     aws_subnet.k8saws_subnet,
     aws_subnet.k8saws_subnet_2,
   ]
 }
 
 resource "aws_eks_addon" "vpc_cni" {
-  cluster_name = aws_eks_cluster.k8saws_cluster.name
+  cluster_name = aws_eks_cluster.k8sawscluster.name
   addon_name   = "vpc-cni"
 
-  addon_version = "latest"
+  addon_version = "v1.14.1-eksbuild.1"
 }
 
 resource "aws_eks_addon" "kube_proxy" {
-  cluster_name = aws_eks_cluster.k8saws_cluster.name
+  cluster_name = aws_eks_cluster.k8sawscluster.name
   addon_name   = "kube-proxy"
 
-  addon_version = "latest"
+  addon_version = "v1.28.1-eksbuild.1"
 }
 
 resource "aws_eks_addon" "coredns" {
-  cluster_name = aws_eks_cluster.k8saws_cluster.name
+  cluster_name = aws_eks_cluster.k8sawscluster.name
   addon_name   = "coredns"
 
-  addon_version = "latest"
+  addon_version = "v1.10.1-eksbuild.2"
 }
