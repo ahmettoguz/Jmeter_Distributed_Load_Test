@@ -24,8 +24,6 @@ provider "aws" {
 
 resource "aws_vpc" "k8saws_vpc" {
   cidr_block = "10.0.0.0/16"
-  attach_vpc_cni_policy = true
-  vpc_cni_enable_ipv4   = true
 }
 
 resource "aws_subnet" "k8saws_subnet" {
