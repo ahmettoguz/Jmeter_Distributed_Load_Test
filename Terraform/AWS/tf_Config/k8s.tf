@@ -34,6 +34,8 @@ resource "aws_subnet" "k8saws_subnet" {
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "eu-north-1a"
   map_public_ip_on_launch = true
+
+  depends_on = [aws_vpc.k8saws_vpc]
 }
 
 resource "aws_subnet" "k8saws_subnet_2" {
@@ -41,6 +43,8 @@ resource "aws_subnet" "k8saws_subnet_2" {
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "eu-north-1b"
   map_public_ip_on_launch = true
+
+  depends_on = [aws_vpc.k8saws_vpc]
 }
 
 resource "aws_security_group" "k8saws_security_group" {
@@ -78,7 +82,7 @@ resource "aws_eks_cluster" "k8saws_cluster" {
     subnet_ids = [aws_subnet.k8saws_subnet.id, aws_subnet.k8saws_subnet_2.id]
   }
 
- depends_on = [aws_iam_role_policy_attachment.demo-AmazonEKSClusterPolicy]
+ depends_on = [aws_iam_role_policy_attachment.demo-AmazonEKSClusterPolicy, aws_vpc.k8saws_vpc]
 }
 
 resource "aws_iam_role" "k8sawsiamnode" {
@@ -138,5 +142,8 @@ resource "aws_eks_node_group" "k8sawsiamnodegroup" {
     aws_iam_role_policy_attachment.nodes-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.nodes-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.nodes-AmazonEC2ContainerRegistryReadOnly,
+    aws_vpc.k8saws_vpc,
+    aws_subnet.k8saws_subnet,
+    aws_subnet.k8saws_subnet_2,
   ]
 }
