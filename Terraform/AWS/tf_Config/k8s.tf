@@ -30,12 +30,14 @@ resource "aws_subnet" "k8saws_subnet" {
   vpc_id                  = aws_vpc.k8saws_vpc.id
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "eu-north-1a"
+  map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "k8saws_subnet_2" {
   vpc_id                  = aws_vpc.k8saws_vpc.id
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "eu-north-1b"
+  map_public_ip_on_launch = true
 }
 
 resource "aws_security_group" "k8saws_security_group" {
