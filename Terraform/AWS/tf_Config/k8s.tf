@@ -147,3 +147,24 @@ resource "aws_eks_node_group" "k8sawsiamnodegroup" {
     aws_subnet.k8saws_subnet_2,
   ]
 }
+
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name = aws_eks_cluster.k8saws_cluster.name
+  addon_name   = "vpc-cni"
+
+  addon_version = "latest"
+}
+
+resource "aws_eks_addon" "kube_proxy" {
+  cluster_name = aws_eks_cluster.k8saws_cluster.name
+  addon_name   = "kube-proxy"
+
+  addon_version = "latest"
+}
+
+resource "aws_eks_addon" "coredns" {
+  cluster_name = aws_eks_cluster.k8saws_cluster.name
+  addon_name   = "coredns"
+
+  addon_version = "latest"
+}
