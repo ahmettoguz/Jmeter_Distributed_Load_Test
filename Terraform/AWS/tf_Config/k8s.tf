@@ -1,4 +1,5 @@
 
+############################################################################################################# Variables
 variable "access_key" {
   default = ""
 }
@@ -7,6 +8,7 @@ variable "secret_key" {
   default = ""
 }
 
+############################################################################################################# Provider
 terraform {
   required_providers {
     aws = {
@@ -22,6 +24,7 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
+############################################################################################################# Cluster IAM Role
 resource "aws_iam_role" "k8sawsiamcluster" {
   name = "k8sawsiamcluster"
 
@@ -46,6 +49,7 @@ resource "aws_iam_role_policy_attachment" "demo-AmazonEKSClusterPolicy" {
   role       = aws_iam_role.k8sawsiamcluster.name
 }
 
+############################################################################################################# Cluster
 resource "aws_eks_cluster" "k8sawscluster" {
   name     = "k8saws"
   role_arn = aws_iam_role.k8sawsiamcluster.arn
@@ -56,6 +60,7 @@ resource "aws_eks_cluster" "k8sawscluster" {
  depends_on = [aws_iam_role_policy_attachment.demo-AmazonEKSClusterPolicy]
 }
 
+############################################################################################################# NodeGroup IAM Role
 resource "aws_iam_role" "k8sawsiamnode" {
   name = "k8sawsiamnode"
 
@@ -70,15 +75,6 @@ resource "aws_iam_role" "k8sawsiamnode" {
     Version = "2012-10-17"
   })
 }
-
-
-
-
-
-
-
-
-
 
 resource "aws_iam_role_policy_attachment" "nodes-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
@@ -95,6 +91,7 @@ resource "aws_iam_role_policy_attachment" "nodes-AmazonEC2ContainerRegistryReadO
   role       = aws_iam_role.k8sawsiamnode.name
 }
 
+############################################################################################################# Node Group
 resource "aws_eks_node_group" "k8sawsiamnodegroup" {
   cluster_name    = aws_eks_cluster.k8sawscluster.name
   node_group_name = "k8sawsiamnodegroup"
@@ -122,6 +119,7 @@ resource "aws_eks_node_group" "k8sawsiamnodegroup" {
   ]
 }
 
+############################################################################################################# Add Ons
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = aws_eks_cluster.k8sawscluster.name
   addon_name   = "vpc-cni"
@@ -136,9 +134,3 @@ resource "aws_eks_addon" "kube_proxy" {
   addon_version = "v1.28.1-eksbuild.1"
 }
 
-resource "aws_eks_addon" "coredns" {
-  cluster_name = aws_eks_cluster.k8sawscluster.name
-  addon_name   = "coredns"
-
-  addon_version = "v1.10.1-eksbuild.2"
-}
