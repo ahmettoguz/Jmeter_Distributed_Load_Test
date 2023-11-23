@@ -17,6 +17,8 @@ duration=$4
 # Dispay counts
 echo "Node count: $node"
 echo "Pod count: $pod"
+echo "Thread count: $thread"
+echo "Duration: $duration"
 
 # Prepare terraform file
 echo '
