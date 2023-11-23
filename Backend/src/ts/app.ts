@@ -30,7 +30,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // -------------------------------------------------- Functions
-
 async function runAllSteps(
   req,
   cloudProvider,
