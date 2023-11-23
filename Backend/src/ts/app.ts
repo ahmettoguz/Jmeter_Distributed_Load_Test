@@ -176,14 +176,14 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
     return;
 
   // start sh operations
-  // runAllSteps(
-  //   req,
-  //   cloudProvider,
-  //   plannedNodeCount,
-  //   plannedPodCount,
-  //   threadCountPerPod,
-  //   duration
-  // );
+  runAllSteps(
+    req,
+    cloudProvider,
+    plannedNodeCount,
+    plannedPodCount,
+    threadCountPerPod,
+    duration
+  );
 
   return helperService.returnPositiveMessage(res, "Operations started.", [
     `Planned node count : ${plannedNodeCount}`,
