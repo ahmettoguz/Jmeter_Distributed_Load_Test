@@ -16,5 +16,8 @@ if [ -e "result.jtl" ]; then
     rm result.jtl
 fi
 
+export JVM_ARGS="-Xms1024m -Xmx1980m"
+HEAP="-Xms1024m -Xmx1980m" ./jmeter.sh
+
 # Run jmeter test
 jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R $ips -l ./result.jtl
