@@ -118,19 +118,3 @@ resource "aws_eks_node_group" "k8sawsiamnodegroup" {
     aws_iam_role_policy_attachment.nodes-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
-
-############################################################################################################# Add Ons
-resource "aws_eks_addon" "vpc_cni" {
-  cluster_name = aws_eks_cluster.k8sawscluster.name
-  addon_name   = "vpc-cni"
-
-  addon_version = "v1.14.1-eksbuild.1"
-}
-
-resource "aws_eks_addon" "kube_proxy" {
-  cluster_name = aws_eks_cluster.k8sawscluster.name
-  addon_name   = "kube-proxy"
-
-  addon_version = "v1.28.1-eksbuild.1"
-}
-
