@@ -14,9 +14,9 @@ kubectl cp test.sh -n test "$masterName:/jmeter/apache-jmeter-5.1/bin"
 kubectl cp ../jmx_Config/loadtest.jmx -n test "$masterName:/jmeter/apache-jmeter-5.1/bin"
 
 # Remove template ip txt
-if [ -e "../k8s_Config/slaveIps.txt" ]; then
-    rm ../k8s_Config/slaveIps.txt
-fi
+# if [ -e "../k8s_Config/slaveIps.txt" ]; then
+#     rm ../k8s_Config/slaveIps.txt
+# fi
 
 # Move test sh and run test
 if ! kubectl exec ${masterName} -n test -- /bin/bash -c 'cd /jmeter/apache-jmeter-5.1/bin && chmod +x test.sh && ./test.sh'; then
