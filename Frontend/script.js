@@ -26,8 +26,9 @@ function checkServer(e) {
       $("#res").addClass("success");
     },
     error: function (response) {
+
       console.log(response);
-      const out = JSON.stringify(response.responseJSON, null, 3);
+      const out = JSON.stringify(response, null, 3);
       $("#res").html("<pre>" + out + "</pre>");
 
       $("#res").removeClass("success");
