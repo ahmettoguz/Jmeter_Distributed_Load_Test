@@ -6,8 +6,6 @@ aws eks --region eu-north-1 update-kubeconfig --name k8saws
 
 aws eks --region eu-north-1 update-kubeconfig --name k8saws --no-verify-ssl
 
-
-
 ---------------------------------------------------------
 IAM ROLES FOR eks
 AmazonEC2FullAccess	   
@@ -31,3 +29,6 @@ inline policy
 ---------------------------------------------------------
 https://antonputra.com/terraform/how-to-create-eks-cluster-using-terraform/#create-iam-oidc-provider-eks-using-terraform
 https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest/submodules/eks-managed-node-group
+
+
+kubectl exec -it jmeter-master-f6b679d85-lhh9l -n test -- /bin/bash
