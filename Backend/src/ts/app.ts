@@ -31,10 +31,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // -------------------------------------------------- Functions
-function moveJmxFile(currentPath, targetPath) {
+function moveJmxFile(currentPath, targetPath, res) {
   fs.rename(currentPath, targetPath, function (err) {
-    if (err) throw err;
+    if (err) {
+      returnNegativeMessage(res, 502, "Cannot move file!");
+      return false;
+    }
   });
+  return true;
 }
 
 async function executeSh(shPath, shCommand, parameters) {
@@ -68,6 +72,85 @@ async function executeSh(shPath, shCommand, parameters) {
       }
     });
   });
+}
+
+async function returnPositiveMessage(res, message, data) {
+  const jsResult = {
+    status: 200,
+    state: true,
+    message: message,
+  };
+  if (data != null) jsResult["data"] = data;
+  res.status(200).json(jsResult);
+}
+
+async function returnNegativeMessage(res, statusCode, errorMessage) {
+  const jsResult = {
+    status: statusCode,
+    state: false,
+    errorMessage: errorMessage,
+  };
+  res.status(statusCode).json(jsResult);
+}
+
+async function calculateResources(
+  cloudProvider,
+  virtualUser,
+  threadCountPerPod
+) {
+  let podPerNode;
+
+  const plannedPodCount = Math.ceil(virtualUser / threadCountPerPod);
+
+  // Your logic to calculate the values
+  if (cloudProvider == "AWS") podPerNode = 1;
+  else podPerNode = 5;
+
+  const plannedNodeCount = Math.ceil(plannedPodCount / podPerNode);
+
+  // Return an object with properties
+  return { podPerNode, plannedPodCount, plannedNodeCount };
+}
+
+async function checkNodeCount(cloudProvider, plannedNodeCount, res) {
+  let message;
+  let status = true;
+
+  if (cloudProvider == "Azure" && plannedNodeCount > 2) {
+    message = `Azure could provider, do not offer more than 4 cpu in free tier. Current: ${
+      plannedNodeCount * 2
+    }`;
+    status = false;
+  } else if (cloudProvider == "DigitalOcean" && plannedNodeCount > 8) {
+    message = `Digital Ocean could provider, do not offer more than 8 node in 1 node group with free tier. Current: ${plannedNodeCount}`;
+    status = false;
+  }
+
+  if (status) return true;
+  else {
+    returnNegativeMessage(res, 502, message);
+    return false;
+  }
+}
+
+async function checkCloudProvider(cloudProvider, res) {
+  if (
+    cloudProvider != "DigitalOcean" &&
+    cloudProvider != "Azure" &&
+    cloudProvider != "AWS"
+  ) {
+    returnNegativeMessage(res, 400, "Cloud provider is invalid!");
+    return false;
+  }
+  return true;
+}
+
+async function checkFile(uploadedFile, res) {
+  if (uploadedFile == undefined) {
+    returnNegativeMessage(res, 400, "Jmx file is not provided!");
+    return false;
+  }
+  return true;
 }
 
 async function runAllSteps(
@@ -165,11 +248,7 @@ app.get("/", async (req, res) => {
     `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
   );
 
-  return res.status(200).json({
-    status: 200,
-    state: true,
-    message: "Service is up",
-  });
+  return returnPositiveMessage(res, "Service is up", null);
 });
 
 app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
@@ -184,121 +263,51 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   const duration = 300;
   const threadCountPerPod = 100;
 
-  const podPerNode = 5;
-  const plannedPodCount = Math.ceil(virtualUser / threadCountPerPod);
-  const plannedNodeCount = Math.ceil(plannedPodCount / podPerNode);
+  // get pod and node count according to could provider
+  const { podPerNode, plannedPodCount, plannedNodeCount } =
+    await calculateResources(cloudProvider, virtualUser, threadCountPerPod);
+
+  // check free tier node counts
+  if ((await checkNodeCount(cloudProvider, plannedNodeCount, res)) === false)
+    return;
 
   // check cloud provider
-  if (
-    cloudProvider != "DigitalOcean" &&
-    cloudProvider != "Azure" &&
-    cloudProvider != "AWS"
-  )
-    return res.status(400).json({
-      status: 400,
-      state: false,
-      message: "Cloud provider is invalid!",
-    });
+  if ((await checkCloudProvider(cloudProvider, res)) === false) return;
 
   // check file
-  if (uploadedFile == undefined) {
-    return res.status(400).json({
-      status: 400,
-      state: false,
-      message: "Jmx file is not provided!",
-    });
-  }
+  if ((await checkFile(uploadedFile, res)) === false) return;
 
   // place jmx file to related path
-  try {
-    moveJmxFile(
+  if (
+    (await moveJmxFile(
       "./upload/loadtest.jmx",
-      `../Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`
-    );
-  } catch (error) {
-    console.error("Cannot move file", error);
-    return res.status(502).json({
-      status: 502,
-      state: false,
-      message: "Cannot move file!",
-    });
-  }
+      `../Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`,
+      res
+    )) == false
+  )
+    return;
 
   // start sh operations
-  runAllSteps(
-    req,
-    cloudProvider,
-    plannedNodeCount,
-    plannedPodCount,
-    threadCountPerPod,
-    duration
-  );
+  // runAllSteps(
+  //   req,
+  //   cloudProvider,
+  //   plannedNodeCount,
+  //   plannedPodCount,
+  //   threadCountPerPod,
+  //   duration
+  // );
 
-  return res.status(200).json({
-    status: 200,
-    state: true,
-    message: "Operations started.",
-    data: [
-      `Planned node count : ${plannedNodeCount}`,
-      `Planned pod count : ${plannedPodCount}`,
-      `Thread count for each pod: ${threadCountPerPod}`,
-      `Cloud Provider : ${cloudProvider}`,
-    ],
-  });
+  return returnPositiveMessage(res, "Operations started.", [
+    `Planned node count : ${plannedNodeCount}`,
+    `Planned pod count : ${plannedPodCount}`,
+    `Thread count for each pod: ${threadCountPerPod}`,
+    `Cloud Provider : ${cloudProvider}`,
+  ]);
 });
 
-// ----------------------------------------------------------- Temp file operations
+// ----------------------------------------------------------- Temporary endpoint for frontend trials
 app.post("/temp", upload.single("jmxFile"), (req, res) => {
-  console.info(
-    `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
-  );
-
-  // check file
-  const uploadedFile = req.file;
-  if (uploadedFile == undefined) {
-    return res.status(400).json({
-      status: 400,
-      state: false,
-      message: "Jmx file is not provided!",
-    });
-  }
-
-  const cloudProvider = req.body.cloudProvider;
-  switch (cloudProvider) {
-    case "DigitalOcean":
-      break;
-
-    case "Azure":
-      // place jmx file to related path
-      try {
-        moveJmxFile(
-          "./upload/loadtest.jmx",
-          "../Terraform/Azure/jmx_Config/loadtest.jmx"
-        );
-      } catch (error) {
-        console.error("Cannot move file", error);
-        return res.status(502).json({
-          status: 502,
-          state: false,
-          message: "Cannot move file!",
-        });
-      }
-      break;
-
-    default:
-      return res.status(400).json({
-        status: 400,
-        state: false,
-        message: "Cloud provider is invalid!",
-      });
-      break;
-  }
-
-  return res.status(200).json({
-    status: 200,
-    state: true,
-    message: "Operations started with " + cloudProvider,
-  });
+  return returnPositiveMessage(res, "temp message", null);
 });
 
 app.listen(port, () => {

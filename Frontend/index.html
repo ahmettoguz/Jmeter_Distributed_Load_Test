@@ -16,10 +16,29 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
+    <style>
+      #res {
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: 5px;
+        background-color: white;
+        width: fit-content;
+        padding: 5px 20px;
+        margin-top: 20px;
+        font-size: 20px;
+      }
+
+      .error {
+        border-left: 5px solid red;
+      }
+
+      .success {
+        border-left: 5px solid greenyellow;
+      }
+    </style>
   </head>
   <body>
     <div class="container mt-5">
-      <h1 class="mb-4">File Upload</h1>
+      <h1 class="mb-4">Distributed Jmeter Test</h1>
       <form enctype="multipart/form-data" id="form">
         <div class="row">
           <div class="mb-3 col-6">
@@ -54,8 +73,25 @@
           <label for="file">Jmx File</label>
           <input type="file" class="form-control-file" id="file" multiple />
         </div>
+
+        <div class="row">
+          <div class="col-6">
+            <hr />
+          </div>
+        </div>
+
         <button class="btn btn-primary" type="submit">Upload</button>
+
+        <button
+          class="bg-black btn btn-outline-primary"
+          type="button"
+          id="checkServer"
+        >
+          Check Server
+        </button>
       </form>
+
+      <div id="res"></div>
     </div>
     <!-- Bootstrap JS and Popper.js -->
     <script
