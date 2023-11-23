@@ -73,7 +73,10 @@ class HelperService {
     if (cloudProvider == "AWS") podPerNode = 1;
     else podPerNode = 5;
 
-    const plannedNodeCount = Math.ceil(plannedPodCount / podPerNode);
+    let plannedNodeCount = Math.ceil(plannedPodCount / podPerNode);
+
+    // for master pod also
+    if (cloudProvider == "AWS") plannedNodeCount++;
 
     // Return an object with properties
     return { podPerNode, plannedPodCount, plannedNodeCount };

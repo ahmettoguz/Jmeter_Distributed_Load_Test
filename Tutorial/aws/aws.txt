@@ -1,3 +1,5 @@
+aws configure
+
 kubectl config current-context
 
 aws eks --region eu-north-1 update-kubeconfig --name k8saws
