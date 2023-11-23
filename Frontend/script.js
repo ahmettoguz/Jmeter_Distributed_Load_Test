@@ -5,11 +5,13 @@ const btnCheckServer = document.getElementById("checkServer");
 form.addEventListener("submit", submitForm);
 btnCheckServer.addEventListener("click", checkServer);
 
+// const url = "http://localhost";
+const url = "http://142.93.164.127";
+
 function checkServer(e) {
   e.preventDefault();
   $.ajax({
-    url: "http://localhost/",
-    // url: "http://142.93.164.127/",
+    url: url,
     type: "GET",
     contentType: false,
     processData: false,
@@ -36,7 +38,6 @@ function checkServer(e) {
 
 function submitForm(e) {
   e.preventDefault();
-  
 
   let file = $("#file")[0].files[0];
   let cloudProvider = $("#cloudProvider").val();
@@ -48,8 +49,7 @@ function submitForm(e) {
   ajaxData.append("jmxFile", file);
 
   $.ajax({
-    url: "http://localhost/runTest",
-    // url: "http://142.93.164.127/runTest",
+    url: `${url}/runTest`,
     type: "POST",
     contentType: false,
     processData: false,
