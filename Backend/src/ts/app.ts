@@ -1,5 +1,3 @@
-import { stat } from "fs";
-
 const express = require("express");
 const cp = require("child_process");
 const multer = require("multer");
@@ -7,6 +5,9 @@ const fs = require("fs");
 
 const app = express();
 const port = 80;
+
+// import HelperService from "./services/HelperService";
+// const helperService = new HelperService("Toyota", "Corolla");
 
 // -------------------------------------------------- Middleware
 app.use((req, res, next) => {
