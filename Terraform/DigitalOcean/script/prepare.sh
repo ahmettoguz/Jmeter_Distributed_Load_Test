@@ -81,8 +81,8 @@ spec:
     spec:
       containers:
       - name: jmmaster
-        image: crisssercedocker/jmeter-master
-        # image: mnazim1541/jmmaster:latest
+        # image: crisssercedocker/jmeter-master
+        image: mnazim1541/jmmaster:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 60000
@@ -112,8 +112,8 @@ spec:
     spec:
       containers:
       - name: jmslave
-        # image: mnazim1541/jmslave:latest
-        image: crisssercedocker/jmeter-slave
+        image: mnazim1541/jmslave:latest
+        # image: crisssercedocker/jmeter-slave
         imagePullPolicy: IfNotPresent
       imagePullSecrets:
       - name: registrypullsecret
