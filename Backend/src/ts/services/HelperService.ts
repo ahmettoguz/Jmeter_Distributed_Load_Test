@@ -79,7 +79,7 @@ class HelperService {
     if (cloudProvider == "AWS") plannedNodeCount++;
 
     // Return an object with properties
-    return { podPerNode, plannedPodCount, plannedNodeCount };
+    return { plannedPodCount, plannedNodeCount };
   }
 
   async checkNodeCount(cloudProvider, plannedNodeCount, res) {

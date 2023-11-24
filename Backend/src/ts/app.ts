@@ -138,25 +138,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   const uploadedFile = req.file;
 
   const duration = 240;
-  const threadCountPerPod = 100;
-
-  // get pod and node count according to could provider
-  const { podPerNode, plannedPodCount, plannedNodeCount } =
-    await helperService.calculateResources(
-      cloudProvider,
-      virtualUser,
-      threadCountPerPod
-    );
-
-  // check free tier node counts
-  if (
-    (await helperService.checkNodeCount(
-      cloudProvider,
-      plannedNodeCount,
-      res
-    )) === false
-  )
-    return;
+  const threadCountPerPod = 50;
 
   // check cloud provider
   if ((await helperService.checkCloudProvider(cloudProvider, res)) === false)
@@ -172,6 +154,24 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
       `../Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`,
       res
     )) == false
+  )
+    return;
+
+  // get pod and node count according to could provider
+  const { plannedPodCount, plannedNodeCount } =
+    await helperService.calculateResources(
+      cloudProvider,
+      virtualUser,
+      threadCountPerPod
+    );
+
+  // check free tier node counts
+  if (
+    (await helperService.checkNodeCount(
+      cloudProvider,
+      plannedNodeCount,
+      res
+    )) === false
   )
     return;
 
