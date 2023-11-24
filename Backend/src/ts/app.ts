@@ -137,7 +137,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   const virtualUser = req.body.virtualUser;
   const uploadedFile = req.file;
 
-  const duration = 300;
+  const duration = 240;
   const threadCountPerPod = 100;
 
   // get pod and node count according to could provider

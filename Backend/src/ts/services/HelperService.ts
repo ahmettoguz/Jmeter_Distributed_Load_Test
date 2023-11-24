@@ -71,7 +71,7 @@ class HelperService {
 
     // Your logic to calculate the values
     if (cloudProvider == "AWS") podPerNode = 1;
-    else podPerNode = 3;
+    else podPerNode = 2;
 
     let plannedNodeCount = Math.ceil(plannedPodCount / podPerNode);
 
