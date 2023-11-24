@@ -6,7 +6,7 @@ form.addEventListener("submit", submitForm);
 btnCheckServer.addEventListener("click", checkServer);
 
 // const url = "http://localhost";
-const url = "http://138.68.78.220"; 
+const url = "http://134.122.6.170"; 
 
 function checkServer(e) {
   e.preventDefault();
