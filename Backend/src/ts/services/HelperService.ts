@@ -91,8 +91,8 @@ class HelperService {
         plannedNodeCount * 2
       }`;
       status = false;
-    } else if (cloudProvider == "DigitalOcean" && plannedNodeCount > 8) {
-      message = `Digital Ocean could provider, do not offer more than 8 node in 1 node group with free tier. Current: ${plannedNodeCount}`;
+    } else if (cloudProvider == "DigitalOcean" && plannedNodeCount > 2) {
+      message = `Digital Ocean could provider, do not offer more than 3 nodes, 1 is already in use and desired: ${plannedNodeCount}`;
       status = false;
     }
 
