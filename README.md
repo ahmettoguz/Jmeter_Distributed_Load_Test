@@ -2,11 +2,10 @@
 
 ## Dependencies:
 
-* Kubectl
-* Terraform
-
-* az
 * doctl
-
+* kubectl
+* az
+* aws
+* terraform
 * NodeJs
 
