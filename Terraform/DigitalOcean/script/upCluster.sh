@@ -5,6 +5,7 @@
 # Get connection with k8 cluster and save config file.
 cluster_id=$(doctl kubernetes cluster list --format "ID" --no-header)
 sudo doctl kubernetes cluster kubeconfig save "$cluster_id"
+sudo snap connect doctl:kube-config
 
 # Up pods
 kubectl apply -f ../k8s_Config/k8s.yaml
