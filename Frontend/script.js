@@ -6,7 +6,7 @@ form.addEventListener("submit", submitForm);
 btnCheckServer.addEventListener("click", checkServer);
 
 // const url = "http://localhost";
-const url = "http://134.122.6.170"; 
+const url = "http://64.23.128.43"; 
 
 function checkServer(e) {
   e.preventDefault();
@@ -15,6 +15,8 @@ function checkServer(e) {
     type: "GET",
     contentType: false,
     processData: false,
+    
+  followRedirects: true,
     cache: false,
     dataType: "json",
     success: function (response) {
@@ -55,6 +57,8 @@ function submitForm(e) {
     contentType: false,
     processData: false,
     cache: false,
+    
+  followRedirects: true,
     dataType: "json",
     enctype: "multipart/form-data",
     data: ajaxData,
