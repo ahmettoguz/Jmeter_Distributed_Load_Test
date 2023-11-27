@@ -3,9 +3,15 @@ const multer = require("multer");
 const app = express();
 
 import HelperService from "./services/HelperService";
+import WebsocketHelper from "./services/WebsocketHelper";
 
 const port = 80;
 const helperService = new HelperService();
+
+const wsPort = 8080;
+const websocketHelper = new WebsocketHelper(wsPort);
+
+websocketHelper.broadcast("hi mert");
 
 // -------------------------------------------------- Middleware
 app.use((req, res, next) => {
