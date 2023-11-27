@@ -67,11 +67,10 @@ class HelperService {
   async calculateResources(cloudProvider, virtualUser, threadCountPerPod) {
     let podPerNode;
 
-    const plannedPodCount = Math.ceil(virtualUser / threadCountPerPod);
-
-    // Your logic to calculate the values
     if (cloudProvider == "AWS") podPerNode = 1;
     else podPerNode = 2;
+
+    const plannedPodCount = Math.ceil(virtualUser / threadCountPerPod);
 
     let plannedNodeCount = Math.ceil(plannedPodCount / podPerNode);
 
