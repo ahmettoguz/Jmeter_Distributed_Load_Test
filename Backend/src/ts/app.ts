@@ -39,7 +39,6 @@ const upload = multer({ storage: storage });
 
 // -------------------------------------------------- Functions
 async function runAllSteps(
-  req,
   cloudProvider,
   plannedNodeCount,
   plannedPodCount,
@@ -185,7 +184,6 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 
   // start sh operations
   runAllSteps(
-    req,
     cloudProvider,
     plannedNodeCount,
     plannedPodCount,
