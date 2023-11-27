@@ -11,7 +11,9 @@ const helperService = new HelperService();
 const wsPort = 8080;
 const websocketHelper = new WebsocketHelper(wsPort);
 
-websocketHelper.broadcast("hi mert");
+setInterval(() => {
+  websocketHelper.broadcast("websocket check");
+}, 1000);
 
 // -------------------------------------------------- Middleware
 app.use((req, res, next) => {

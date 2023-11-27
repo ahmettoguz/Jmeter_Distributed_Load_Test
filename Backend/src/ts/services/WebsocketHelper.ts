@@ -7,20 +7,20 @@ class WebsocketHelper {
     this.wsServer = new WebSocket.Server({ port });
 
     this.wsServer.on("connection", (ws: WebSocket) => {
-      console.log("Yeni bir bağlantı kuruldu");
+      console.log("Client connected to websocket");
+      ws.send(`Connected to websocket`);
 
       ws.on("message", (message: Data) => {
-        console.log(`Alınan mesaj: ${message}`);
-        ws.send(`Gelen mesaj: ${message}`);
+        console.log(`Received message: ${message}`);
       });
 
       ws.on("close", () => {
-        console.log("Bağlantı kapatıldı");
+        console.log("Client disconnected to websocket");
       });
     });
   }
 
-  // Tüm bağlı istemcilere mesaj gönderen metod
+  // Send message to every clients
   public broadcast(message: string) {
     this.wsServer.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
