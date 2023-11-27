@@ -143,27 +143,26 @@ resource "aws_eks_node_group" "k8sawsiamnodegroup" {
 }
 
 ############################################################################################################# Add Ons
-resource "aws_eks_addon" "vpc_cni" {
-  cluster_name = aws_eks_cluster.k8sawscluster.name
-  addon_name   = "vpc-cni"
-
-  addon_version = "v1.15.4-eksbuild.1"
-}
-
-resource "aws_eks_addon" "kube_proxy" {
-  cluster_name = aws_eks_cluster.k8sawscluster.name
-  addon_name   = "kube-proxy"
-
-  addon_version = "v1.28.2-eksbuild.2"
-}
-
-resource "aws_eks_addon" "coredns" {
-  cluster_name = aws_eks_cluster.k8sawscluster.name
-  addon_name   = "coredns"
-
-  addon_version = "v1.10.1-eksbuild.6"
-}
-
+# resource "aws_eks_addon" "vpc_cni" {
+#   cluster_name = aws_eks_cluster.k8sawscluster.name
+#   addon_name   = "vpc-cni"
+# 
+#   addon_version = "v1.15.4-eksbuild.1"
+# }
+# 
+# resource "aws_eks_addon" "kube_proxy" {
+#   cluster_name = aws_eks_cluster.k8sawscluster.name
+#   addon_name   = "kube-proxy"
+# 
+#   addon_version = "v1.28.2-eksbuild.2"
+# }
+# 
+# resource "aws_eks_addon" "coredns" {
+#   cluster_name = aws_eks_cluster.k8sawscluster.name
+#   addon_name   = "coredns"
+# 
+#   addon_version = "v1.10.1-eksbuild.6"
+# }
 ' > ../tf_Config/k8s.tf
 # -------------------------------------------------------------
 
