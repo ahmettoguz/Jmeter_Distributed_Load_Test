@@ -100,7 +100,7 @@ resource "aws_eks_node_group" "k8sawsiamnodegroup" {
   subnet_ids = ["subnet-0b862071f01cc12cc","subnet-04d4b4c425dc7e37c"]
 
   capacity_type  = "ON_DEMAND"
-  instance_types = ["t3.micro"]
+  instance_types = ["t3.small"]
 
   scaling_config {
     desired_size = 2
