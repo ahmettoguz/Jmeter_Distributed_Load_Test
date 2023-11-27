@@ -11,10 +11,6 @@ const helperService = new HelperService();
 const wsPort = 8080;
 const websocketHelper = new WebsocketHelper(wsPort);
 
-setInterval(() => {
-  websocketHelper.broadcast("websocket check");
-}, 1000);
-
 // -------------------------------------------------- Middleware
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -66,6 +62,7 @@ async function runAllSteps(
       console.info("Process is Failed!");
       throw new Error("prepare.sh failed");
     }
+    websocketHelper.broadcast(`Files prepared successfully.`);
 
     // execute upTerraform sh file
     parameters = ["upTerraform.sh"];
@@ -76,6 +73,7 @@ async function runAllSteps(
       console.info("Process is Failed!");
       throw new Error("upTerraform.sh failed");
     }
+    websocketHelper.broadcast(`Resources allocated.`);
 
     // execute upCluster sh file
     parameters = ["upCluster.sh"];
@@ -86,6 +84,7 @@ async function runAllSteps(
       console.info("Process is Failed!");
       throw new Error("upCluster.sh failed");
     }
+    websocketHelper.broadcast(`Cluster prepared.`);
 
     // execute sh runTest sh file
     parameters = ["runTest.sh"];
@@ -96,6 +95,7 @@ async function runAllSteps(
       console.info("Process is Failed!");
       throw new Error("runTest.sh failed");
     }
+    websocketHelper.broadcast(`Tests are runned.`);
 
     // execute result sh file
     parameters = ["result.sh"];
@@ -106,6 +106,7 @@ async function runAllSteps(
       console.info("Process is Failed!");
       throw new Error("result.sh failed");
     }
+    websocketHelper.broadcast(`Results : ${result.output}`);
 
     // execute down sh file
     parameters = ["downTerraform.sh"];
@@ -116,8 +117,12 @@ async function runAllSteps(
       console.info("Process is Failed!");
       throw new Error("downTerraform.sh failed");
     }
+    websocketHelper.broadcast(`Deallocating resources.`);
   } catch (error: any) {
     console.error("Error:", error.message);
+
+    // send websocket message for error
+    websocketHelper.broadcast(`Error: ${error.message}`);
 
     // // down terraform if there was an error
     // parameters = ["downTerraform.sh"];
