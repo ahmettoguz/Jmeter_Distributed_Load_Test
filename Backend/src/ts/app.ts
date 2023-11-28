@@ -48,6 +48,7 @@ async function runAllSteps(
   try {
     // execute prepare sh file params: node count, pod count
     // TODO hard coded node and pod count
+    websocketHelper.broadcast(`Files preparing...`);
     parameters = [
       "prepare.sh",
       plannedNodeCount,
@@ -55,7 +56,7 @@ async function runAllSteps(
       threadCountPerPod,
       duration,
     ];
-    result = await helperService.executeSh(shPath, "sh", parameters);
+    result = await helperService.executeSh(shPath, "bash", parameters);
     console.info("\nprepare.sh finished.");
 
     if (!result.success) {
@@ -65,8 +66,9 @@ async function runAllSteps(
     websocketHelper.broadcast(`Files prepared successfully.`);
 
     // execute upTerraform sh file
+    websocketHelper.broadcast(`Resources allocating...`);
     parameters = ["upTerraform.sh"];
-    result = await helperService.executeSh(shPath, "sh", parameters);
+    result = await helperService.executeSh(shPath, "bash", parameters);
     console.info("\nupTerraform.sh finished.");
 
     if (!result.success) {
@@ -76,8 +78,9 @@ async function runAllSteps(
     websocketHelper.broadcast(`Resources allocated.`);
 
     // execute upCluster sh file
+    websocketHelper.broadcast(`Cluster preparing...`);
     parameters = ["upCluster.sh"];
-    result = await helperService.executeSh(shPath, "sh", parameters);
+    result = await helperService.executeSh(shPath, "bash", parameters);
     console.info("\nupCluster.sh finished.");
 
     if (!result.success) {
@@ -87,8 +90,9 @@ async function runAllSteps(
     websocketHelper.broadcast(`Cluster prepared.`);
 
     // execute sh runTest sh file
+    websocketHelper.broadcast(`Tests running...`);
     parameters = ["runTest.sh"];
-    result = await helperService.executeSh(shPath, "sh", parameters);
+    result = await helperService.executeSh(shPath, "bash", parameters);
     console.info("\nrunTest.sh finished.");
 
     if (!result.success) {
@@ -98,8 +102,9 @@ async function runAllSteps(
     websocketHelper.broadcast(`Tests are runned.`);
 
     // execute result sh file
+    websocketHelper.broadcast(`Results preparing...`);
     parameters = ["result.sh"];
-    result = await helperService.executeSh(shPath, "sh", parameters);
+    result = await helperService.executeSh(shPath, "bash", parameters);
     console.info("\nresult.sh finished.");
 
     if (!result.success) {
@@ -109,15 +114,16 @@ async function runAllSteps(
     websocketHelper.broadcast(`Results : ${result.output}`);
 
     // execute down sh file
+    websocketHelper.broadcast(`Deallocating resources...`);
     parameters = ["downTerraform.sh"];
-    result = await helperService.executeSh(shPath, "sh", parameters);
+    result = await helperService.executeSh(shPath, "bash", parameters);
     console.info("\ndownTerraform.sh finished.");
 
     if (!result.success) {
       console.info("Process is Failed!");
       throw new Error("downTerraform.sh failed");
     }
-    websocketHelper.broadcast(`Deallocating resources.`);
+    websocketHelper.broadcast(`Resources deallocated.`);
   } catch (error: any) {
     console.error("Error:", error.message);
 
@@ -125,9 +131,11 @@ async function runAllSteps(
     websocketHelper.broadcast(`Error: ${error.message}`);
 
     // // down terraform if there was an error
+    // websocketHelper.broadcast(`Deallocating resources...`);
     // parameters = ["downTerraform.sh"];
-    // result = await helperService.executeSh(shPath, "sh", parameters);
+    // result = await helperService.executeSh(shPath, "bash", parameters);
     // console.info("\ndownTerraform.sh finished.");
+    // websocketHelper.broadcast(`Resources deallocated.`);
   }
 }
 

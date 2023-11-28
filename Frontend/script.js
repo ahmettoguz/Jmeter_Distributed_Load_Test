@@ -24,18 +24,18 @@ function checkServer(e) {
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#res").html("<pre>" + out + "</pre>");
+      $("#results").html("<pre>" + out + "</pre>");
 
-      $("#res").removeClass("error");
-      $("#res").addClass("success");
+      $("#results").removeClass("error");
+      $("#results").addClass("success");
     },
     error: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#res").html("<pre>" + out + "</pre>");
+      $("#results").html("<pre>" + out + "</pre>");
 
-      $("#res").removeClass("success");
-      $("#res").addClass("error");
+      $("#results").removeClass("success");
+      $("#results").addClass("error");
     },
   });
 }
@@ -66,18 +66,18 @@ function submitForm(e) {
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#res").html("<pre>" + out + "</pre>");
+      $("#results").html("<pre>" + out + "</pre>");
 
-      $("#res").removeClass("error");
-      $("#res").addClass("success");
+      $("#results").removeClass("error");
+      $("#results").addClass("success");
     },
     error: function (response) {
       console.log(response);
       const out = JSON.stringify(response.responseJSON, null, 3);
-      $("#res").html("<pre>" + out + "</pre>");
+      $("#results").html("<pre>" + out + "</pre>");
 
-      $("#res").addClass("error");
-      $("#res").removeClass("success");
+      $("#results").removeClass("success");
+      $("#results").addClass("error");
     },
   });
 }
