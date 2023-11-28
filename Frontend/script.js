@@ -24,18 +24,18 @@ function checkServer(e) {
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#httpResponse").html("<pre class='p-2'>" + out + "</pre>");
+      $("#httpResponse").html("<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>");
 
-      $("#httpResponse").removeClass("error");
-      $("#httpResponse").addClass("success");
+      $("#httpResponse").removeClass("border-danger");
+      $("#httpResponse").addClass("border-success");
     },
     error: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#httpResponse").html("<pre class='p-2'>" + out + "</pre>");
+      $("#httpResponse").html("<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>");
 
-      $("#httpResponse").removeClass("success");
-      $("#httpResponse").addClass("error");
+      $("#httpResponse").removeClass("border-success");
+      $("#httpResponse").addClass("border-danger");
     },
   });
 }
@@ -66,18 +66,18 @@ function submitForm(e) {
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#httpResponse").html("<pre class='p-2'>" + out + "</pre>");
+      $("#httpResponse").html("<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>");
 
-      $("#httpResponse").removeClass("error");
-      $("#httpResponse").addClass("success");
+      $("#httpResponse").removeClass("border-danger");
+      $("#httpResponse").addClass("border-success");
     },
     error: function (response) {
       console.log(response);
       const out = JSON.stringify(response.responseJSON, null, 3);
-      $("#httpResponse").html("<pre class='p-2'>" + out + "</pre>");
+      $("#httpResponse").html("<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>");
 
-      $("#httpResponse").removeClass("success");
-      $("#httpResponse").addClass("error");
+      $("#httpResponse").removeClass("border-success");
+      $("#httpResponse").addClass("border-danger");
     },
   });
 }
@@ -96,7 +96,7 @@ function connectWebsocket(e) {
       const incomingMessage = message.data;
 
       $("#websocketResponse").append(`
-            <li class="list-group-item">An item</li>
+            <li class="list-group-item fs-5">${incomingMessage}</li>
       `);
 
       console.log("Gelen websocket mesajı", incomingMessage);
