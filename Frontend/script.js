@@ -24,18 +24,18 @@ function checkServer(e) {
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#results").html("<pre>" + out + "</pre>");
+      $("#httpResponse").html("<pre class='p-2'>" + out + "</pre>");
 
-      $("#results").removeClass("error");
-      $("#results").addClass("success");
+      $("#httpResponse").removeClass("error");
+      $("#httpResponse").addClass("success");
     },
     error: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#results").html("<pre>" + out + "</pre>");
+      $("#httpResponse").html("<pre class='p-2'>" + out + "</pre>");
 
-      $("#results").removeClass("success");
-      $("#results").addClass("error");
+      $("#httpResponse").removeClass("success");
+      $("#httpResponse").addClass("error");
     },
   });
 }
@@ -66,18 +66,18 @@ function submitForm(e) {
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#results").html("<pre>" + out + "</pre>");
+      $("#httpResponse").html("<pre class='p-2'>" + out + "</pre>");
 
-      $("#results").removeClass("error");
-      $("#results").addClass("success");
+      $("#httpResponse").removeClass("error");
+      $("#httpResponse").addClass("success");
     },
     error: function (response) {
       console.log(response);
       const out = JSON.stringify(response.responseJSON, null, 3);
-      $("#results").html("<pre>" + out + "</pre>");
+      $("#httpResponse").html("<pre class='p-2'>" + out + "</pre>");
 
-      $("#results").removeClass("success");
-      $("#results").addClass("error");
+      $("#httpResponse").removeClass("success");
+      $("#httpResponse").addClass("error");
     },
   });
 }
@@ -94,6 +94,11 @@ function connectWebsocket(e) {
   try {
     webSocket.onmessage = (message) => {
       const incomingMessage = message.data;
+
+      $("#websocketResponse").append(`
+            <li class="list-group-item">An item</li>
+      `);
+
       console.log("Gelen websocket mesajı", incomingMessage);
     };
     webSocket.onclose = () => {
