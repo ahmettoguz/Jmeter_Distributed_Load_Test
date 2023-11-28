@@ -2,6 +2,8 @@
 
 ## Dependencies:
 
+* docker
+* minikube
 * doctl
 * kubectl
 * az

@@ -47,7 +47,6 @@ async function runAllSteps(
 
   try {
     // execute prepare sh file params: node count, pod count
-    // TODO hard coded node and pod count
     websocketHelper.broadcast(`Files preparing...`);
     parameters = [
       "prepare.sh",

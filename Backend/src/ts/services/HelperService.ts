@@ -73,6 +73,9 @@ class HelperService {
 
     let plannedNodeCount = Math.ceil(plannedPodCount / podPerNode);
 
+    // minikube node count
+    if (cloudProvider === "Local") plannedNodeCount = 1;
+
     // Return an object with properties
     return { plannedPodCount, plannedNodeCount };
   }

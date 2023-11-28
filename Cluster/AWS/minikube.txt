@@ -6,6 +6,7 @@ Minikube:
     $ minikube start 
     $ minikube start --driver=virtualbox
     $ minikube start --driver=docker
+    $ minikube start --driver=docker --force
     minikube start --force
 
     $ minikube status
