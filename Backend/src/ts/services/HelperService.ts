@@ -105,7 +105,8 @@ class HelperService {
     if (
       cloudProvider != "DigitalOcean" &&
       cloudProvider != "Azure" &&
-      cloudProvider != "AWS"
+      cloudProvider != "AWS" &&
+      cloudProvider != "Local" 
     ) {
       this.returnNegativeMessage(res, 400, "Cloud provider is invalid!");
       return false;
