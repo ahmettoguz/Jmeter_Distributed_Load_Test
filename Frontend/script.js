@@ -98,6 +98,9 @@ function connectWebsocket(e) {
 
   webSocket.onopen = () => {
     webSocket.send("Client connected and send message.");
+
+    $("#websocketResponse").addClass("border-info");
+    $("#websocketResponse").removeClass("border-danger");
   };
 
   try {
@@ -111,10 +114,22 @@ function connectWebsocket(e) {
       console.log("Gelen websocket mesajı", incomingMessage);
     };
     webSocket.onclose = () => {
+      $("#websocketResponse").append(
+        `<li class="list-group-item fs-5">Websocket connection is terminated by server.</li>`
+      );
+      $("#websocketResponse").removeClass("border-info");
+      $("#websocketResponse").addClass("border-danger");
+
       console.log("Websocket is closed.");
       webSocket.close();
     };
     webSocket.onerror = (error) => {
+      $("#websocketResponse").append(
+        `<li class="list-group-item fs-5">Websocket connection is terminated by server.</li>`
+      );
+      $("#websocketResponse").removeClass("border-info");
+      $("#websocketResponse").addClass("border-danger");
+
       console.log("Websocket is failed.", error);
       webSocket.close();
     };
