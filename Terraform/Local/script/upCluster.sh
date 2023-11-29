@@ -15,8 +15,8 @@ time_check=0
 
 while true; do
     if
-        kubectl --for=condition=Ready pod -l jmeter_mode=master -n test && \
-        kubectl --for=condition=Ready pod -l jmeter_mode=slave -n test
+         kubectl wait --for=condition=Ready pod -l jmeter_mode=master -n test --timeout=2m && \
+         kubectl wait --for=condition=Ready pod -l jmeter_mode=slave -n test --timeout=2m
     then
         break
     fi
