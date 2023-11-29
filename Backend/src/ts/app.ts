@@ -130,11 +130,11 @@ async function runAllSteps(
     websocketHelper.broadcast(`Error: ${error.message}`);
 
     // // down terraform if there was an error
-    websocketHelper.broadcast(`Deallocating resources...`);
-    parameters = ["downTerraform.sh"];
-    result = await helperService.executeSh(shPath, "bash", parameters);
-    console.info("\ndownTerraform.sh finished.");
-    websocketHelper.broadcast(`Resources deallocated.`);
+    // websocketHelper.broadcast(`Deallocating resources...`);
+    // parameters = ["downTerraform.sh"];
+    // result = await helperService.executeSh(shPath, "bash", parameters);
+    // console.info("\ndownTerraform.sh finished.");
+    // websocketHelper.broadcast(`Resources deallocated.`);
   }
 }
 

@@ -115,7 +115,7 @@ function connectWebsocket(e) {
     };
     webSocket.onclose = () => {
       $("#websocketResponse").append(
-        `<li class="list-group-item fs-5">Websocket connection is terminated by server.</li>`
+        `<li class="list-group-item fs-5">Websocket connection not found!</li>`
       );
       $("#websocketResponse").removeClass("border-info");
       $("#websocketResponse").addClass("border-danger");
@@ -124,13 +124,7 @@ function connectWebsocket(e) {
       webSocket.close();
     };
     webSocket.onerror = (error) => {
-      $("#websocketResponse").append(
-        `<li class="list-group-item fs-5">Websocket connection is terminated by server.</li>`
-      );
-      $("#websocketResponse").removeClass("border-info");
-      $("#websocketResponse").addClass("border-danger");
-
-      console.log("Websocket is failed.", error);
+      console.log("Websocket is errored.", error);
       webSocket.close();
     };
   } catch (err) {
