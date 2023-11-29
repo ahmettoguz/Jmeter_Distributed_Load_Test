@@ -15,6 +15,7 @@ class WebsocketHelper {
       });
 
       ws.on("close", () => {
+        ws.send(`Server terminated websocket connection.`);
         console.log("Client disconnected to websocket");
       });
     });
