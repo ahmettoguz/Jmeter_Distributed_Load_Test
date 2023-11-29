@@ -7,8 +7,9 @@ form.addEventListener("submit", submitForm);
 btnCheckServer.addEventListener("click", checkServer);
 connectWebsocketbtn.addEventListener("click", connectWebsocket);
 
-// const url = "http://localhost";
-const url = "http://64.23.128.43";
+const domain = "localhost";
+// const domain = "64.23.128.43";
+const url = `http://${domain}`;
 
 function checkServer(e) {
   e.preventDefault();
@@ -24,7 +25,9 @@ function checkServer(e) {
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#httpResponse").html("<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>");
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+      );
 
       $("#httpResponse").removeClass("border-danger");
       $("#httpResponse").addClass("border-success");
@@ -32,7 +35,9 @@ function checkServer(e) {
     error: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#httpResponse").html("<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>");
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+      );
 
       $("#httpResponse").removeClass("border-success");
       $("#httpResponse").addClass("border-danger");
@@ -66,7 +71,9 @@ function submitForm(e) {
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
-      $("#httpResponse").html("<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>");
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+      );
 
       $("#httpResponse").removeClass("border-danger");
       $("#httpResponse").addClass("border-success");
@@ -74,7 +81,9 @@ function submitForm(e) {
     error: function (response) {
       console.log(response);
       const out = JSON.stringify(response.responseJSON, null, 3);
-      $("#httpResponse").html("<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>");
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+      );
 
       $("#httpResponse").removeClass("border-success");
       $("#httpResponse").addClass("border-danger");
@@ -85,7 +94,7 @@ function submitForm(e) {
 function connectWebsocket(e) {
   e.preventDefault();
 
-  const webSocket = new WebSocket(`ws://64.23.128.43:8080`);
+  const webSocket = new WebSocket(`ws://${domain}:8080`);
 
   webSocket.onopen = () => {
     webSocket.send("Client connected and send message.");
