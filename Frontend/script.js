@@ -98,18 +98,24 @@ function connectWebsocket(e) {
 
   webSocket.onopen = () => {
     webSocket.send("Client connected and send message.");
-
-    $("#websocketResponse").addClass("border-info");
-    $("#websocketResponse").removeClass("border-danger");
   };
 
   try {
     webSocket.onmessage = (message) => {
       const incomingMessage = message.data;
+      if ($("#websocketResponse").hasClass("border-danger")) {
+        $("#websocketResponse").addClass("border-info");
+        $("#websocketResponse").removeClass("border-danger");
+      }
 
       $("#websocketResponse").append(`
             <li class="list-group-item fs-5">${incomingMessage}</li>
       `);
+
+      if (incomingMessage.toLowerCase().includes("error")) {
+        $("#websocketResponse").removeClass("border-info");
+        $("#websocketResponse").addClass("border-danger");
+      }
 
       console.log("Gelen websocket mesajı", incomingMessage);
     };
