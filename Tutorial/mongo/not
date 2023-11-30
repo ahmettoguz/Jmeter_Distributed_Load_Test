@@ -1,0 +1,13 @@
+mongodb compass
+
+docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db mongo
+
+docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
+  -e MONGO_INITDB_DATABASE=mydatabase \
+  mongo
+
+docker stop mongo-c
+
+docker rmi mongo
