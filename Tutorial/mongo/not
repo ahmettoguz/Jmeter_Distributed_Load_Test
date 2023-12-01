@@ -18,6 +18,10 @@ mongodump --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-S
 # IMPORT
 mongorestore --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter /data/db/backup/jmeter
 
+## Read
+  console.log(await models.User.find());
+  console.log(await models.User.find().populate("tier"));
+
 docker exec -it mongo-c /bin/bash
 
 docker stop mongo-c
