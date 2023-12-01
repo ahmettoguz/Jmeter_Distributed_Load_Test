@@ -2,6 +2,10 @@ const express = require("express");
 const multer = require("multer");
 const app = express();
 
+import models from "./db/index";
+import connnectDb from "./db/connectDb";
+connnectDb();
+
 import HelperService from "./services/HelperService";
 import WebsocketHelper from "./services/WebsocketHelper";
 
@@ -212,7 +216,9 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 });
 
 // ----------------------------------------------------------- Temporary endpoint for frontend trials
-app.post("/temp", upload.single("jmxFile"), (req, res) => {
+app.get("/temp", async (req, res) => {
+  console.log(await models.User);
+
   return helperService.returnPositiveMessage(res, "temp message", null);
 });
 

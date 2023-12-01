@@ -18,7 +18,6 @@ function checkServer(e) {
     type: "GET",
     contentType: false,
     processData: false,
-
     followRedirects: true,
     cache: false,
     dataType: "json",
@@ -58,7 +57,7 @@ function submitForm(e) {
   ajaxData.append("jmxFile", file);
 
   $.ajax({
-    url: `${url}/runTest`,
+    url: `${url}/temp`,
     type: "POST",
     contentType: false,
     processData: false,

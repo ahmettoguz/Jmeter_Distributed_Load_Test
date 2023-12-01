@@ -1,12 +1,23 @@
 mongodb compass
 
-docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db mongo
-
 docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db \
   -e MONGO_INITDB_ROOT_USERNAME=admin \
   -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
   -e MONGO_INITDB_DATABASE=mydatabase \
   mongo
+
+docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123   -e MONGO_INITDB_DATABASE=mydatabase  mongo
+
+Windows:
+  docker run -d --rm -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123   -e MONGO_INITDB_DATABASE=mydatabase  mongo
+
+# EXPORT
+mongodump --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter --out=/data/db/backup
+
+# IMPORT
+mongorestore --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter /data/db/backup/
+
+docker exec -it mongo-c /bin/bash
 
 docker stop mongo-c
 

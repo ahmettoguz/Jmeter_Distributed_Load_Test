@@ -10,4 +10,3 @@
 * aws
 * terraform
 * NodeJs
-
