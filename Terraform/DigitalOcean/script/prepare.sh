@@ -87,9 +87,10 @@ spec:
         ports:
         - containerPort: 60000
         command: ["/bin/sh", "-c"]
+        env:
+        - name: JVM_ARGS
+          value: "-Xms512m -Xmx1g" # Set up heap size
         args: ["sleep infinity"]
-      imagePullSecrets:
-      - name: registrypullsecret
         
 ---
 
@@ -114,9 +115,10 @@ spec:
       - name: jmslave
         # image: mnazim1541/jmslave:latest
         image: crisssercedocker/jmeter-slave
-        imagePullPolicy: IfNotPresent
-      imagePullSecrets:
-      - name: registrypullsecret
+        imagePullPolicy: IfNotPresent  
+        env:
+        - name: JVM_ARGS
+          value: "-Xms512m -Xmx1g" # Set up heap size
 ' > ../k8s_Config/k8s.yaml
 # -------------------------------------------------------------
 
