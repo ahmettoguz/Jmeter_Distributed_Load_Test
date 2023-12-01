@@ -1,29 +1,32 @@
-mongodb compass
+# -------------------------------------------- Visualizer
+  mongodb compass
 
+# -------------------------------------------- Run Contianer
+  docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db \
+    -e MONGO_INITDB_ROOT_USERNAME=admin \
+    -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
+    -e MONGO_INITDB_DATABASE=mydatabase \
+    mongo
 
-docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db \
-  -e MONGO_INITDB_ROOT_USERNAME=admin \
-  -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
-  -e MONGO_INITDB_DATABASE=mydatabase \
-  mongo
+  docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123   -e MONGO_INITDB_DATABASE=mydatabase  mongo
 
-docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123   -e MONGO_INITDB_DATABASE=mydatabase  mongo
+  Windows:
+    docker run -d --rm -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123   -e MONGO_INITDB_DATABASE=mydatabase  mongo
 
-Windows:
-  docker run -d --rm -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123   -e MONGO_INITDB_DATABASE=mydatabase  mongo
+# -------------------------------------------- Remove Container
+  docker exec -it mongo-c /bin/bash
 
-# EXPORT
-mongodump --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter --out=/data/db/backup
+  docker stop mongo-c
 
-# IMPORT
-mongorestore --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter /data/db/backup/jmeter
+  docker rmi mongo
+# -------------------------------------------- Export and Import Database
+  # EXPORT
+  mongodump --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter --out=/data/db/backup
 
-## Read
+  # IMPORT
+  mongorestore --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter /data/db/backup/jmeter
+
+# -------------------------------------------- CRUD
+  # Read
   console.log(await models.User.find());
   console.log(await models.User.find().populate("tier"));
-
-docker exec -it mongo-c /bin/bash
-
-docker stop mongo-c
-
-docker rmi mongo
