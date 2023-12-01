@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, Types } = mongoose;
 
+mongoose.pluralize(null);
 const userSchema = new Schema(
   {
     name: String,

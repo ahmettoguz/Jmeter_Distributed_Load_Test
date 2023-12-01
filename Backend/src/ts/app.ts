@@ -217,7 +217,9 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 
 // ----------------------------------------------------------- Temporary endpoint for frontend trials
 app.get("/temp", async (req, res) => {
-  console.log(await models.User);
+  console.log(await models.Tier.find());
+  console.log(await models.User.find());
+  console.log(await models.Test.find());
 
   return helperService.returnPositiveMessage(res, "temp message", null);
 });
