@@ -57,7 +57,7 @@ function submitForm(e) {
   ajaxData.append("jmxFile", file);
 
   $.ajax({
-    url: `${url}/temp`,
+    url: `${url}/runTest`,
     type: "POST",
     contentType: false,
     processData: false,

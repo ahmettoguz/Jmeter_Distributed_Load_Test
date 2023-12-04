@@ -27,7 +27,7 @@ mkdir -p ../results/test_${timestamp}
 resultDir="../results/test_${timestamp}"
 
 # Copy results
-kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result $resultDir/result
+kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result/* $resultDir/
 
 # Write summary file
 echo "Results saved to: $resultDir"
