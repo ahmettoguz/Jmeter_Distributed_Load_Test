@@ -16,8 +16,11 @@ if [ -d "./result" ]; then
   rm -rf "./result"
 fi
 
-# Create result folders
-mkdir -p ./result/report
-
 # Run jmeter test
-jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R $ips -l ./result/results.jtl -j ./result/jmeter.log -e -o ./result/report
+jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R $ips -l ./result.jtl
+
+# # Create result folders
+# mkdir -p ./result/report
+
+# # Run jmeter test
+# jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R $ips -l ./result/results.jtl -j ./result/jmeter.log -e -o ./result/report
