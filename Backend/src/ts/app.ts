@@ -217,7 +217,39 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 
 // ----------------------------------------------------------- Temporary endpoint for frontend trials
 app.get("/temp", async (req, res) => {
-  
+  const staticUserId = "65673a23553521aca50a004b";
+  const staticTestName = "Static Test Name";
+
+  // READ
+  // try {
+  //   const user = await models.User.findOne({ _id: staticUserId });
+  // } catch (error) {
+  //   console.error("Error finding user:", error);
+  // }
+
+  // INSERT
+  try {
+    const newTest = await models.Test.create({
+      name: staticTestName,
+      user: staticUserId,
+      isFinished: false,
+    });
+    console.log("New test created:", newTest);
+    const insertedId = newTest._id.toString();
+    console.log(insertedId);
+  } catch (error) {
+    console.error("Error creating test:", error);
+  }
+
+  // READ
+  try {
+    const test = await models.Test.find({
+      _id: "656d633488510354e2491bed",
+    }).populate("user");
+    console.log(test);
+  } catch (error) {
+    console.error("Error finding test:", error);
+  }
 
   return helperService.returnPositiveMessage(res, "temp message", null);
 });

@@ -28,5 +28,39 @@
 
 # -------------------------------------------- CRUD
   # Read
-  console.log(await models.User.find());
-  console.log(await models.User.find().populate("tier"));
+    console.log(await models.User.find());
+    console.log(await models.User.find().populate("tier"));
+
+    # ----
+    try {
+      const user = await models.User.findOne({ _id: staticUserId });
+    } catch (error) {
+      console.error("Error finding user:", error);
+    }
+
+    # ----
+    try {
+    const test = await models.Test.find({
+      _id: "656d633488510354e2491bed",
+    }).populate("user");
+      console.log(test);
+    } catch (error) {
+      console.error("Error finding test:", error);
+    }
+
+    return helperService.returnPositiveMessage(res, "temp message", null);
+    });
+
+  # INSERT
+    try {
+      const newTest = await models.Test.create({
+        name: staticTestName,
+        user: staticUserId,
+        isFinished: false,
+      });
+      console.log("New test created:", newTest);
+      const insertedId = newTest._id.toString();
+      console.log(insertedId);
+    } catch (error) {
+      console.error("Error creating test:", error);
+    }
