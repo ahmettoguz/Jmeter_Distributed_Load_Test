@@ -12,8 +12,8 @@ IFS=" " read -ra slave_ips <<< "$ips"
 ips=$(IFS=,; echo "${slave_ips[*]}")
 
 # Remove previous results
-if [ -d "./result" ]; then
-  rm -rf "./result"
+if [ -e "result.jtl" ]; then
+    rm result.jtl
 fi
 
 # Run jmeter test
