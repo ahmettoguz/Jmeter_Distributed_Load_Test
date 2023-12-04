@@ -1,0 +1,56 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "settings": {
+      "import/resolver": {
+        "typescript": {}
+      }
+    },
+    "extends": [
+      "airbnb-base",
+      "airbnb-typescript/base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "./tsconfig.json",
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "globals": {
+      "$": true,
+      "$$": true,
+      "it": true,
+      "describe": true
+    },
+    "rules": {
+      "indent": [2, 4, {"SwitchCase": 1}],
+      "curly": [2, "multi", "consistent"],
+      "nonblock-statement-body-position": ["error", "below"],
+      "@typescript-eslint/indent": [2, 4, {"SwitchCase": 1}],
+      "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+      "max-len": ["error", { "code": 200 }],
+      "semi": ["error", "always"],
+      "class-methods-use-this": "off",
+      "no-plusplus": "off",
+      "no-await-in-loop": "off",
+      "no-console": ["error", { "allow": ["info", "warn", "error"] }],
+      "@typescript-eslint/dot-notation": 0,
+      "no-underscore-dangle": "off",
+      "prefer-destructuring": "off",
+      "import/prefer-default-export": "off",
+      "import/no-extraneous-dependencies": "off",
+      "linebreak-style": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "import/first": "off",
+      "func-names": "off",
+      "import/no-import-module-exports": "off",
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow":  "off",
+      "no-else-return": ["error", { "allowElseIf": true }]
+    }
+  }

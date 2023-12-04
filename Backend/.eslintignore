@@ -1,0 +1,6 @@
+/node_modules
+/.idea
+/mochawesome-report
+/allure-report
+/allure-results
+/dist
