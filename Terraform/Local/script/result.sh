@@ -15,17 +15,17 @@ mkdir -p ../results/test_${timestamp}
 resultDir="../results/test_${timestamp}"
 
 # Copy results
-kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result $resultDir/result
-# kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result/* $resultDir/
+kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result.jtl $resultDir/result.jtl
+kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/jmeter.log $resultDir/jmeter.log
 
 # Write summary file
 echo "Results saved to: $resultDir"
 
 # Write jmeter.log summary
-grep 'summary =' $resultDir/result/jmeter.log > $resultDir/result/summary.txt
+grep 'summary =' $resultDir/jmeter.log > $resultDir/summary.txt
 
 # Display summary results
-echo "$(cat $resultDir/result/summary.txt)"
+echo "$(cat $resultDir/summary.txt)"
 
 echo "Results saved."
 echo "Success"

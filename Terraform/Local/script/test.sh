@@ -12,12 +12,9 @@ IFS=" " read -ra slave_ips <<< "$ips"
 ips=$(IFS=,; echo "${slave_ips[*]}")
 
 # Remove previous results
-if [ -d "./result" ]; then
-  rm -rf "./result"
+if [ -e "result.jtl" ]; then
+    rm result.jtl
 fi
 
-# Create result folders
-mkdir -p ./result/report
-
 # Run jmeter test
-jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R $ips -l ./result/results.jtl -j ./result/jmeter.log
+jmeter -Jserver.rmi.ssl.disable=true -n -t loadtest.jmx -R $ips -l ./result.jtl
