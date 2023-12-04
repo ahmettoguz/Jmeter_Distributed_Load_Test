@@ -2,7 +2,7 @@
   "name": "distributed_jmeter_load_test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "lint": "eslint . --ext .js,ts --no-error-on-unmatched-pattern && echo \"eslint: no lint errors\"",
     "lint:fix": "eslint . --ext .js,ts --fix --no-error-on-unmatched-pattern && echo \"eslint: no lint errors\"",
