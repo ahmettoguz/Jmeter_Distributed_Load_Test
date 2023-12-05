@@ -220,6 +220,14 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   ]);
 });
 
+// Show results
+app.get('/result/:user/:date/report', (req, res) => {
+  const user = req.params.user;
+  const date = req.params.date;
+  const filePath = path.resolve(__dirname, `../../userFile/result/${user}_${date}/report/index.html`);
+  
+  res.sendFile(filePath);
+});
 // ----------------------------------------------------------- Temporary endpoint for frontend trials
 app.get("/temp", async (req, res) => {
   const staticUserId = "65673a23553521aca50a004b";
