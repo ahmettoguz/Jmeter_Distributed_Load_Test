@@ -144,13 +144,13 @@ async function runAllSteps(
 }
 
 function setHeaderForExtension(res, fileId) {
-  if (path.extname(fileId) === "css") {
+  if (path.extname(fileId) === ".css") {
     return res.setHeader("Content-Type", "text/css");
-  } else if (path.extname(fileId) === "js") {
+  } else if (path.extname(fileId) === ".js") {
     return res.setHeader("Content-Type", "application/javascript");
-  } else if (path.extname(fileId) === "html") {
+  } else if (path.extname(fileId) === ".html") {
     return res.setHeader("Content-Type", "text/html");
-  } else if (path.extname(fileId) === "png") {
+  } else if (path.extname(fileId) === ".png") {
     return res.setHeader("Content-Type", "image/png");
   }
 }
