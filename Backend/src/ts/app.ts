@@ -1,6 +1,8 @@
 const express = require("express");
 const multer = require("multer");
+const path = require('path');
 const app = express();
+
 
 import models from "./db/index";
 import connnectDb from "./db/connectDb";
@@ -38,7 +40,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // open result folder
-app.use('/result', express.static('../../userFile/result'));
+app.use('/result', express.static(path.resolve(__dirname, '../../userFile/result')));
 
 // -------------------------------------------------- Functions
 async function runAllSteps(
