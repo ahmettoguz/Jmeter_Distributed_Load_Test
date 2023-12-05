@@ -40,7 +40,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // open result folder
-app.use('/result', express.static(path.join(__dirname, '../../userFile/result')));
+app.use(express.static(path.join(__dirname, '../../userFile/result')));
 
 // -------------------------------------------------- Functions
 async function runAllSteps(
@@ -221,7 +221,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 });
 
 // Show results
-app.get('/result/:user/:date/report', (req, res) => {
+app.get('/result/:user/:date', (req, res) => {
   const user = req.params.user;
   const date = req.params.date;
   const filePath = path.join(__dirname, `../../userFile/result/${user}_${date}/report/index.html`);
