@@ -21,10 +21,10 @@ timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items[0].metadata.name}')
 
 # Create result folder
-mkdir -p ../results/test_${timestamp}
+mkdir -p ../../../userFile/result/test_${timestamp}
 
 # variable for target directory
-resultDir="../results/test_${timestamp}"
+resultDir="../../../userFile/result/test_${timestamp}"
 
 # Copy results
 kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result $resultDir
