@@ -221,7 +221,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 });
 
 // Show results
-app.get('/result/:user/:date', (req, res) => {
+app.get('/result/:id', (req, res) => {
   const user = req.params.user;
   const date = req.params.date;
   const filePath = path.join(__dirname, `../../userFile/result/${user}_${date}/report/index.html`);
