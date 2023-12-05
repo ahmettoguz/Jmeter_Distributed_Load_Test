@@ -37,6 +37,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// open result folder
+app.use('/result', express.static('/userFile/result'));
+
 // -------------------------------------------------- Functions
 async function runAllSteps(
   cloudProvider,
