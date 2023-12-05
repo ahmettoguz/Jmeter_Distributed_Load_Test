@@ -39,9 +39,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// open result folder
-app.use("/", express.static(path.resolve(__dirname, '../../')));
-
 // -------------------------------------------------- Functions
 async function runAllSteps(
   cloudProvider,
@@ -229,6 +226,10 @@ app.get('/userFile/result/:id/report', (req, res) => {
   res.setHeader('Content-Type', 'text/html');
   res.sendFile(filePath);
 });
+
+
+// open result folder
+app.use("/", express.static(path.resolve(__dirname, '../../')));
 // ----------------------------------------------------------- Temporary endpoint for frontend trials
 app.get("/temp", async (req, res) => {
   const staticUserId = "65673a23553521aca50a004b";
