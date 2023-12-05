@@ -218,9 +218,9 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
 });
 
 // Show results
-app.get('/userFile/result/:id/report', (req, res) => {
+app.get('/userfile/result/:id/report', (req, res) => {
   const id = req.params.id;
-  const filePath = path.join(__dirname, `../../userFile/result/${id}/report/index.html`);
+  const filePath = path.join(__dirname, `../../userfile/result/${id}/report/index.html`);
   
   
   res.setHeader('Content-Type', 'text/html');
