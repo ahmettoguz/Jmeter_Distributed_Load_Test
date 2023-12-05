@@ -7,4 +7,5 @@ connectDB();
 
 const app = runApp();
 
-app.listen(process.env.PORT || 5000, () => console.info(`App is running on : http://localhost:${process.env.PORT || 5000}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.info(`App is running on : http://localhost:${PORT}`));

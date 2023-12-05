@@ -27,4 +27,6 @@ class WebsocketHelper {
     }
 }
 
-export default WebsocketHelper;
+const websocketHelper = new WebsocketHelper(Number(process.env.WS_PORT));
+
+export { websocketHelper };

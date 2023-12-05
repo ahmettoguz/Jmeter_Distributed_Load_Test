@@ -1,9 +1,6 @@
-import Websocket from '@services/WebsocketService';
-
 import cp from 'child_process';
 import fs from 'fs';
-
-const WebsocketService = new Websocket(Number(process.env.WS_PORT));
+import { websocketHelper } from './WebsocketHelper';
 
 class HelperService {
     private async executeSh(shPath, shCommand: string, parameters: any[]): Promise<any> {
@@ -119,20 +116,20 @@ class HelperService {
     private async error(shPath, error: any) {
         console.error('Error:', error.message);
         // send websocket message for error
-        WebsocketService.broadcast(`Error: ${error.message}`);
+        websocketHelper.broadcast(`Error: ${error.message}`);
         // down terraform if there was an error
         this.downTerraformSH(shPath);
     }
 
     async prepareSH(shPath, parameters: any) {
         try {
-            WebsocketService.broadcast('Files preparing...');
+            websocketHelper.broadcast('Files preparing...');
             const result = await this.executeSh(shPath, 'bash', parameters);
             if (!result.success)
                 throw new Error('prepare.sh failed');
 
             console.info('\nprepare.sh finished.');
-            WebsocketService.broadcast('Files prepared successfully.');
+            websocketHelper.broadcast('Files prepared successfully.');
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -140,13 +137,13 @@ class HelperService {
 
     async upTerraformSH(shPath) {
         try {
-            WebsocketService.broadcast('Resources allocating...');
+            websocketHelper.broadcast('Resources allocating...');
             const result = await this.executeSh(shPath, 'bash', ['upTerraform.sh']);
             if (!result.success)
                 throw new Error('upTerraform.sh failed');
 
             console.info('\nupTerraform.sh finished.');
-            WebsocketService.broadcast('Resources allocated.');
+            websocketHelper.broadcast('Resources allocated.');
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -154,13 +151,13 @@ class HelperService {
 
     async upClusterSH(shPath) {
         try {
-            WebsocketService.broadcast('Cluster preparing...');
+            websocketHelper.broadcast('Cluster preparing...');
             const result = await this.executeSh(shPath, 'bash', ['upCluster.sh']);
             if (!result.success)
                 throw new Error('upCluster.sh failed');
 
             console.info('\nupCluster.sh finished.');
-            WebsocketService.broadcast('Cluster prepared.');
+            websocketHelper.broadcast('Cluster prepared.');
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -168,13 +165,13 @@ class HelperService {
 
     async runTestSH(shPath) {
         try {
-            WebsocketService.broadcast('Tests running...');
+            websocketHelper.broadcast('Tests running...');
             const result = await this.executeSh(shPath, 'bash', ['runTest.sh']);
             if (!result.success)
                 throw new Error('runTest.sh failed');
 
             console.info('\nrunTest.sh finished.');
-            WebsocketService.broadcast('Tests are runned.');
+            websocketHelper.broadcast('Tests are runned.');
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -182,13 +179,13 @@ class HelperService {
 
     async resultSH(shPath) {
         try {
-            WebsocketService.broadcast('Results preparing...');
+            websocketHelper.broadcast('Results preparing...');
             const result = await this.executeSh(shPath, 'bash', ['result.sh']);
             if (!result.success)
                 throw new Error('result.sh failed');
 
             console.info('\nresult.sh finished.');
-            WebsocketService.broadcast(`Results : ${result.output}`);
+            websocketHelper.broadcast(`Results : ${result.output}`);
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -196,13 +193,13 @@ class HelperService {
 
     async downTerraformSH(shPath) {
         try {
-            WebsocketService.broadcast('Deallocating resources...');
+            websocketHelper.broadcast('Deallocating resources...');
             const result = await this.executeSh(shPath, 'bash', ['downTerraform.sh']);
             if (!result.success)
                 throw new Error('downTerraform.sh failed');
 
             console.info('\ndownTerraform.sh finished.');
-            WebsocketService.broadcast('Resources deallocated.');
+            websocketHelper.broadcast('Resources deallocated.');
         } catch (error) {
             await this.error(shPath, error);
         }

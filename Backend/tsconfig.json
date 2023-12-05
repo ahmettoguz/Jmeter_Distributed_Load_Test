@@ -12,7 +12,8 @@
     "strictNullChecks": false,
     "baseUrl": "./",
     "paths": {
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@db/*": ["db/*"]
     },
     "types": ["node", "express"]
   },

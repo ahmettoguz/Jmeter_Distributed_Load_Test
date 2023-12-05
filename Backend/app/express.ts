@@ -1,6 +1,7 @@
 import express, { type Express, type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import userRouter from '../modules/user/routes';
 
 const runApp = (): Express => {
     const app: Express = express();
@@ -17,6 +18,8 @@ const runApp = (): Express => {
             message: 'Api ready!',
         });
     });
+
+    app.use('/api/user', userRouter);
     return app;
 };
 

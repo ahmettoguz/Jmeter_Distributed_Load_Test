@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import Helper from '@services/HelperService';
+import Helper from '../../../services/HelperService';
 
 const HelperService = new Helper();
 
