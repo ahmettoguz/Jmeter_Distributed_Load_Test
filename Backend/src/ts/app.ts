@@ -45,7 +45,7 @@ async function runAllSteps(
   threadCountPerPod,
   duration
 ) {
-  const shPath = `../Terraform/${cloudProvider}/script`;
+  const shPath = `./Terraform/${cloudProvider}/script`;
   let result;
   let parameters;
 
@@ -174,7 +174,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   if (
     (await helperService.moveJmxFile(
       "./userFile/upload/loadtest.jmx",
-      `../Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`,
+      `./Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`,
       res
     )) == false
   )
