@@ -328,14 +328,17 @@ app.get("/userfile/result/:id/report/:folderId/:fileId", (req, res) => {
 });
 
 // Show results
-app.get("/userfile/result/:id/report", (req, res) => {
+app.get("/userfile/result/:id/report/:fileId", (req, res) => {
   const id = req.params.id;
+  const fileId = req.params.fileId;
+
   const filePath = path.join(
     __dirname,
-    `../../userfile/result/${id}/report/index.html`
+    `../../userfile/result/${id}/report/${fileId}`
   );
 
-  res.setHeader("Content-Type", "text/html");
+  setHeaderForExtension(res, fileId);
+  
   res.sendFile(filePath);
 });
 // ----------------------------------------------------------- Temporary endpoint for frontend trials
