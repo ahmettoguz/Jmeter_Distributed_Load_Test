@@ -10,3 +10,5 @@
 * aws
 * terraform
 * NodeJs
+
+* config permission: chmod 777 /root/.kube/config
