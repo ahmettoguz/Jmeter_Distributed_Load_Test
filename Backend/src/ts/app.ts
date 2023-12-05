@@ -143,6 +143,18 @@ async function runAllSteps(
   }
 }
 
+function setHeaderForExtension(res, fileId) {
+  if (path.extname(fileId) === "css") {
+    return res.setHeader("Content-Type", "text/css");
+  } else if (path.extname(fileId) === "js") {
+    return res.setHeader("Content-Type", "application/javascript");
+  } else if (path.extname(fileId) === "html") {
+    return res.setHeader("Content-Type", "text/html");
+  } else if (path.extname(fileId) === "png") {
+    return res.setHeader("Content-Type", "image/png");
+  }
+}
+
 // ------------------------------------------------- End Points
 app.get("/", async (req, res) => {
   console.info(
@@ -233,17 +245,7 @@ app.get(
       `../../userfile/result/${id}/report/${id1}/${id2}/${id3}/${id4}/${id5}/${fileId}`
     );
 
-    console.log(path.extname(fileId));
-
-    if (path.extname(fileId) === "css") {
-      res.setHeader("Content-Type", "text/css");
-    } else if (path.extname(fileId) === "js") {
-      res.setHeader("Content-Type", "application/javascript");
-    } else if (path.extname(fileId) === "html") {
-      res.setHeader("Content-Type", "text/html");
-    } else if (path.extname(fileId) === "png") {
-      res.setHeader("Content-Type", "image/png");
-    }
+    setHeaderForExtension(res, fileId);
 
     res.sendFile(filePath);
   }
@@ -265,53 +267,29 @@ app.get(
       `../../userfile/result/${id}/report/${id1}/${id2}/${id3}/${id4}/${fileId}`
     );
 
-    console.log(path.extname(fileId));
-
-    if (path.extname(fileId) === "css") {
-      res.setHeader("Content-Type", "text/css");
-    } else if (path.extname(fileId) === "js") {
-      res.setHeader("Content-Type", "application/javascript");
-    } else if (path.extname(fileId) === "html") {
-      res.setHeader("Content-Type", "text/html");
-    } else if (path.extname(fileId) === "png") {
-      res.setHeader("Content-Type", "image/png");
-    }
+    setHeaderForExtension(res, fileId);
 
     res.sendFile(filePath);
   }
 );
 
 // Show results static files for 4
-app.get(
-  "/userfile/result/:id/report/:id1/:id2/:id3/:fileId",
-  (req, res) => {
-    const id = req.params.id;
-    const id1 = req.params.id1;
-    const id2 = req.params.id2;
-    const id3 = req.params.id3;
-    const fileId = req.params.fileId;
+app.get("/userfile/result/:id/report/:id1/:id2/:id3/:fileId", (req, res) => {
+  const id = req.params.id;
+  const id1 = req.params.id1;
+  const id2 = req.params.id2;
+  const id3 = req.params.id3;
+  const fileId = req.params.fileId;
 
-    const filePath = path.join(
-      __dirname,
-      `../../userfile/result/${id}/report/${id1}/${id2}/${id3}/${fileId}`
-    );
+  const filePath = path.join(
+    __dirname,
+    `../../userfile/result/${id}/report/${id1}/${id2}/${id3}/${fileId}`
+  );
 
+  setHeaderForExtension(res, fileId);
 
-    console.log(path.extname(fileId));
-
-    if (path.extname(fileId) === "css") {
-      res.setHeader("Content-Type", "text/css");
-    } else if (path.extname(fileId) === "js") {
-      res.setHeader("Content-Type", "application/javascript");
-    } else if (path.extname(fileId) === "html") {
-      res.setHeader("Content-Type", "text/html");
-    } else if (path.extname(fileId) === "png") {
-      res.setHeader("Content-Type", "image/png");
-    }
-
-    res.sendFile(filePath);
-  }
-);
+  res.sendFile(filePath);
+});
 
 // Show results static files for 3
 app.get(
@@ -327,50 +305,27 @@ app.get(
       `../../userfile/result/${id}/report/${folderId}/${contentId}/${fileId}`
     );
 
-    console.log(path.extname(fileId));
-
-    if (path.extname(fileId) === "css") {
-      res.setHeader("Content-Type", "text/css");
-    } else if (path.extname(fileId) === "js") {
-      res.setHeader("Content-Type", "application/javascript");
-    } else if (path.extname(fileId) === "html") {
-      res.setHeader("Content-Type", "text/html");
-    } else if (path.extname(fileId) === "png") {
-      res.setHeader("Content-Type", "image/png");
-    }
+    setHeaderForExtension(res, fileId);
 
     res.sendFile(filePath);
   }
 );
 
 // Show results static files for 2
-app.get(
-  "/userfile/result/:id/report/:folderId/:fileId",
-  (req, res) => {
-    const id = req.params.id;
-    const folderId = req.params.folderId;
-    const fileId = req.params.fileId;
+app.get("/userfile/result/:id/report/:folderId/:fileId", (req, res) => {
+  const id = req.params.id;
+  const folderId = req.params.folderId;
+  const fileId = req.params.fileId;
 
-    const filePath = path.join(
-      __dirname,
-      `../../userfile/result/${id}/report/${folderId}/${fileId}`
-    );
+  const filePath = path.join(
+    __dirname,
+    `../../userfile/result/${id}/report/${folderId}/${fileId}`
+  );
 
-    console.log(path.extname(fileId));
+  setHeaderForExtension(res, fileId);
 
-    if (path.extname(fileId) === "css") {
-      res.setHeader("Content-Type", "text/css");
-    } else if (path.extname(fileId) === "js") {
-      res.setHeader("Content-Type", "application/javascript");
-    } else if (path.extname(fileId) === "html") {
-      res.setHeader("Content-Type", "text/html");
-    } else if (path.extname(fileId) === "png") {
-      res.setHeader("Content-Type", "image/png");
-    }
-
-    res.sendFile(filePath);
-  }
-);
+  res.sendFile(filePath);
+});
 
 // Show results
 app.get("/userfile/result/:id/report", (req, res) => {
