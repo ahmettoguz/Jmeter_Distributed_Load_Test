@@ -33,7 +33,9 @@ const login = async (req, res) => {
             .setProtectedHeader({ alg: 'HS256' })
             .setExpirationTime('1h')
             .sign(secret);
-        return await HelperService.returnResponse(res, 200, true, 'Login Successful!', token);
+
+        res.cookie('token', token, { maxAge: 3600000, httpOnly: true });
+        return await HelperService.returnResponse(res, 200, true, 'Login Successful!');
     } catch (error) {
         console.error(error);
         return await HelperService.returnResponse(res, 500, false, 'Internal Server Error');
