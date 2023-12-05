@@ -33,10 +33,10 @@ kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result $resultDir
 echo "Results saved to: $resultDir"
 
 # Write jmeter.log summary
-grep 'summary =' $resultDir/result/jmeter.log | sed 's/^[^=]*=//g' | sed '/^[[:space:]]*[0-9]/!b;n;c\' > $resultDir/result/summary.txt
+grep 'summary =' $resultDir/jmeter.log | sed 's/^[^=]*=//g' | sed '/^[[:space:]]*[0-9]/!b;n;c\' > $resultDir/summary.txt
 
 # Display summary results
-echo "$(cat $resultDir/result/summary.txt)"
+echo "$(cat $resultDir/summary.txt)"
 
 echo "Results saved."
 echo "Success"
