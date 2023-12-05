@@ -226,7 +226,9 @@ app.get('/result/:user/:date', (req, res) => {
   const date = req.params.date;
   const filePath = path.join(__dirname, `../../userFile/result/${user}_${date}/report/index.html`);
   
-  res.send(filePath);
+  
+  res.setHeader('Content-Type', 'text/html');
+  res.sendFile(filePath);
 });
 // ----------------------------------------------------------- Temporary endpoint for frontend trials
 app.get("/temp", async (req, res) => {
