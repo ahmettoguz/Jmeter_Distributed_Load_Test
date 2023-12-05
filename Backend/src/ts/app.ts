@@ -40,7 +40,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // open result folder
-app.use(express.static(path.join(__dirname, '../../')));
+app.use(express.static(path.resolve(__dirname, '../../')));
 
 // -------------------------------------------------- Functions
 async function runAllSteps(
