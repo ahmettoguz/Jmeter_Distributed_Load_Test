@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 // multer file options
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./userFiles/upload/"); // Dosyanın kaydedileceği klasör
+    cb(null, "./userFile/upload/"); // Dosyanın kaydedileceği klasör
   },
   filename: (req, file, cb) => {
     cb(null, "loadtest.jmx");
@@ -173,7 +173,7 @@ app.post("/runTest", upload.single("jmxFile"), async (req, res) => {
   // place jmx file to related path
   if (
     (await helperService.moveJmxFile(
-      "./userFiles/upload/loadtest.jmx",
+      "./userFile/upload/loadtest.jmx",
       `../Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`,
       res
     )) == false
