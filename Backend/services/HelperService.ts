@@ -119,22 +119,34 @@ class HelperService {
     }
 
     private async error(shPath, error: any) {
+        const websocketMessage= {
+                connectionStatus : "fail",
+                socketMessage : error
+        }
         console.error('Error:', error.message);
         // send websocket message for error
-        websocketHelper.broadcast(`Error: ${error.message}`);
+        websocketHelper.broadcast(websocketMessage.toString());
         // down terraform if there was an error
         this.downTerraformSH(shPath);
     }
 
     async prepareSH(shPath, parameters: any) {
         try {
-            websocketHelper.broadcast('Files preparing...');
+            let websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Files preparing"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
             const result = await this.executeSh(shPath, 'bash', parameters);
             if (!result.success)
                 throw new Error('prepare.sh failed');
 
             console.info('\nprepare.sh finished.');
-            websocketHelper.broadcast('Files prepared successfully.');
+             websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Files prepared successfully"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -142,13 +154,21 @@ class HelperService {
 
     async upTerraformSH(shPath) {
         try {
-            websocketHelper.broadcast('Resources allocating...');
+            let websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Resources allocating"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
             const result = await this.executeSh(shPath, 'bash', ['upTerraform.sh']);
             if (!result.success)
                 throw new Error('upTerraform.sh failed');
 
             console.info('\nupTerraform.sh finished.');
-            websocketHelper.broadcast('Resources allocated.');
+             websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Resources allocated"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -156,13 +176,22 @@ class HelperService {
 
     async upClusterSH(shPath) {
         try {
-            websocketHelper.broadcast('Cluster preparing...');
+            let websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Cluster preparing"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
+            
             const result = await this.executeSh(shPath, 'bash', ['upCluster.sh']);
             if (!result.success)
                 throw new Error('upCluster.sh failed');
 
             console.info('\nupCluster.sh finished.');
-            websocketHelper.broadcast('Cluster prepared.');
+             websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Cluster prepared"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -170,13 +199,22 @@ class HelperService {
 
     async runTestSH(shPath) {
         try {
-            websocketHelper.broadcast('Tests running...');
+            let websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Tests running"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
             const result = await this.executeSh(shPath, 'bash', ['runTest.sh']);
             if (!result.success)
                 throw new Error('runTest.sh failed');
 
             console.info('\nrunTest.sh finished.');
-            websocketHelper.broadcast('Tests are runned.');
+            
+             websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Test run finished"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -184,13 +222,23 @@ class HelperService {
 
     async resultSH(shPath) {
         try {
-            websocketHelper.broadcast('Results preparing...');
+            let websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Results preparing"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
             const result = await this.executeSh(shPath, 'bash', ['result.sh']);
             if (!result.success)
                 throw new Error('result.sh failed');
 
             console.info('\nresult.sh finished.');
-            websocketHelper.broadcast(`Results : ${result.output}`);
+
+            // TODO result file will be assigned.
+            websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : `Results finished : ${result.output}`,
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
         } catch (error) {
             await this.error(shPath, error);
         }
@@ -198,15 +246,23 @@ class HelperService {
 
     async downTerraformSH(shPath) {
         try {
-            websocketHelper.broadcast('Deallocating resources...');
+            let websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Deallocating resources"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
             const result = await this.executeSh(shPath, 'bash', ['downTerraform.sh']);
             if (!result.success)
                 throw new Error('downTerraform.sh failed');
 
             console.info('\ndownTerraform.sh finished.');
-            websocketHelper.broadcast('Resources deallocated.');
+            websocketMessage= {
+                connectionStatus : "loading",
+                socketMessage : "Resources deallocated"
+        }
+            websocketHelper.broadcast(websocketMessage.toString());
         } catch (error) {
-            await this.error(shPath, error);
+                    console.log("Error: ",error)
         }
     }
 
