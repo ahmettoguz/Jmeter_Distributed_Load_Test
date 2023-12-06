@@ -32,7 +32,7 @@ const runTest = async (req, res) => {
         return HelperService.returnResponse(res, 502, false, checkNodeCountRes.message);
 
     // start sh operations
-    // await HelperService.runAllSteps(`/Terraform/${cloudProvider}/script`, plannedNodeCount, plannedPodCount, threadCountPerPod, duration);
+    await HelperService.runAllSteps(`./Terraform/${cloudProvider}/script`, plannedNodeCount, plannedPodCount, threadCountPerPod, duration);
 
     return HelperService.returnResponse(res, 200, true, 'Operations started.', [
         `Planned node count : ${plannedNodeCount}`,
