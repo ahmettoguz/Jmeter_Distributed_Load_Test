@@ -9,7 +9,7 @@ connectWebsocketbtn.addEventListener("click", connectWebsocket);
 
 const domain = "localhost";
 // const domain = "167.99.140.168";
-const url = `http://${domain}`;
+const url = `http://${domain}:3000`;
 
 function checkServer(e) {
   e.preventDefault();
@@ -57,7 +57,7 @@ function submitForm(e) {
   ajaxData.append("jmxFile", file);
 
   $.ajax({
-    url: `${url}/runTest`,
+    url: `${url}/api/runTest`,
     type: "POST",
     contentType: false,
     processData: false,

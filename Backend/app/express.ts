@@ -17,7 +17,7 @@ const runApp = (): Express => {
         HelperService.returnResponse(res, 200, true, 'Service is up');
     });
 
-    app.use('/api/user', userRouter);
+    app.use('/api', userRouter);
     return app;
 };
 

@@ -8,7 +8,7 @@
     "lint:fix": "eslint . --ext .js,ts --fix --no-error-on-unmatched-pattern && echo \"eslint: no lint errors\"",
     "clean": "rimraf ./dist",
     "build": "tsc",
-    "start": "npm-run-all lint:fix clean build --parallel --race watch:build watch:serve --print-label",
+    "start": "npm-run-all clean build --parallel --race watch:build watch:serve --print-label",
     "watch:build": "tsc -w",
     "watch:serve": "nodemon dist/index.js"
   },

@@ -6,7 +6,7 @@ const storageJMX = multer.diskStorage({
         cb(null, './storage/upload/');
     },
     filename: (req, file, cb) => {
-        cb(null, `${req.body.testId + path.extname(file.originalname)}`);
+        cb(null, `loadtest.jmx`);
     },
 });
 

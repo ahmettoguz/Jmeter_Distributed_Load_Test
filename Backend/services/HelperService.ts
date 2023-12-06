@@ -86,17 +86,14 @@ class HelperService {
         return { status, message };
     }
 
-    moveJmxFile(currentPath: string, targetPath: string): any {
-        let message: string;
-        let status: boolean = true;
-
-        fs.rename(currentPath, targetPath, (err) => {
-            if (err) {
-                message = 'Cannot move file!';
-                status = false;
-            }
-            return { status, message };
-        });
+    async moveJmxFile(currentPath: string, targetPath: string):  Promise<any> {
+        try {
+            await fs.promises.rename(currentPath, targetPath);
+            return { status: true, message: "File moved successfully!" };
+        } catch (error) {
+            console.log(error);
+            return { status: false, message: "Cannot move file!" };
+        }
     }
 
     async checkCloudProvider(cloudProvider: string) {
@@ -110,11 +107,11 @@ class HelperService {
         return { status, message };
     }
 
-    async checkFile(uploadedFile: undefined): Promise<any> {
+    async checkFile(uploadedFile: any): Promise<any> {
         let message: string;
         let status: boolean = true;
 
-        if (uploadedFile) {
+        if (!uploadedFile) {
             message = 'Jmx file is not provided!';
             status = false;
         }
