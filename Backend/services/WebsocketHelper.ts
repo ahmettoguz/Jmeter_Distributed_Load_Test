@@ -2,7 +2,6 @@ import WebSocket, { Server as WebSocketServer, Data } from 'ws';
 
 class WebsocketHelper {
     private wsServer: WebSocketServer;
-
     constructor(port: number) {
         this.wsServer = new WebSocket.Server({ port });
 

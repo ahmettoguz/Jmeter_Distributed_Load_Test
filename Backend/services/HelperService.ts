@@ -49,7 +49,7 @@ class HelperService {
         return -1;
     }
 
-    async returnResponse(res: any, statusCode: number, state: boolean, message: string, data?: any) {
+    returnResponse(res: any, statusCode: number, state: boolean, message: string, data?: any) {
         const jsonResult = {
             status: statusCode,
             state,
@@ -103,12 +103,7 @@ class HelperService {
         let message: string;
         let status: boolean = true;
 
-        if (
-            cloudProvider !== 'DigitalOcean'
-            && cloudProvider !== 'Azure'
-            && cloudProvider !== 'AWS'
-            && cloudProvider !== 'Local'
-        ) {
+        if (cloudProvider !== 'DigitalOcean' && cloudProvider !== 'Azure' && cloudProvider !== 'AWS' && cloudProvider !== 'Local') {
             message = 'Cloud provider is invalid!';
             status = false;
         }

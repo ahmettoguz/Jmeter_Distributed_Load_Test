@@ -1,11 +1,11 @@
 import runTest from './runTest';
-import login from './login';
-import getFileforSixDepth from './getFileforSixDepth';
-import getFileforFiveDepth from './getFileforFiveDepth';
-import getFileforFourDepth from './getFileforFourDepth';
-import getFileforThreeDepth from './getFileforThreeDepth';
-import getFileforTwoDepth from './getFileforTwoDepth';
-import showResult from './showResult';
+import login from './crud/login';
+import getFileforSixDepth from './result/getFileforSixDepth';
+import getFileforFiveDepth from './result/getFileforFiveDepth';
+import getFileforFourDepth from './result/getFileforFourDepth';
+import getFileforThreeDepth from './result/getFileforThreeDepth';
+import getFileforTwoDepth from './result/getFileforTwoDepth';
+import showResult from './result/showResult';
 
 interface Controller {
     runTest: typeof runTest;
