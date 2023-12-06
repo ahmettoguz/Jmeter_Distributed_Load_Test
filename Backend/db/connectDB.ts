@@ -13,8 +13,7 @@ const connectDB = async (): Promise<void> => {
 
         console.info('MongoDB Connected');
     } catch (err) {
-        console.error(err);
-        throw new Error('Unable to connect to MongoDB');
+        console.error('Unable to connect to MongoDB: ', err);
     }
 };
 

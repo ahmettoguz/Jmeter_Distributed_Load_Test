@@ -19,7 +19,7 @@ const runTest = async (req, res) => {
         return HelperService.returnResponse(res, 400, false, checkFileRes.message);
 
     // place jmx file to related path
-    const moveJmxFileRes = await HelperService.moveJmxFile('./upload/loadtest.jmx', `../Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`);
+    const moveJmxFileRes = await HelperService.moveJmxFile('/storage/upload/loadtest.jmx', `/Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`);
     if (!moveJmxFileRes.status)
         return HelperService.returnResponse(res, 502, false, moveJmxFileRes.message);
 
@@ -32,7 +32,7 @@ const runTest = async (req, res) => {
         return HelperService.returnResponse(res, 502, false, checkNodeCountRes.message);
 
     // start sh operations
-    await HelperService.runAllSteps(`../Terraform/${cloudProvider}/script`, plannedNodeCount, plannedPodCount, threadCountPerPod, duration);
+    await HelperService.runAllSteps(`/Terraform/${cloudProvider}/script`, plannedNodeCount, plannedPodCount, threadCountPerPod, duration);
 
     return HelperService.returnResponse(res, 200, true, 'Operations started.', [
         `Planned node count : ${plannedNodeCount}`,

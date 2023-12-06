@@ -1,4 +1,7 @@
 import WebSocket, { Server as WebSocketServer, Data } from 'ws';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 class WebsocketHelper {
     private wsServer: WebSocketServer;

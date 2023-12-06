@@ -7,8 +7,8 @@ form.addEventListener("submit", submitForm);
 btnCheckServer.addEventListener("click", checkServer);
 connectWebsocketbtn.addEventListener("click", connectWebsocket);
 
-// const domain = "localhost";
-const domain = "167.99.140.168";
+const domain = "localhost";
+// const domain = "167.99.140.168";
 const url = `http://${domain}`;
 
 function checkServer(e) {
