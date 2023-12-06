@@ -21,22 +21,22 @@ timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items[0].metadata.name}')
 
 # Create result folder
-mkdir -p ../results/test_${timestamp}
+mkdir -p ../../../userFile/result/test_${timestamp}
 
 # variable for target directory
-resultDir="../results/test_${timestamp}"
+resultDir="../../../userFile/result/test_${timestamp}"
 
 # Copy results
-kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result/* $resultDir/
+kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result $resultDir
 
 # Write summary file
 echo "Results saved to: $resultDir"
 
 # Write jmeter.log summary
-grep 'summary =' $resultDir/result/jmeter.log > $resultDir/result/summary.txt
+grep 'summary =' $resultDir/jmeter.log | sed 's/^[^=]*=//g' | sed '/^[[:space:]]*[0-9]/!b;n;c\' > $resultDir/summary.txt
 
 # Display summary results
-echo "$(cat $resultDir/result/summary.txt)"
+echo "$(cat $resultDir/summary.txt)"
 
 echo "Results saved."
 echo "Success"

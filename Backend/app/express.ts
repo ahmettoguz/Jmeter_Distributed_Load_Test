@@ -12,12 +12,10 @@ const runApp = (): Express => {
     app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
     app.use(cookieParser());
 
-    app.use('/images', express.static('./images'));
-
     app.get('/', (req: Request, res: Response) => {
         res.json({
             success: true,
-            message: 'Api ready!',
+            message: 'Service is up',
         });
     });
 

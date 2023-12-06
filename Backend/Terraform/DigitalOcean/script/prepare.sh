@@ -19,6 +19,38 @@ echo "Node count: $node"
 echo "Pod count: $pod"
 echo "Thread count: $thread"
 echo "Duration: $duration"
+
+# Prepare terraform file
+echo '
+variable "do_token" {
+  default = ""
+}
+
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+      version = "2.32.0"
+    }
+  }
+}
+
+provider "digitalocean" {
+  token = var.do_token
+}
+
+resource "digitalocean_kubernetes_cluster" "k8sdo" {
+  name = "k8sdo"
+  region = "fra1"
+  version = "1.28.2-do.0"
+
+  node_pool {
+    name = "nodepooldo"
+    size = "s-2vcpu-2gb"
+    node_count = '$node'
+  }
+}
+' > ../tf_Config/k8s.tf
 # -------------------------------------------------------------
 
 # Prepare k8s.yaml file
@@ -55,9 +87,9 @@ spec:
         ports:
         - containerPort: 60000
         command: ["/bin/sh", "-c"]
-        env:
-        - name: JVM_ARGS
-          value: "-Xms512m -Xmx1g" # Set up heap size
+        # env:
+        # - name: JVM_ARGS
+        #   value: "-Xms512m -Xmx1g" # Set up heap size
         args: ["sleep infinity"]
         
 ---
@@ -84,9 +116,9 @@ spec:
         # image: mnazim1541/jmslave:latest
         image: crisssercedocker/jmeter-slave
         imagePullPolicy: IfNotPresent  
-        env:
-        - name: JVM_ARGS
-          value: "-Xms512m -Xmx1g" # Set up heap size
+        # env:
+        # - name: JVM_ARGS
+        #   value: "-Xms512m -Xmx1g" # Set up heap size
 ' > ../k8s_Config/k8s.yaml
 # -------------------------------------------------------------
 
@@ -114,5 +146,5 @@ else
     exit 1
 fi
 
-echo "kubernetes cluster files created."
+echo "Terraform and kubernetes cluster files created."
 echo "Success"

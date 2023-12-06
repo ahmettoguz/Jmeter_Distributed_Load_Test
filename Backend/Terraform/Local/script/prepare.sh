@@ -19,68 +19,6 @@ echo "Node count: $node"
 echo "Pod count: $pod"
 echo "Thread count: $thread"
 echo "Duration: $duration"
-
-# Prepare terraform file
-echo '
-variable "aks_service_principal_app_id" {
-  default = ""
-}
-
-variable "aks_service_principal_client_secret" {
-  default = ""
-}
-
-terraform {
-  required_providers {
-    azurerm = {
-      source = "hashicorp/azurerm"
-      version = "3.80.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-resource "azurerm_resource_group" "rg" {
-  location = "Germany West Central"
-  name     = "k8srg"
-}
-
-resource "azurerm_kubernetes_cluster" "k8saz" {
-  depends_on = [azurerm_resource_group.rg] 
-  location            = azurerm_resource_group.rg.location
-  name                = "k8saz"
-  resource_group_name = azurerm_resource_group.rg.name
-
-  dns_prefix          = "k8saz"
-  tags                = {
-    Environment = "Development"
-  }
-
-  default_node_pool {
-    name       = "agentpool"
-    vm_size    = "Standard_D2_v2"
-    node_count = '$node'
-  }
-  linux_profile {
-    admin_username = "ahmet"
-
-    ssh_key {
-      key_data = file("~/.ssh/id_rsa.pub")
-    }
-  }
-  network_profile {
-    network_plugin    = "kubenet"
-    load_balancer_sku = "standard"
-  }
-  service_principal {
-    client_id     = var.aks_service_principal_app_id
-    client_secret = var.aks_service_principal_client_secret
-  }
-}
-' > ../tf_Config/k8s.tf
 # -------------------------------------------------------------
 
 # Prepare k8s.yaml file
@@ -117,9 +55,9 @@ spec:
         ports:
         - containerPort: 60000
         command: ["/bin/sh", "-c"]
-        env:
-        - name: JVM_ARGS
-          value: "-Xms512m -Xmx1g" # Set up heap size
+        # env:
+        # - name: JVM_ARGS
+        #   value: "-Xms512m -Xmx1g" # Set up heap size
         args: ["sleep infinity"]
         
 ---
@@ -146,9 +84,9 @@ spec:
         # image: mnazim1541/jmslave:latest
         image: crisssercedocker/jmeter-slave
         imagePullPolicy: IfNotPresent  
-        env:
-        - name: JVM_ARGS
-          value: "-Xms512m -Xmx1g" # Set up heap size
+        # env:
+        # - name: JVM_ARGS
+        #   value: "-Xms512m -Xmx1g" # Set up heap size
 ' > ../k8s_Config/k8s.yaml
 # -------------------------------------------------------------
 
@@ -176,5 +114,5 @@ else
     exit 1
 fi
 
-echo "Terraform and kubernetes cluster files created."
+echo "kubernetes cluster files created."
 echo "Success"

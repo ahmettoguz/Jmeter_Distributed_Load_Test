@@ -1,5 +1,6 @@
 import cp from 'child_process';
 import fs from 'fs';
+import path from 'path';
 import { websocketHelper } from './WebsocketHelper';
 
 class HelperService {
@@ -34,6 +35,18 @@ class HelperService {
                 }
             });
         });
+    }
+
+    setHeaderForExtension(res: any, fileId: string) {
+        if (path.extname(fileId) === '.css')
+            return res.setHeader('Content-Type', 'text/css');
+        else if (path.extname(fileId) === '.js')
+            return res.setHeader('Content-Type', 'application/javascript');
+        else if (path.extname(fileId) === '.html')
+            return res.setHeader('Content-Type', 'text/html');
+        else if (path.extname(fileId) === '.png')
+            return res.setHeader('Content-Type', 'image/png');
+        return -1;
     }
 
     async returnResponse(res: any, statusCode: number, state: boolean, message: string, data?: any) {
