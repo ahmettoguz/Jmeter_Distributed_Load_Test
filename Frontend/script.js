@@ -116,7 +116,8 @@ function connectWebsocket(e) {
         $("#websocketResponse").addClass("border-danger");
       }
 
-      console.log("Gelen websocket mesajı", incomingMessage);
+      console.log("Gelen websocket mesajı:");
+      console.log(incomingMessage);
     };
     webSocket.onclose = () => {
       $("#websocketResponse").append(

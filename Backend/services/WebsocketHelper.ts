@@ -10,7 +10,7 @@ class WebsocketHelper {
 
         this.wsServer.on('connection', (ws: WebSocket) => {
             console.info('Client connected to websocket');
-            ws.send('{connectionStatus : "loading", resultURL: null , socketMessage : "Connected to websocket" }');
+            ws.send(JSON.stringify({ connectionStatus: 'loading', resultURL: null, socketMessage: 'Connected to websocket' }));
             ws.on('message', (message: Data) => {
                 console.info(`Received message: ${message}`);
             });
