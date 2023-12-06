@@ -10,7 +10,7 @@ const getFileforSixDepth = async (req, res) => {
     const id5 = req.params.id5;
     const fileId = req.params.fileId;
 
-    const filePath = path.join(__dirname, `./storage/result/${id}/report/${id1}/${id2}/${id3}/${id4}/${id5}/${fileId}`);
+    const filePath = path.join(__dirname, `../../../../storage/result/${id}/report/${id1}/${id2}/${id3}/${id4}/${id5}/${fileId}`);
 
     HelperService.setHeaderForExtension(res, fileId);
 
