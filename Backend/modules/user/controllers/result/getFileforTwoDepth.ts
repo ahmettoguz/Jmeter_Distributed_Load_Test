@@ -6,7 +6,7 @@ const getFileforTwoDepth = async (req, res) => {
     const id1 = req.params.id1;
     const fileId = req.params.fileId;
 
-    const filePath = path.join(__dirname, `../../userfile/result/${id}/report/${id1}/${fileId}`);
+    const filePath = path.join(__dirname, `./storage/result/${id}/report/${id1}/${fileId}`);
 
     HelperService.setHeaderForExtension(res, fileId);
 
