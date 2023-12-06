@@ -14,6 +14,7 @@ const runApp = (): Express => {
     app.use(cookieParser());
 
     app.get('/', (req: Request, res: Response) => {
+        console.info(`---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`);
         HelperService.returnResponse(res, 200, true, 'Service is up');
     });
 
