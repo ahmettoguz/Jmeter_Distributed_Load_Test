@@ -9,7 +9,7 @@ connectWebsocketbtn.addEventListener("click", connectWebsocket);
 
 // const domain = "localhost";
 const domain = "167.99.140.168";
-const url = `http://${domain}:3000`;
+const url = `http://${domain}:80`;
 
 function checkServer(e) {
   e.preventDefault();
