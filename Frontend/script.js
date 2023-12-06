@@ -101,23 +101,22 @@ function connectWebsocket(e) {
 
   try {
     webSocket.onmessage = (message) => {
-      const incomingMessage = message.data;
+      const incomingMessage = JSON.parse(message.data);
       if ($("#websocketResponse").hasClass("border-danger")) {
         $("#websocketResponse").addClass("border-info");
         $("#websocketResponse").removeClass("border-danger");
       }
 
       $("#websocketResponse").append(`
-            <li class="list-group-item fs-5">${incomingMessage}</li>
+            <li class="list-group-item fs-5">${incomingMessage.socketMessage}</li>
       `);
 
-      if (incomingMessage.toLowerCase().includes("error")) {
+      if (incomingMessage.socketMessage.toLowerCase().includes("error")) {
         $("#websocketResponse").removeClass("border-info");
         $("#websocketResponse").addClass("border-danger");
       }
 
-      console.log("Gelen websocket mesajı:");
-      console.log(incomingMessage);
+      console.log("Incoming websocket message: ", incomingMessage.socketMessage);
     };
     webSocket.onclose = () => {
       $("#websocketResponse").append(
