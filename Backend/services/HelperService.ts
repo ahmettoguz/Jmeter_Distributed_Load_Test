@@ -239,4 +239,5 @@ class HelperService {
     }
 }
 
-export default HelperService;
+const Helper = new HelperService();
+export default Helper;

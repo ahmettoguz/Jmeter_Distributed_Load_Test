@@ -1,7 +1,5 @@
 import path from 'path';
-import Helper from '../../../services/HelperService';
-
-const HelperService = new Helper();
+import HelperService from '../../../services/HelperService';
 
 const getFileforTwoDepth = async (req, res) => {
     const id = req.params.id;

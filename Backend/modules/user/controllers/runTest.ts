@@ -1,9 +1,4 @@
-import dotenv from 'dotenv';
-
-dotenv.config();
-import Helper from '../../../services/HelperService';
-
-const HelperService = new Helper();
+import HelperService from '../../../services/HelperService';
 
 const runTest = async (req, res) => {
     console.info(`---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`);

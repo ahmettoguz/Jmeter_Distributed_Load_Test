@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRouter from '../modules/user/routes';
+import HelperService from '../services/HelperService';
 
 const runApp = (): Express => {
     const app: Express = express();
@@ -13,10 +14,7 @@ const runApp = (): Express => {
     app.use(cookieParser());
 
     app.get('/', (req: Request, res: Response) => {
-        res.json({
-            success: true,
-            message: 'Service is up',
-        });
+        HelperService.returnResponse(res, 200, true, 'Service is up');
     });
 
     app.use('/api/user', userRouter);

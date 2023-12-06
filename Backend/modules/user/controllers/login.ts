@@ -1,13 +1,11 @@
 import dotenv from 'dotenv';
 import db from '../../../db/index';
-import Helper from '../../../services/HelperService';
+import HelperService from '../../../services/HelperService';
 
 const jwt = require('jose');
 const bcrypt = require('bcryptjs');
 
 dotenv.config();
-
-const HelperService = new Helper();
 
 const login = async (req, res) => {
     try {
