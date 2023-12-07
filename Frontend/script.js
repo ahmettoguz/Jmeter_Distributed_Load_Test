@@ -1,14 +1,15 @@
 // script.js
-const form = document.getElementById("form");
+const runTestForm = document.getElementById("runTestForm");
 const btnCheckServer = document.getElementById("checkServer");
 const connectWebsocketbtn = document.getElementById("connectWebsocket");
 
-form.addEventListener("submit", submitForm);
+runTestForm.addEventListener("submit", runTestSubmitForm);
 btnCheckServer.addEventListener("click", checkServer);
 connectWebsocketbtn.addEventListener("click", connectWebsocket);
 
-// const domain = "localhost";
-const domain = "167.99.140.168";
+const domain = "localhost";
+// const domain = "ahmetproje.com.tr";
+// const domain = "167.99.140.168";
 const url = `http://${domain}:80`;
 
 function checkServer(e) {
@@ -44,7 +45,7 @@ function checkServer(e) {
   });
 }
 
-function submitForm(e) {
+function runTestSubmitForm(e) {
   e.preventDefault();
 
   let file = $("#file")[0].files[0];
@@ -116,7 +117,10 @@ function connectWebsocket(e) {
         $("#websocketResponse").addClass("border-danger");
       }
 
-      console.log("Incoming websocket message: ", incomingMessage.socketMessage);
+      console.log(
+        "Incoming websocket message: ",
+        incomingMessage.socketMessage
+      );
     };
     webSocket.onclose = () => {
       $("#websocketResponse").append(
@@ -135,4 +139,46 @@ function connectWebsocket(e) {
   } catch (err) {
     console.error("Error: record Websocket Notifications \n", err);
   }
+}
+
+const signUpBtn = document.getElementById("signUpBtn");
+signUpBtn.addEventListener("click", signUpSubmitForm);
+function signUpSubmitForm(e) {
+  e.preventDefault();
+
+  let singUpuserName = $("#singUpuserName").val();
+  let singUpfirstName = $("#singUpfirstName").val();
+  let singUplastName = $("#singUplastName").val();
+  let singUpphone = $("#singUpphone").val();
+  let singUpemail = $("#singUpemail").val();
+  let singUppassword = $("#singUppassword").val();
+
+  const ajaxData = {
+    userName: singUpuserName,
+    firstName: singUpfirstName,
+    lastName: singUplastName,
+    phone: singUpphone,
+    email: singUpemail,
+    password: singUppassword,
+  };
+
+  $.ajax({
+    url: `${url}/api/singUp`,
+    type: "POST",
+    data: ajaxData,
+    success: function (response) {
+      console.log(response);
+      const out = JSON.stringify(response, null, 3);
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+      );
+    },
+    error: function (response) {
+      console.log(response);
+      const out = JSON.stringify(response.responseJSON, null, 3);
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+      );
+    },
+  });
 }

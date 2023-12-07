@@ -1,32 +1,30 @@
-import {
+import {    
     Types, Schema, Document, Model, model,
 } from 'mongoose';
 
 interface IUser extends Document {
-    username: string;
-    fName: string;
-    lName: string;
+    userName: string;
+    firstName: string;
+    lastName: string;
     phone: string;
     email: string;
     password: string;
     accountStatus: 'active' | 'inactive' | 'deactivated' | 'banned';
     role: 'user' | 'admin';
     tier: { type: Types.ObjectId, ref: 'Tier', required: true },
-    completedTest: number;
 }
 
 const userSchema = new Schema<IUser>(
     {
-        username: { type: String, lowercase: true, required: true },
-        fName: { type: String, required: true },
-        lName: { type: String, required: true },
+        userName: { type: String, lowercase: true, required: true },
+        firstName: { type: String, required: true },
+        lastName: { type: String, required: true },
         phone: { type: String, required: true },
         email: { type: String, lowercase: true, required: true },
         password: { type: String, required: true },
-        accountStatus: { type: String, enum: ['active', 'inactive', 'deactivated', 'banned'], default: 'inactive' },
+        accountStatus: { type: String, enum: ['active', 'inactive', 'deactivated', 'banned'], default: 'active' },
         role: { type: String, enum: ['user', 'admin'], default: 'user' },
         tier: { type: Types.ObjectId, ref: 'Tier', required: true },
-        completedTest: { type: Number, default: 0 },
     },
     { versionKey: false, timestamps: true },
 );

@@ -1,5 +1,5 @@
 import multer from 'multer';
-import path from 'path';
+import path, { extname } from 'path';
 
 const storageJMX = multer.diskStorage({
     destination(req, file, cb) {
@@ -18,7 +18,7 @@ const uploadJMX = multer({
         if (extName === '.jmx')
             cb(null, true);
         else
-            cb(new Error('ERROR: Only jmx files can be uploaded!!!'));
+            cb(null, false);
     },
 });
 
