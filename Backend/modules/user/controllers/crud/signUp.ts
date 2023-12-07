@@ -2,7 +2,10 @@ import HelperService from "../../../../services/HelperService";
 import db from "../../../../db/index";
 
 const signUp = async (req, res) => {
-  // account status and role is default [active, user]
+  let isValid = true;
+  let errorData = [];
+
+  // get parameters, account status and role is default [active, user]
   let newUser = {
     userName: req.body.userName,
     firstName: req.body.firstName,
@@ -13,15 +16,29 @@ const signUp = async (req, res) => {
   };
 
   // check inputs
-  if (0) {
+  // TODO check işlemlerinin yapılması lazım.
+  // check username is empty
+  if (newUser.userName.length == 0) {
+    errorData.push("Username is required!");
+    isValid = false;
+  }
+
+  // check first name is empty
+  if (newUser.firstName.length == 0) {
+    errorData.push("First name is required!");
+    isValid = false;
+  }
+
+  if (!isValid)
     return HelperService.returnResponse(
       res,
       400,
       false,
-      "Invalid input for sign up operation."
+      "Invalid input for sign up operation.",
+      errorData
     );
-  }
 
+  // perform insert operation in database
   try {
     // get free tier id from database
     const freeTier = await db.Tier.findOne({ name: "free" });
