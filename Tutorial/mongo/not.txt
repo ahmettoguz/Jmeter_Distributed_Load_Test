@@ -17,6 +17,10 @@
 
   docker rmi mongo
 # -------------------------------------------- Export and Import Database
+
+  mkdir -p ./database/backup
+  cp -r ./databaseBackup/jmeter/ ./database/backup/jmeter/
+
   docker exec -it mongo-c /bin/bash
 
   # EXPORT
@@ -24,7 +28,6 @@
 
   # IMPORT
   mongorestore --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter /data/db/backup/jmeter
-
 # -------------------------------------------- CRUD
   # Read
     console.log(await models.User.find());

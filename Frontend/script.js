@@ -192,3 +192,41 @@ function signUpSubmitForm(e) {
     },
   });
 }
+
+const loginForm = document.getElementById("loginForm");
+loginForm.addEventListener("submit", loginFormSubmit);
+function loginFormSubmit(e) {
+  e.preventDefault();
+  console.log("login");
+
+  const ajaxData = {
+    userName: $("#loginuserName").val(),
+    password: $("#loginpassword").val(),
+  };
+
+  $.ajax({
+    url: `${url}/api/login`,
+    type: "POST",
+    data: ajaxData,
+    success: function (response) {
+      console.log(response);
+      const out = JSON.stringify(response, null, 3);
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+      );
+
+      $("#httpResponse").removeClass("border-danger");
+      $("#httpResponse").addClass("border-success");
+    },
+    error: function (response) {
+      console.log(response);
+      const out = JSON.stringify(response.responseJSON, null, 3);
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+      );
+
+      $("#httpResponse").removeClass("border-success");
+      $("#httpResponse").addClass("border-danger");
+    },
+  });
+}

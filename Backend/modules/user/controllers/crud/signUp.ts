@@ -45,13 +45,13 @@ const signUp = async (req, res) => {
     newUser["tier"] = freeTier._id.toString();
 
     await db.User.create(newUser);
-    return HelperService.returnResponse(res, 200, true, "Sign up successfull.");
+    return HelperService.returnResponse(res, 200, true, "Sign up successful.");
   } catch (error) {
     return HelperService.returnResponse(
       res,
       500,
       false,
-      "Internal server error for sing up operation."
+      "Internal server error for sign up operation."
     );
   }
 };

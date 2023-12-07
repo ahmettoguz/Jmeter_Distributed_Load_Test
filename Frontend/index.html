@@ -21,6 +21,7 @@
     <div class="container mt-5">
       <h1 class="mb-4">Distributed Jmeter Test</h1>
 
+      <!-- Sign Up -->
       <div class="card mb-4">
         <div class="card-header">Sign Up</div>
         <div class="card-body">
@@ -105,6 +106,45 @@
         </div>
       </div>
 
+      <!-- Login -->
+      <div class="card mb-4">
+        <div class="card-header">Login</div>
+        <div class="card-body">
+          <form action="" id="loginForm">
+            <div class="row">
+              <!-- username -->
+              <div class="col-4">
+                <label for="loginuserName" class="form-label">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="loginuserName"
+                  value="ahmettoguz"
+                />
+              </div>
+
+              <!-- password -->
+              <div class="col-4">
+                <label for="loginpassword" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="loginpassword"
+                  value="1234"
+                />
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div>
+                <button class="btn btn-primary" type="submit">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- run test -->
       <form enctype="multipart/form-data" id="runTestForm">
         <div class="row">
           <div class="mb-3 col-6">
