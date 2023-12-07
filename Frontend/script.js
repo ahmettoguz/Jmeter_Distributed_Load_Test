@@ -156,7 +156,6 @@ function signUpSubmitForm(e) {
   let singUpphone = $("#singUpphone").val();
   let singUpemail = $("#singUpemail").val();
   let singUppassword = $("#singUppassword").val();
-  let singUpTier = $("#singUpTier").val();
 
   const ajaxData = {
     userName: singUpuserName,
@@ -165,11 +164,10 @@ function signUpSubmitForm(e) {
     phone: singUpphone,
     email: singUpemail,
     password: singUppassword,
-    tier: singUpTier,
   };
 
   $.ajax({
-    url: `${url}/api/singUp`,
+    url: `${url}/api/signUp`,
     type: "POST",
     data: ajaxData,
     success: function (response) {

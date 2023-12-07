@@ -6,8 +6,8 @@ const userRouter: Router = Router();
 
 // CRUD operations
 userRouter.route('/signUp').post(controller.signUp);
-
 userRouter.route('/login').post(controller.login);
+
 userRouter.route('/runTest').post(multer.single('jmxFile'), controller.runTest);
 userRouter.route('/result/:id/report/:id1/:id2/:id3/:id4/:id5/:fileId').get(controller.getFileforSixDepth);
 userRouter.route('/result/:id/report/:id1/:id2/:id3/:id4/:fileId').get(controller.getFileforFiveDepth);

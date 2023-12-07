@@ -13,12 +13,12 @@
     docker run -d --rm -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123 mongo
 
 # -------------------------------------------- Remove Container
-  docker exec -it mongo-c /bin/bash
-
   docker stop mongo-c
 
   docker rmi mongo
 # -------------------------------------------- Export and Import Database
+  docker exec -it mongo-c /bin/bash
+
   # EXPORT
   mongodump --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter --out=/data/db/backup
 
