@@ -12,7 +12,7 @@ interface ITier extends Document {
 
 const tierSchema = new Schema<ITier>(
     {
-        name: { type: String, lowercase: true },
+        name: { type: String, lowercase: true, enum: ['none', 'free', 'bronze', 'gold', 'platinum'], default: 'active' },
         virtualUser: { type: Number, required: true },
         testDuration: { type: Number, required: true },
         testCount: { type: Number, required: true },

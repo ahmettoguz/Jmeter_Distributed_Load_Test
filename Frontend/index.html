@@ -24,60 +24,105 @@
       <div class="card mb-4">
         <div class="card-header">Sign Up</div>
         <div class="card-body">
-          <form action="">
+          <form action="" id="signUpForm">
             <div class="row">
               <!-- username -->
               <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">Username</label>
-                <input type="text" class="form-control" id="singUpuserName" value="ahmet">
+                <label for="singUpuserName" class="form-label">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="singUpuserName"
+                  value="ahmettoguz"
+                />
               </div>
 
               <!-- firstName -->
               <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">first name</label>
-                <input type="text" class="form-control" id="singUpfirstName" value="ahmet">
+                <label for="singUpfirstName" class="form-label"
+                  >first name</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="singUpfirstName"
+                  value="ahmet"
+                />
               </div>
 
               <!-- lastName -->
               <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">last name</label>
-                <input type="text" class="form-control" id="singUplastName" value="oguz">
+                <label for="singUplastName" class="form-label">last name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="singUplastName"
+                  value="oguz"
+                />
               </div>
             </div>
 
             <div class="row mt-4">
               <!-- phone -->
               <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">phone</label>
-                <input type="text" class="form-control" id="singUpphone" value="0505">
+                <label for="singUpphone" class="form-label">phone</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="singUpphone"
+                  value="0505"
+                />
               </div>
 
               <!-- email -->
               <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">email</label>
-                <input type="text" class="form-control" id="singUpemail" value="ahmet@hotmail.com">
+                <label for="singUpemail" class="form-label">email</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="singUpemail"
+                  value="ahmet@hotmail.com"
+                />
               </div>
 
               <!-- password -->
               <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="singUppassword" value="1234">
+                <label for="singUppassword" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="singUppassword"
+                  value="1234"
+                />
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <!-- tier -->
+              <div class="col-4">
+                <label for="singUpTier" class="form-label">Tier</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="singUpTier"
+                  value="free"
+                />
               </div>
             </div>
 
             <div class="row mt-3">
               <div>
-                <button class="btn btn-primary" type="submit" id="signUpBtn">Sing Up</button>
+                <button class="btn btn-primary" type="submit">Sing Up</button>
               </div>
             </div>
           </form>
         </div>
       </div>
 
-      <form enctype="multipart/form-data" id="form">
+      <form enctype="multipart/form-data" id="runTestForm">
         <div class="row">
           <div class="mb-3 col-6">
-            <label for="exampleFormControlInput1" class="form-label"
+            <label for="virtualUser" class="form-label"
               >Virtual User Count</label
             >
             <input

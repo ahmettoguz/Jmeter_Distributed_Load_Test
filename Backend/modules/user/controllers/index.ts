@@ -1,5 +1,6 @@
 import runTest from './runTest';
 import login from './crud/login';
+import signUp from './crud/signUp';
 import getFileforSixDepth from './result/getFileforSixDepth';
 import getFileforFiveDepth from './result/getFileforFiveDepth';
 import getFileforFourDepth from './result/getFileforFourDepth';
@@ -8,8 +9,9 @@ import getFileforTwoDepth from './result/getFileforTwoDepth';
 import showResult from './result/showResult';
 
 interface Controller {
-    runTest: typeof runTest;
+    signUp: typeof signUp;
     login: typeof login;
+    runTest: typeof runTest;
     getFileforSixDepth: typeof getFileforSixDepth;
     getFileforFiveDepth: typeof getFileforFiveDepth;
     getFileforFourDepth: typeof getFileforFourDepth;
@@ -19,8 +21,9 @@ interface Controller {
 }
 
 const controller: Controller = {
-    runTest,
+    signUp,
     login,
+    runTest,
     getFileforSixDepth,
     getFileforFiveDepth,
     getFileforFourDepth,

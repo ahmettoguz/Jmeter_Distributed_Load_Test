@@ -24,7 +24,7 @@ const login = async (req, res) => {
         const secret = new TextEncoder().encode(process.env.JWT_SECRET);
         const token = await new jwt.SignJWT({
             data: {
-                username: user[0].username,
+                username: user[0].userName,
                 role: user[0].role,
             },
         })

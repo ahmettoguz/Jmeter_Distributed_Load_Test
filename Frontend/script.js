@@ -1,19 +1,16 @@
 // script.js
-const runTestForm = document.getElementById("runTestForm");
-const btnCheckServer = document.getElementById("checkServer");
-const connectWebsocketbtn = document.getElementById("connectWebsocket");
-
-runTestForm.addEventListener("submit", runTestSubmitForm);
-btnCheckServer.addEventListener("click", checkServer);
-connectWebsocketbtn.addEventListener("click", connectWebsocket);
 
 const domain = "localhost";
 // const domain = "ahmetproje.com.tr";
 // const domain = "167.99.140.168";
 const url = `http://${domain}:80`;
 
+const btnCheckServer = document.getElementById("checkServer");
+btnCheckServer.addEventListener("click", checkServer);
 function checkServer(e) {
   e.preventDefault();
+  console.log("check server");
+
   $.ajax({
     url: url,
     type: "GET",
@@ -45,8 +42,11 @@ function checkServer(e) {
   });
 }
 
+const runTestForm = document.getElementById("runTestForm");
+runTestForm.addEventListener("submit", runTestSubmitForm);
 function runTestSubmitForm(e) {
   e.preventDefault();
+  console.log("runtest");
 
   let file = $("#file")[0].files[0];
   let cloudProvider = $("#cloudProvider").val();
@@ -91,8 +91,11 @@ function runTestSubmitForm(e) {
   });
 }
 
+const connectWebsocketbtn = document.getElementById("connectWebsocket");
+connectWebsocketbtn.addEventListener("click", connectWebsocket);
 function connectWebsocket(e) {
   e.preventDefault();
+  console.log("websocket");
 
   const webSocket = new WebSocket(`ws://${domain}:8080`);
 
@@ -141,10 +144,11 @@ function connectWebsocket(e) {
   }
 }
 
-const signUpBtn = document.getElementById("signUpBtn");
-signUpBtn.addEventListener("click", signUpSubmitForm);
+const signUpForm = document.getElementById("signUpForm");
+signUpForm.addEventListener("submit", signUpSubmitForm);
 function signUpSubmitForm(e) {
   e.preventDefault();
+  console.log("signup");
 
   let singUpuserName = $("#singUpuserName").val();
   let singUpfirstName = $("#singUpfirstName").val();
@@ -152,6 +156,7 @@ function signUpSubmitForm(e) {
   let singUpphone = $("#singUpphone").val();
   let singUpemail = $("#singUpemail").val();
   let singUppassword = $("#singUppassword").val();
+  let singUpTier = $("#singUpTier").val();
 
   const ajaxData = {
     userName: singUpuserName,
@@ -160,6 +165,7 @@ function signUpSubmitForm(e) {
     phone: singUpphone,
     email: singUpemail,
     password: singUppassword,
+    tier: singUpTier,
   };
 
   $.ajax({
@@ -172,6 +178,9 @@ function signUpSubmitForm(e) {
       $("#httpResponse").html(
         "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
       );
+
+      $("#httpResponse").removeClass("border-danger");
+      $("#httpResponse").addClass("border-success");
     },
     error: function (response) {
       console.log(response);
@@ -179,6 +188,9 @@ function signUpSubmitForm(e) {
       $("#httpResponse").html(
         "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
       );
+
+      $("#httpResponse").removeClass("border-success");
+      $("#httpResponse").addClass("border-danger");
     },
   });
 }
