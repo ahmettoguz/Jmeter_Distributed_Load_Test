@@ -99,7 +99,7 @@ const login = async (req, res) => {
     // });
 
     return HelperService.returnResponse(res, 200, true, "Login successful.", {
-      token: jwtToken,
+      token: `Bearer ${jwtToken}`,
     });
   } catch (error) {
     return HelperService.returnResponse(

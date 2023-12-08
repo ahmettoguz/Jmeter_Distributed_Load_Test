@@ -214,6 +214,7 @@ function loginFormSubmit(e) {
     data: JSON.stringify(ajaxData),
     contentType: "application/json",
     success: function (response) {
+      console.log(response.data.token);
       // set token in localstorage because we cannot use cookie
       localStorage.setItem("token", "asf");
 
