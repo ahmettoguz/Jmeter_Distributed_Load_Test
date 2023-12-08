@@ -89,16 +89,18 @@ const login = async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    // set token cookie for 1 day
-    const cookieDieTime = 1000 * 60 * 60 * 24 * 1;
-    res.cookie("accesstoken", `Bearer ${jwtToken}`, {
-      maxAge: cookieDieTime,
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-    });
+    // set token cookie for 1 day its not worked because we do not have secure connection (https) with different domain
+    // const cookieDieTime = 1000 * 60 * 60 * 24 * 1;
+    // res.cookie("accesstoken", `Bearer ${jwtToken}`, {
+    //   maxAge: cookieDieTime,
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "None",
+    // });
 
-    return HelperService.returnResponse(res, 200, true, "Login successful.");
+    return HelperService.returnResponse(res, 200, true, "Login successful.", {
+      token: jwtToken,
+    });
   } catch (error) {
     return HelperService.returnResponse(
       res,

@@ -208,13 +208,15 @@ function loginFormSubmit(e) {
   $.ajax({
     url: `${url}/api/login`,
     type: "POST",
-    xhrFields: {
-      withCredentials: true,
-    },
-    credentials: "include",
+    // xhrFields: {
+    //   withCredentials: true,
+    // },
     data: JSON.stringify(ajaxData),
     contentType: "application/json",
     success: function (response) {
+      // set token in localstorage because we cannot use cookie
+      localStorage.setItem("token", "asf");
+
       console.log(response);
       const out = JSON.stringify(response, null, 3);
       $("#httpResponse").html(
