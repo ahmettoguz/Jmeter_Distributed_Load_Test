@@ -91,7 +91,7 @@ const login = async (req, res) => {
 
     // set token cookie for 1 day
     const cookieDieTime = 1000 * 60 * 60 * 24 * 1;
-    res.cookie("Authorization:", `Bearer ${jwtToken}`, {
+    res.cookie("Authorization", `Authorization: Bearer ${jwtToken}`, {
       maxAge: cookieDieTime,
       httpOnly: true,
       secure: true,
