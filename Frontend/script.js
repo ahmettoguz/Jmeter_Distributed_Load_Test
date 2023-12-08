@@ -208,13 +208,13 @@ function loginFormSubmit(e) {
   $.ajax({
     url: `${url}/api/login`,
     type: "POST",
+    // send authorization token with header
     headers: {
       Authorization: localStorage.getItem('token'),
     },
     data: JSON.stringify(ajaxData),
     contentType: "application/json",
     success: function (response) {
-      
       // set token in localstorage because we cannot use cookie
       localStorage.setItem("token", response.data.Authorization);
 

@@ -124,6 +124,7 @@ class HelperService {
         websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'fail', resultURL: null, socketMessage: error }));
         // down terraform if there was an error
         this.downTerraformSH(shPath);
+        return false;
     }
 
     async prepareSH(shPath, parameters: any) {
@@ -135,8 +136,9 @@ class HelperService {
 
             console.info('\nprepare.sh finished.');
             websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'loading', resultURL: null, socketMessage: 'Files prepared successfully' }));
+            return true;
         } catch (error) {
-            await this.error(shPath, error);
+            return await this.error(shPath, error);
         }
     }
 
@@ -149,8 +151,9 @@ class HelperService {
 
             console.info('\nupTerraform.sh finished.');
             websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'loading', resultURL: null, socketMessage: 'Resources allocated' }));
+            return true;
         } catch (error) {
-            await this.error(shPath, error);
+            return await this.error(shPath, error);
         }
     }
 
@@ -163,8 +166,9 @@ class HelperService {
 
             console.info('\nupCluster.sh finished.');
             websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'loading', resultURL: null, socketMessage: 'Cluster prepared' }));
+            return true;
         } catch (error) {
-            await this.error(shPath, error);
+            return await this.error(shPath, error);
         }
     }
 
@@ -177,8 +181,9 @@ class HelperService {
 
             console.info('\nrunTest.sh finished.');
             websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'loading', resultURL: null, socketMessage: 'Test run finished' }));
+            return true;
         } catch (error) {
-            await this.error(shPath, error);
+            return await this.error(shPath, error);
         }
     }
 
@@ -193,8 +198,9 @@ class HelperService {
 
             // TODO result file will be assigned.
             websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'success', resultURL: 'http://167.99.140.168/api/result/test_2023-12-06_08-58-53/report/index.html', socketMessage: 'Results prepared' }));
+            return true;
         } catch (error) {
-            await this.error(shPath, error);
+            return await this.error(shPath, error);
         }
     }
 
@@ -207,29 +213,41 @@ class HelperService {
 
             console.info('\ndownTerraform.sh finished.');
             websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'loading', resultURL: null, socketMessage: 'Resources deallocated' }));
+            return true;
         } catch (error) {
-            console.error('Error: ', error);
+            return false;
         }
     }
 
     async runAllSteps(shPath: string, plannedNodeCount: number, plannedPodCount: number, threadCountPerPod: number, duration: number) {
         // execute prepare sh file params: node count, pod count
-        await this.prepareSH(shPath, ['prepare.sh', plannedNodeCount, plannedPodCount, threadCountPerPod, duration]);
+        let status;
+        status = await this.prepareSH(shPath, ['prepare.sh', plannedNodeCount, plannedPodCount, threadCountPerPod, duration]);
+        if (!status)
+            return;
 
         // execute upTerraform sh file
-        await this.upTerraformSH(shPath);
+        status = await this.upTerraformSH(shPath);
+        if (!status)
+            return;
 
         // execute upCluster sh file
-        await this.upClusterSH(shPath);
+        status = await this.upClusterSH(shPath);
+        if (!status)
+            return;
 
         // execute sh runTest sh file
-        await this.runTestSH(shPath);
+        status = await this.runTestSH(shPath);
+        if (!status)
+            return;
 
         // execute result sh file
-        await this.resultSH(shPath);
+        status = await this.resultSH(shPath);
+        if (!status)
+            return;
 
         // execute down sh file
-        await this.downTerraformSH(shPath);
+        status = await this.downTerraformSH(shPath);
     }
 }
 
