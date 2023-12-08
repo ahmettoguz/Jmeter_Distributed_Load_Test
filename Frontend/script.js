@@ -211,6 +211,7 @@ function loginFormSubmit(e) {
     xhrFields: {
       withCredentials: true,
     },
+    credentials: "include",
     data: JSON.stringify(ajaxData),
     contentType: "application/json",
     success: function (response) {

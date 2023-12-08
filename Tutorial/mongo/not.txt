@@ -11,6 +11,7 @@
 
   Windows:
     docker run -d --rm -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123 mongo
+    docker run -d -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123 mongo
 
 # -------------------------------------------- Remove Container
   docker stop mongo-c
