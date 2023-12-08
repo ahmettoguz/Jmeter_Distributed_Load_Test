@@ -95,6 +95,7 @@ const login = async (req, res) => {
       maxAge: cookieDieTime,
       httpOnly: false,
       secure: false,
+      sameSite: "None",
     });
 
     return HelperService.returnResponse(res, 200, true, "Login successful.");
