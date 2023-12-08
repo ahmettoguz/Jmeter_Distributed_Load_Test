@@ -98,9 +98,8 @@ const login = async (req, res) => {
     //   sameSite: "None",
     // });
 
-    return HelperService.returnResponse(res, 200, true, "Login successful.", {
-      token: `Bearer ${jwtToken}`,
-    });
+    res.setHeader("Authorization", `Bearer ${jwtToken}`);
+    return HelperService.returnResponse(res, 200, true, "Login successful.");
   } catch (error) {
     return HelperService.returnResponse(
       res,
