@@ -1,9 +1,7 @@
 import db from "../../../../db/index";
 import HelperService from "../../../../services/HelperService";
 
-// const jwt = require('jose');
-// const bcrypt = require('bcryptjs');
-
+const jwt = require("jsonwebtoken");
 const login = async (req, res) => {
   let isValid = true;
   let errorData = [];
@@ -79,14 +77,29 @@ const login = async (req, res) => {
       );
     }
 
-    // set token cookie to 1 day
+    // generate jwt token for 1 day
+    const jwtDieTime = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 1;
+    const jwtToken = jwt.sign(
+      {
+        exp: jwtDieTime,
+        data: {
+          userId: foundUser._id.toString(),
+        },
+      },
+      "secret"
+    );
+
+    console.log("Token:::", jwtToken);
+
+    // set token cookie for 1 day
     const cookieDieTime = 1000 * 60 * 60 * 24 * 1;
-    res.cookie("accessToken", "TOKEN", {
+    res.cookie("Authorization:", `Bearer ${jwtToken}`, {
       maxAge: cookieDieTime,
       httpOnly: true,
       secure: true,
     });
     console.log("cookies: ", JSON.stringify(req.cookies));
+    console.log(process.env.JWT_SECRET);
 
     return HelperService.returnResponse(res, 200, true, "Login successful.");
   } catch (error) {

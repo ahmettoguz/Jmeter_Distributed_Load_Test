@@ -11,7 +11,7 @@ const runApp = (): Express => {
   // If you want to allow any origin (*) with credentials, you need to be aware that using * with credentials is not allowed due to security reasons.
   app.use(
     cors({
-      origin: ["http://127.0.0.1:5500", "*"],
+      origin: ["http://127.0.0.1:5500", "http://127.0.0.1:5501", "*"],
       credentials: true,
     })
   );
