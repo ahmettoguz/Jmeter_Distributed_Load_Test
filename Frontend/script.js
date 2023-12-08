@@ -213,9 +213,13 @@ function loginFormSubmit(e) {
     },
     data: JSON.stringify(ajaxData),
     contentType: "application/json",
-    success: function (response) {
+    success: function (response, textStatus, request) {
+      console.log(request.getResponseHeader('token'));
+      console.log(request.getAllResponseHeaders());
+      console.log(response);
       // set token in localstorage because we cannot use cookie
-      localStorage.setItem("token", response.data.token);
+      // const token = jqXHR.getResponseHeader('Authorization');
+      // localStorage.setItem("token", response.data.token);
 
       console.log(response);
       const out = JSON.stringify(response, null, 3);
