@@ -91,10 +91,10 @@ const login = async (req, res) => {
 
     // set token cookie for 1 day
     const cookieDieTime = 1000 * 60 * 60 * 24 * 1;
-    res.cookie("Authorization", `Bearer ${jwtToken}`, {
+    res.cookie("accesstoken", `Bearer ${jwtToken}`, {
       maxAge: cookieDieTime,
-      httpOnly: true,
-      secure: true,
+      httpOnly: false,
+      secure: false,
     });
 
     return HelperService.returnResponse(res, 200, true, "Login successful.");
