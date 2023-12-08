@@ -86,10 +86,8 @@ const login = async (req, res) => {
           userId: foundUser._id.toString(),
         },
       },
-      "secret"
+      process.env.JWT_SECRET
     );
-
-    console.log("Token:::", jwtToken);
 
     // set token cookie for 1 day
     const cookieDieTime = 1000 * 60 * 60 * 24 * 1;
@@ -98,8 +96,6 @@ const login = async (req, res) => {
       httpOnly: true,
       secure: true,
     });
-    console.log("cookies: ", JSON.stringify(req.cookies));
-    console.log(process.env.JWT_SECRET);
 
     return HelperService.returnResponse(res, 200, true, "Login successful.");
   } catch (error) {
