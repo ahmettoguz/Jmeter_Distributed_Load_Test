@@ -17,6 +17,23 @@ const signUp = async (req, res) => {
 
   // check inputs
   // TODO check işlemlerinin yapılması lazım.
+
+  // check undefined
+  if (
+    newUser.userName == undefined ||
+    newUser.firstName == undefined ||
+    newUser.lastName == undefined ||
+    newUser.phone == undefined ||
+    newUser.email == undefined ||
+    newUser.password == undefined
+  )
+    return HelperService.returnResponse(
+      res,
+      400,
+      false,
+      "Invalid input for sign up operation."
+    );
+
   // check username is empty
   if (newUser.userName.length == 0) {
     errorData.push("Username is required!");

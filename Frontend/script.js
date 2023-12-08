@@ -1,6 +1,6 @@
 // script.js
 
-const domain = "localhost";
+const domain = "127.0.0.1";
 // const domain = "ahmetproje.com.tr";
 // const domain = "167.99.140.168";
 const url = `http://${domain}:80`;
@@ -207,6 +207,9 @@ function loginFormSubmit(e) {
   $.ajax({
     url: `${url}/api/login`,
     type: "POST",
+    xhrFields: {
+      withCredentials: true,
+    },
     data: ajaxData,
     success: function (response) {
       console.log(response);
