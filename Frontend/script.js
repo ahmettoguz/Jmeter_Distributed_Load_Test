@@ -1,8 +1,8 @@
 // script.js
 
-// const domain = "127.0.0.1";
+const domain = "127.0.0.1";
 // const domain = "ahmetproje.com.tr";
-const domain = "167.99.140.168";
+// const domain = "167.99.140.168";
 const url = `http://${domain}:80`;
 
 const btnCheckServer = document.getElementById("checkServer");
@@ -169,7 +169,8 @@ function signUpSubmitForm(e) {
   $.ajax({
     url: `${url}/api/signUp`,
     type: "POST",
-    data: ajaxData,
+    data: JSON.stringify(ajaxData),
+    contentType: "application/json",
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
@@ -210,7 +211,8 @@ function loginFormSubmit(e) {
     xhrFields: {
       withCredentials: true,
     },
-    data: ajaxData,
+    data: JSON.stringify(ajaxData),
+    contentType: "application/json",
     success: function (response) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
