@@ -208,17 +208,15 @@ function loginFormSubmit(e) {
   $.ajax({
     url: `${url}/api/login`,
     type: "POST",
-    // headers: {
-    //   Authorization: localStorage.getItem('token'),
-    // },
+    headers: {
+      Authorization: localStorage.getItem('token'),
+    },
     data: JSON.stringify(ajaxData),
     contentType: "application/json",
-    success: function (response, textStatus, jqXHR) {
-      console.log(jqXHR.getResponseHeader('Token'));
-      console.log(jqXHR.getAllResponseHeaders());
+    success: function (response) {
+      
       // set token in localstorage because we cannot use cookie
-      // const token = jqXHR.getResponseHeader('Authorization');
-      // localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response.data.Authorization);
 
       console.log(response);
       const out = JSON.stringify(response, null, 3);

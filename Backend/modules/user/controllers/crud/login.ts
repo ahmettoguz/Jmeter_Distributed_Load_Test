@@ -89,6 +89,9 @@ const login = async (req, res) => {
       process.env.JWT_SECRET
     );
 
+    const receivedJwt = req.headers.authorization;
+    console.log(receivedJwt);
+
     // set token cookie for 1 day its not worked because we do not have secure connection (https) with different domain
     // const cookieDieTime = 1000 * 60 * 60 * 24 * 1;
     // res.cookie("accesstoken", `Bearer ${jwtToken}`, {
