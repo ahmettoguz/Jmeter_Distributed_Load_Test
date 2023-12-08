@@ -7,6 +7,8 @@ interface IUser extends Document {
   phone: string;
   email: string;
   password: string;
+  profilePicture: Number;
+  profileBanner: Number;
   accountStatus: "active" | "inactive" | "deactivated" | "banned";
   role: "user" | "admin";
   tier: { type: Types.ObjectId; ref: "Tier"; required: true };
@@ -21,6 +23,8 @@ const userSchema = new Schema<IUser>(
     phone: { type: String, required: true },
     email: { type: String, lowercase: true, required: true },
     password: { type: String, required: true },
+    profilePicture: { type: Number, default: 0 },
+    profileBanner: { type: Number, default: 0 },
     accountStatus: {
       type: String,
       enum: ["active", "inactive", "deactivated", "banned"],
