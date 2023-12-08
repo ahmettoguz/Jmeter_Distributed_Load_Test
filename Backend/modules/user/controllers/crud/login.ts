@@ -21,7 +21,7 @@ const login = async (req, res) => {
       res,
       400,
       false,
-      "Invalid input for sign up operation."
+      "Invalid input for login operation."
     );
 
   // check username is empty
