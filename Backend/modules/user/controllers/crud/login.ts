@@ -93,8 +93,8 @@ const login = async (req, res) => {
     const cookieDieTime = 1000 * 60 * 60 * 24 * 1;
     res.cookie("accesstoken", `Bearer ${jwtToken}`, {
       maxAge: cookieDieTime,
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       sameSite: "None",
     });
 
