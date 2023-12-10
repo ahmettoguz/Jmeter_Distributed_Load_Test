@@ -12,7 +12,7 @@ class AuthService {
     console.log(req);
     const jwtToken = "get from request header";
     const authorizationHeader = req.headers.authorization;
-    if (authorizationHeader == null) {
+    if (authorizationHeader == null || authorizationHeader == undefined) {
       console.log("buraya düştü mü");
       return helperService.returnResponse(
         res,
