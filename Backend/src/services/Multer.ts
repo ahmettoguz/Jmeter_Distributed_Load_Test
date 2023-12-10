@@ -3,7 +3,7 @@ import path, { extname } from 'path';
 
 const storageJMX = multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, './storage/upload/');
+        cb(null, './src/storage/upload/');
     },
     filename: (req, file, cb) => {
         cb(null, 'loadtest.jmx');
