@@ -41,7 +41,7 @@ class AuthService {
     }
 
     // get user id from jwt
-    this.userId = decoded.data.userId;
+    this.userId = decoded.data.userId.toString();
 
     next();
   };
