@@ -5,7 +5,7 @@ import route from '../endpoint';
 const userRouter: Router = Router();
 
 // CRUD operations
-userRouter.route('/userInfo').post(route.userInfo);
+userRouter.route('/userInfo').get(route.userInfo);
 userRouter.route('/login').post(route.login);
 userRouter.route('/signUp').post(route.signUp);
 

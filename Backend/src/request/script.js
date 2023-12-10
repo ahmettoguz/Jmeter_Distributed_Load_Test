@@ -28,7 +28,7 @@ function checkServer(e) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-danger");
@@ -38,7 +38,7 @@ function checkServer(e) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-success");
@@ -78,7 +78,7 @@ function runTestSubmitForm(e) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-danger");
@@ -88,7 +88,7 @@ function runTestSubmitForm(e) {
       console.log(response);
       const out = JSON.stringify(response.responseJSON, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-success");
@@ -119,7 +119,7 @@ function connectWebsocket(e) {
       }
 
       $("#websocketResponse").append(`
-            <li class="list-group-item fs-5">${incomingMessage.socketMessage}</li>
+            <li class="list-group-item fs-6">${incomingMessage.socketMessage}</li>
       `);
 
       if (incomingMessage.socketMessage.toLowerCase().includes("error")) {
@@ -134,7 +134,7 @@ function connectWebsocket(e) {
     };
     webSocket.onclose = () => {
       $("#websocketResponse").append(
-        `<li class="list-group-item fs-5">Websocket connection not found!</li>`
+        `<li class="list-group-item fs-6">Websocket connection not found!</li>`
       );
       $("#websocketResponse").removeClass("border-info");
       $("#websocketResponse").addClass("border-danger");
@@ -183,7 +183,7 @@ function signUpSubmitForm(e) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-danger");
@@ -193,7 +193,7 @@ function signUpSubmitForm(e) {
       console.log(response);
       const out = JSON.stringify(response.responseJSON, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-success");
@@ -230,7 +230,7 @@ function loginFormSubmit(e) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-danger");
@@ -240,7 +240,7 @@ function loginFormSubmit(e) {
       console.log(response);
       const out = JSON.stringify(response.responseJSON, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-success");
@@ -269,7 +269,7 @@ function userInfo(e) {
       console.log(response);
       const out = JSON.stringify(response, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-danger");
@@ -279,7 +279,7 @@ function userInfo(e) {
       console.log(response);
       const out = JSON.stringify(response.responseJSON, null, 3);
       $("#httpResponse").html(
-        "<pre class='p-2 m-0 fs-5 border'>" + out + "</pre>"
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
       );
 
       $("#httpResponse").removeClass("border-success");
