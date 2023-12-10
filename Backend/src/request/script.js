@@ -1,8 +1,8 @@
 // script.js
 
 // const domain = "127.0.0.1";
-const domain = "ahmetproje.com.tr";
-// const domain = "167.99.140.168";
+// const domain = "ahmetproje.com.tr";
+const domain = "167.99.140.168";
 const url = `http://${domain}:80`;
 
 const btnCheckServer = document.getElementById("checkServer");
