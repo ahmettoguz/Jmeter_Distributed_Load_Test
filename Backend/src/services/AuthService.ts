@@ -10,11 +10,15 @@ class AuthService {
   isJwtValid = async (req, res) => {
     console.log(req);
     const jwtToken = "get from request header";
+    const authorizationHeader = req.headers.authorization;
+    console.log("auth: ", authorizationHeader);
 
-    const decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
-    console.log("Decoded", decoded);
-
-    if (decoded === false) return false;
+    let decoded;
+    try {
+      decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
+    } catch (error) {
+      return false;
+    }
 
     this.userId = decoded.userId;
     console.log("userId:", this.userId);
