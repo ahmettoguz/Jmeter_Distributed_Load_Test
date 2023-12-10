@@ -121,7 +121,7 @@ class HelperService {
     private async error(shPath, error: any) {
         console.error('Error:', error.message);
         // send websocket message for error
-        websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'fail', resultURL: null, socketMessage: error }));
+        websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'fail', resultURL: null, socketMessage: error.toString() }));
         // down terraform if there was an error
         this.downTerraformSH(shPath);
         return false;
