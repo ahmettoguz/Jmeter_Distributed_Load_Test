@@ -62,6 +62,7 @@ const signUp = async (req, res) => {
     // get free tier id from database
         const freeTier = await db.Tier.findOne({ name: 'free' });
         newUser['tier'] = freeTier._id.toString();
+        newUser['testCredit'] = freeTier.testCount;
 
         await db.User.create(newUser);
         return HelperService.returnResponse(res, 200, true, 'Sign up successful.');

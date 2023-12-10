@@ -9,6 +9,7 @@ interface IUser extends Document {
     phone: string;
     email: string;
     password: string;
+    testCredit: Number;
     profilePicture: Number;
     profileBanner: Number;
     accountStatus: 'active' | 'inactive' | 'deactivated' | 'banned';
@@ -25,6 +26,7 @@ const userSchema = new Schema<IUser>(
         phone: { type: String, required: true },
         email: { type: String, lowercase: true, required: true },
         password: { type: String, required: true },
+        testCredit : { type: Number },
         profilePicture: { type: Number, default: 0 },
         profileBanner: { type: Number, default: 0 },
         accountStatus: {
