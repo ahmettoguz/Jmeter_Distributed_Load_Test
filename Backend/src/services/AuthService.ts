@@ -42,6 +42,8 @@ class AuthService {
 
     // get user id from jwt
     this.userId = decoded.data.userId;
+
+    console.log("token valid continue other process.");
   };
 
   async getUserIdFromJwt(jwtToken) {
