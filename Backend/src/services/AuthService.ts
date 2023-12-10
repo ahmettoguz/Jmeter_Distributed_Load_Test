@@ -9,13 +9,9 @@ class AuthService {
   }
 
   isJwtValid = async (req, res) => {
-    console.log(req);
-    const jwtToken = "get from request header";
     const authorizationHeader = req.headers.authorization;
 
-    console.log("auth: ", authorizationHeader);
-    console.log(authorizationHeader);
-    
+    // check authorization header is provided
     if (
       authorizationHeader == null ||
       authorizationHeader === "null" ||
@@ -29,9 +25,12 @@ class AuthService {
       );
     }
 
+    const jwtToken = authorizationHeader.substring(7);
+
     let decoded;
     try {
       decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
+      console.log(decoded);
     } catch (error) {
       console.log("cathce düşüyor");
       return false;
