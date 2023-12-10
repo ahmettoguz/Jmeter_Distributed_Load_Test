@@ -14,7 +14,7 @@ class Read {
         "tier"
       );
       // remove password
-      // delete user.data.password;
+      delete user.data.password;
 
       return user;
     } catch (error) {
