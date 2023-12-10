@@ -1,5 +1,5 @@
 import HelperService from '../../../../services/HelperService';
-import db from '../../../../../model';
+import db from '../../../../db/model';
 
 const signUp = async (req, res) => {
     let isValid = true;
