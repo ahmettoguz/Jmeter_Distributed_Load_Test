@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import multer from '../services/Multer';
 import route from '../endpoint';
+import authService from "../services/authService";
 
 const userRouter: Router = Router();
 
 // CRUD operations
-userRouter.route('/userInfo').get(route.userInfo);
+userRouter.route('/userInfo').get(authService.isJwtValid, route.userInfo);
 userRouter.route('/login').post(route.login);
 userRouter.route('/signUp').post(route.signUp);
 

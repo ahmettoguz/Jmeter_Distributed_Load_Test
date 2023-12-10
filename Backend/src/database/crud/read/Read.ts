@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 
 class Read {
   async getUser(userId) {
+
+    //TODO user id ile user tier ve test ler populate edilip verilecek
     // model.User
     return "dummy user";
   }
