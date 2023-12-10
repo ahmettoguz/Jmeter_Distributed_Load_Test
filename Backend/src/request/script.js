@@ -5,6 +5,11 @@
 const domain = "167.99.140.168";
 const url = `http://${domain}:80`;
 
+function scrollToHeader() {
+  const header = document.getElementById("topHeader");
+  header.scrollIntoView({ behavior: "smooth" });
+}
+
 const btnCheckServer = document.getElementById("checkServer");
 btnCheckServer.addEventListener("click", checkServer);
 function checkServer(e) {
@@ -40,6 +45,7 @@ function checkServer(e) {
       $("#httpResponse").addClass("border-danger");
     },
   });
+  scrollToHeader();
 }
 
 const runTestForm = document.getElementById("runTestForm");
@@ -89,6 +95,7 @@ function runTestSubmitForm(e) {
       $("#httpResponse").addClass("border-danger");
     },
   });
+  scrollToHeader();
 }
 
 const connectWebsocketbtn = document.getElementById("connectWebsocket");
@@ -142,6 +149,7 @@ function connectWebsocket(e) {
   } catch (err) {
     console.error("Error: record Websocket Notifications \n", err);
   }
+  scrollToHeader();
 }
 
 const signUpForm = document.getElementById("signUpForm");
@@ -192,6 +200,7 @@ function signUpSubmitForm(e) {
       $("#httpResponse").addClass("border-danger");
     },
   });
+  scrollToHeader();
 }
 
 const loginForm = document.getElementById("loginForm");
@@ -210,7 +219,7 @@ function loginFormSubmit(e) {
     type: "POST",
     // send authorization token with header
     headers: {
-      Authorization: localStorage.getItem('token'),
+      Authorization: localStorage.getItem("token"),
     },
     data: JSON.stringify(ajaxData),
     contentType: "application/json",
@@ -238,4 +247,5 @@ function loginFormSubmit(e) {
       $("#httpResponse").addClass("border-danger");
     },
   });
+  scrollToHeader();
 }

@@ -21,7 +21,60 @@
   </head>
   <body>
     <div class="container mt-5">
-      <h1 class="mb-4">Distributed Jmeter Test</h1>
+      <h1 class="mb-4" id="topHeader">Distributed Jmeter Test Requests</h1>
+
+      <!-- connection -->
+      <div class="card mb-4">
+        <div class="card-header">Connection</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <button
+                class="btn btn-outline-primary"
+                type="button"
+                id="checkServer"
+              >
+                Check Server
+              </button>
+
+              <button
+                class="btn btn-outline-warning"
+                type="button"
+                id="connectWebsocket"
+              >
+                Connect Websocket
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- results -->
+      <div class="card mb-4 border-primary shadow">
+        <div class="card-header">Results</div>
+        <div class="card-body">
+          <div id="results">
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="rounded p-0 overflow-hidden">
+                  <div
+                    id="httpResponse"
+                    class="border-start border-4 border-success"
+                  ></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="rounded p-0 overflow-hidden">
+                  <ul
+                    class="list-group border-start border-4 border-info ms-0 ps-0"
+                    id="websocketResponse"
+                  ></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Sign Up -->
       <div class="card mb-4">
@@ -147,85 +200,57 @@
       </div>
 
       <!-- run test -->
-      <form enctype="multipart/form-data" id="runTestForm">
-        <div class="row">
-          <div class="mb-3 col-6">
-            <label for="virtualUser" class="form-label"
-              >Virtual User Count</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="virtualUser"
-              value="200"
-            />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="form-group col-6">
-            <label for="cloudProvider">Cloud Provider</label>
-            <select
-              class="form-control"
-              id="cloudProvider"
-              name="cloudProvider"
-            >
-              <option value="DigitalOcean">DigitalOcean</option>
-              <option value="Azure">Azure</option>
-              <option value="AWS">AWS</option>
-              <option value="Local">Local - Minikube</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group mt-3">
-              <label for="file" class="form-label">Jmx File</label>
-              <input class="form-control" type="file" id="file" accept=".jmx" />
+      <div class="card mb-4">
+        <div class="card-header">Run Test</div>
+        <div class="card-body">
+          <form enctype="multipart/form-data" id="runTestForm">
+            <div class="row">
+              <div class="mb-3 col-4">
+                <label for="virtualUser" class="form-label"
+                  >Virtual User Count</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="virtualUser"
+                  value="200"
+                />
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="cloudProvider" class="form-label"
+                    >Cloud Provider</label
+                  >
+                  <select
+                    class="form-control"
+                    id="cloudProvider"
+                    name="cloudProvider"
+                  >
+                    <option value="DigitalOcean">DigitalOcean</option>
+                    <option value="Azure">Azure</option>
+                    <option value="AWS">AWS</option>
+                    <option value="Local">Local - Minikube</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="file" class="form-label">Jmx File</label>
+                  <input
+                    class="form-control"
+                    type="file"
+                    id="file"
+                    accept=".jmx"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-6">
-            <hr />
-          </div>
-        </div>
-
-        <button class="btn btn-primary" type="submit">Upload</button>
-
-        <button class="btn btn-outline-primary" type="button" id="checkServer">
-          Check Server
-        </button>
-
-        <button
-          class="btn btn-outline-warning"
-          type="button"
-          id="connectWebsocket"
-        >
-          Connect Websocket
-        </button>
-      </form>
-
-      <div id="results">
-        <div class="row g-2 my-4">
-          <div class="col-6">
-            <div class="rounded p-0 overflow-hidden">
-              <div
-                id="httpResponse"
-                class="border-start border-4 border-success"
-              ></div>
+            <div class="row">
+              <div class="col">
+                <button class="btn btn-primary" type="submit">Upload</button>
+              </div>
             </div>
-          </div>
-          <div class="col-6">
-            <div class="rounded p-0 overflow-hidden">
-              <ul
-                class="list-group border-start border-4 border-info ms-0 ps-0"
-                id="websocketResponse"
-              ></ul>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
