@@ -16,6 +16,7 @@ class AuthService {
     console.log("auth: ", authorizationHeader);
     console.log(authorizationHeader);
     if (authorizationHeader == null || authorizationHeader == undefined) {
+      console.log("dönmesi lazım");
       return helperService.returnResponse(
         res,
         403,
