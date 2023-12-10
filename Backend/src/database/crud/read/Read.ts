@@ -16,6 +16,8 @@ class Read {
       // remove password
       delete user.password;
 
+      console.log(user);
+
       return user;
     } catch (error) {
       console.error("getUser: ", error);
