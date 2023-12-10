@@ -14,7 +14,7 @@ class Read {
         "tier"
       );
       // remove password
-      delete user.password;
+      delete user["password"];
 
       console.log(user);
 
