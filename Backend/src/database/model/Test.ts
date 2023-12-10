@@ -4,7 +4,7 @@ mongoose.pluralize(null);
 const testSchema = new Schema(
   {
     name: { type: String, lowercase: true, required: true },
-    userId: { type: Types.ObjectId, ref: "User", required: true },
+    user: { type: Types.ObjectId, ref: "User", required: true },
     finishedAt: { type: String, default: "null" },
     virtualUser: { type: Number, required: true },
     status: { type: String, lowercase: true, required: true, default: "running" },

@@ -6,23 +6,29 @@ const jwt = require("jsonwebtoken");
 class Read {
   async getUser(userId) {
     try {
-      // const user: any = (await model.User.findOne({ _id: userId })).populate("tier");
-      const tests = await model.Test.find();
-      console.log("tests", tests);
-      
-      const test = await model.Test.findOne({ _id: "65763c7d1999bdbcc0e86555" });
-      console.log("test", test);
+      const tests = this.getUserTests(userId);
 
-      const user: any = await model.User.findOne({ _id: userId })
-        .populate("tier")
-        .populate("test");
+      console.log("tests: ", tests);
 
+      const user: any = await model.User.findOne({ _id: userId }).populate(
+        "tier"
+      );
       // remove password
       // delete user.data.password;
 
       return user;
     } catch (error) {
-      console.error(error);
+      console.error("getUser: ", error);
+      return null;
+    }
+  }
+
+  async getUserTests(userId) {
+    try {
+      const tests = await model.Test.find({ _id: userId });
+      return tests;
+    } catch (error) {
+      console.error("getUserTests: ", error);
       return null;
     }
   }
