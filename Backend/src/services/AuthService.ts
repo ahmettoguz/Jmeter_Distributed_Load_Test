@@ -42,8 +42,6 @@ class AuthService {
 
     // get user id from jwt
     this.userId = decoded.data.userId;
-
-    return true;
   };
 
   async getUserIdFromJwt(jwtToken) {
