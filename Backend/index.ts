@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
-import runApp from './app/express';
-import connectDB from './db/connection';
+import runApp from './src/app/express';
+import connectDatabase from './src/database/connection';
 
 dotenv.config();
-connectDB();
+connectDatabase();
 
 const app = runApp();
 

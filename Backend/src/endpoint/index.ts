@@ -8,7 +8,7 @@ import getFileforThreeDepth from './result/getFileforThreeDepth';
 import getFileforTwoDepth from './result/getFileforTwoDepth';
 import showResult from './result/showResult';
 
-interface Controller {
+interface Route {
     signUp: typeof signUp;
     login: typeof login;
     runTest: typeof runTest;
@@ -20,7 +20,7 @@ interface Controller {
     showResult: typeof showResult;
 }
 
-const controller: Controller = {
+const route: Route = {
     signUp,
     login,
     runTest,
@@ -32,4 +32,4 @@ const controller: Controller = {
     showResult,
 };
 
-export default controller;
+export default route;

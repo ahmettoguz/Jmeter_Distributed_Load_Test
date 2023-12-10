@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connectDB = async (): Promise<void> => {
+const connectDatabase = async (): Promise<void> => {
     try {
         mongoose.set('strictQuery', false);
         if (!process.env.DB_URI)
@@ -17,4 +17,4 @@ const connectDB = async (): Promise<void> => {
     }
 };
 
-export default connectDB;
+export default connectDatabase;

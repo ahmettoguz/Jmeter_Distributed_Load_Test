@@ -1,4 +1,4 @@
-import HelperService from '../../services/HelperService';
+import HelperService from '../services/HelperService';
 
 const runTest = async (req, res) => {
     console.info(`---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`);
@@ -19,7 +19,7 @@ const runTest = async (req, res) => {
         return HelperService.returnResponse(res, 400, false, checkFileRes.message);
 
     // place jmx file to related path
-    const moveJmxFileRes = await HelperService.moveJmxFile('./storage/upload/loadtest.jmx', `./Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`);
+    const moveJmxFileRes = await HelperService.moveJmxFile('./src/storage/upload/loadtest.jmx', `./src/Terraform/${cloudProvider}/jmx_Config/loadtest.jmx`);
     if (!moveJmxFileRes.status)
         return HelperService.returnResponse(res, 502, false, moveJmxFileRes.message);
 
@@ -32,7 +32,7 @@ const runTest = async (req, res) => {
         return HelperService.returnResponse(res, 502, false, checkNodeCountRes.message);
 
     // start sh operations
-    HelperService.runAllSteps(`./Terraform/${cloudProvider}/script`, plannedNodeCount, plannedPodCount, threadCountPerPod, duration);
+    HelperService.runAllSteps(`./src/Terraform/${cloudProvider}/script`, plannedNodeCount, plannedPodCount, threadCountPerPod, duration);
 
     return HelperService.returnResponse(res, 200, true, 'Operations started.', [
         `Planned node count : ${plannedNodeCount}`,

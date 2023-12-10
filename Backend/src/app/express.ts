@@ -2,7 +2,7 @@ import express, { type Express, type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import userRouter from '../modules/routes';
+import route from '../route';
 import HelperService from '../services/HelperService';
 
 const runApp = (): Express => {
@@ -26,7 +26,7 @@ const runApp = (): Express => {
         HelperService.returnResponse(res, 200, true, 'Service is up');
     });
 
-    app.use('/api', userRouter);
+    app.use('/api', route);
     return app;
 };
 

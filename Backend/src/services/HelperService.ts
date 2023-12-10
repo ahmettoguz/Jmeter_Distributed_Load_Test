@@ -1,7 +1,7 @@
 import cp from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { websocketHelper } from './WebsocketHelper';
+import { websocketHelper } from './WebsocketService';
 
 class HelperService {
     private async executeSh(shPath, shCommand: string, parameters: any[]): Promise<any> {
