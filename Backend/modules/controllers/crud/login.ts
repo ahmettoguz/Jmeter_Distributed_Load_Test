@@ -1,5 +1,5 @@
-import db from '../../../../db/model';
-import HelperService from '../../../../services/HelperService';
+import db from '../../../db/model';
+import HelperService from '../../../services/HelperService';
 
 const jwt = require('jsonwebtoken');
 

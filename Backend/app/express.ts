@@ -2,7 +2,7 @@ import express, { type Express, type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import userRouter from '../modules/user/routes';
+import userRouter from '../modules/routes';
 import HelperService from '../services/HelperService';
 
 const runApp = (): Express => {
