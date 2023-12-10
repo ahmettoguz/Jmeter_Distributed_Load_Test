@@ -23,6 +23,12 @@ class AuthService {
         false,
         "Forbidden, authorization header not found!"
       );
+    } else {
+      console.log(
+        "not null or undefined:",
+        authorizationHeader,
+        typeof authorizationHeader
+      );
     }
 
     let decoded;
