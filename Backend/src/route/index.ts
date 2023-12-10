@@ -5,8 +5,9 @@ import route from '../endpoint';
 const userRouter: Router = Router();
 
 // CRUD operations
-userRouter.route('/signUp').post(route.signUp);
+userRouter.route('/userInfo').post(route.userInfo);
 userRouter.route('/login').post(route.login);
+userRouter.route('/signUp').post(route.signUp);
 
 userRouter.route('/runTest').post(multer.single('jmxFile'), route.runTest);
 userRouter.route('/result/:id/report/:id1/:id2/:id3/:id4/:id5/:fileId').get(route.getFileforSixDepth);
