@@ -12,8 +12,10 @@ class AuthService {
     console.log(req);
     const jwtToken = "get from request header";
     const authorizationHeader = req.headers.authorization;
+
+    console.log("auth: ", authorizationHeader);
+    console.log(authorizationHeader);
     if (authorizationHeader == null || authorizationHeader == undefined) {
-      console.log("buraya düştü mü");
       return helperService.returnResponse(
         res,
         403,
@@ -21,13 +23,12 @@ class AuthService {
         "Forbidden, authorization header not found!"
       );
     }
-    console.log("auth: ", authorizationHeader);
 
     let decoded;
     try {
       decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
     } catch (error) {
-      console.log("cathce düştü mü");
+      console.log("cathce düşüyor");
       return false;
     }
 
