@@ -7,9 +7,8 @@ class Read {
   async getUser(userId) {
     try {
       // TODO test ler populate edilip verilecek
-      const user: any = await model.User.findOne({ _id: userId }).populate(
-        "tier"
-      ).populate("test");
+      const user: any = await model.User.findOne({ _id: userId }).populate("Tier");
+      // const user: any = await model.User.findOne({ _id: userId }).populate("tier").populate("test");
 
       // remove password
       delete user.data.password;
