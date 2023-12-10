@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 class Read {
   async getUser(userId) {
     try {
-      const user: any = await model.User.findOne({ _id: userId });
+      const user: any = (await model.User.findOne({ _id: userId })).populate("tier");
       // const user: any = await model.User.findOne({ _id: userId }).populate("Tier");
       // const user: any = await model.User.findOne({ _id: userId }).populate("tier").populate("test");
 
