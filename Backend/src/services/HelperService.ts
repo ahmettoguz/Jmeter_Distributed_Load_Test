@@ -197,7 +197,7 @@ class HelperService {
             console.info('\nresult.sh finished.');
 
             // TODO result file will be assigned.
-            websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'success', resultURL: 'http://167.99.140.168/api/result/test_2023-12-06_08-58-53/report/index.html', socketMessage: 'Results prepared' }));
+            websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'success', resultURL: 'http://167.99.140.168/api/result/test_2023-12-10_12-06-27/report/index.html', socketMessage: 'Results prepared' }));
             return true;
         } catch (error) {
             return await this.error(shPath, error);

@@ -15,6 +15,8 @@ const signUp = async (req, res) => {
         password: req.body.password,
     };
 
+    console.log(newUser);
+
     // check inputs
     // TODO check işlemlerinin yapılması lazım.
 
