@@ -8,7 +8,7 @@ class AuthService {
     this.userId = null;
   }
 
-  isJwtValid = async (req, res) => {
+  isJwtValid = async (req, res, next) => {
     const authorizationHeader = req.headers.authorization;
 
     // check authorization header is provided
@@ -43,7 +43,7 @@ class AuthService {
     // get user id from jwt
     this.userId = decoded.data.userId;
 
-    console.log("token valid continue other process.");
+    next();
   };
 
   async getUserIdFromJwt(jwtToken) {
