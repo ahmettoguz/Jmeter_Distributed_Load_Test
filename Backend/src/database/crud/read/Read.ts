@@ -6,15 +6,16 @@ const jwt = require("jsonwebtoken");
 class Read {
   async getUser(userId) {
     try {
-      // get user tests
-      const tests = await this.getUserTests(userId);
-
       // get user info with tier, I use lean because want to remove password. Lean does converting mongoose doc to js object
       const user: any = await model.User.findOne({ _id: userId })
         .populate("tier")
         .lean();
       // remove password
       delete user.password;
+
+      // get user tests
+      const tests = await this.getUserTests(userId);
+      user.tests = tests;
 
       return user;
     } catch (error) {
