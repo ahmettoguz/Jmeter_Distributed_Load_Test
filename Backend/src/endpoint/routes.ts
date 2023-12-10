@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import multer from '../../services/Multer';
+import multer from '../services/Multer';
 import controller from './controllers/index';
 
 const userRouter: Router = Router();
