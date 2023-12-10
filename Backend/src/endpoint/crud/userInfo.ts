@@ -1,11 +1,11 @@
-import HelperService from "../../services/HelperService";
-import db from "../../database/model";
+import authService from "../../services/AuthService";
+import helperService from "../../services/HelperService";
 
 import database from "../../database/crud/";
 
 const userInfo = async (req, res) => {
   const user = await database.read.getUser(1);
-  console.log(user);
+  return helperService.returnResponse(res, 200, true, "USSER.");
 };
 
 export default userInfo;

@@ -24,14 +24,13 @@ class AuthService {
         "Forbidden, authorization header not found!"
       );
     }
-
     const jwtToken = authorizationHeader.substring(7);
 
+    // validate token
     let decoded;
     try {
       decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
     } catch (error) {
-      console.log("cathce düşüyor");
       return helperService.returnResponse(
         res,
         403,
