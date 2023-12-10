@@ -15,19 +15,17 @@ class AuthService {
 
     console.log("auth: ", authorizationHeader);
     console.log(authorizationHeader);
-    if (authorizationHeader == null || authorizationHeader == undefined) {
-      console.log("dönmesi lazım");
+    
+    if (
+      authorizationHeader == null ||
+      authorizationHeader === "null" ||
+      authorizationHeader == undefined
+    ) {
       return helperService.returnResponse(
         res,
         403,
         false,
         "Forbidden, authorization header not found!"
-      );
-    } else {
-      console.log(
-        "not null or undefined:",
-        authorizationHeader,
-        typeof authorizationHeader
       );
     }
 
