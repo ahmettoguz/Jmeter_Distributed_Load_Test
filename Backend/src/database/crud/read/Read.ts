@@ -12,9 +12,9 @@ class Read {
 
       const user: any = await model.User.findOne({ _id: userId }).populate(
         "tier"
-      );
+      ).lean();
       // remove password
-      delete user["password"];
+      delete user.password;
 
       console.log(user);
 
