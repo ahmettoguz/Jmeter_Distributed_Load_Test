@@ -7,7 +7,15 @@ class Read {
   async getUser(userId) {
     try {
       // const user: any = (await model.User.findOne({ _id: userId })).populate("tier");
-      const user: any = await model.User.findOne({ _id: userId }).populate("tier").populate("test");
+      const tests = await model.Test.find();
+      console.log("tests", tests);
+      
+      const test = await model.Test.findOne({ _id: "65763c7d1999bdbcc0e86555" });
+      console.log("test", test);
+
+      const user: any = await model.User.findOne({ _id: userId })
+        .populate("tier")
+        .populate("test");
 
       // remove password
       // delete user.data.password;
@@ -17,7 +25,6 @@ class Read {
       console.error(error);
       return null;
     }
-
   }
 }
 
