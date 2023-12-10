@@ -36,7 +36,8 @@ class AuthService {
       return false;
     }
 
-    this.userId = decoded.userId;
+    // get user id from jwt
+    this.userId = decoded.data.userId;
     console.log("userId:", this.userId);
 
     return true;
