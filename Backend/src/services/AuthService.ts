@@ -46,7 +46,7 @@ class AuthService {
     next();
   };
 
-  async getUserIdFromJwt(jwtToken) {
+  async getUserIdFromJwt() {
     return this.userId;
   }
 }

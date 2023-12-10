@@ -4,9 +4,18 @@ import helperService from "../../services/HelperService";
 import database from "../../database/crud/";
 
 const userInfo = async (req, res) => {
-  console.log("info içerisinde");
-  return helperService.returnResponse(res, 200, true, "USSER.");
+  const userId = authService.getUserIdFromJwt();
+
+  console.log("id", userId);
+
+  const user = await database.read.getUser(userId);
+  return helperService.returnResponse(
+    res,
+    200,
+    true,
+    "User information has been successfully obtained.",
+    user
+  );
 };
-// const user = await database.read.getUser(1);
 
 export default userInfo;
