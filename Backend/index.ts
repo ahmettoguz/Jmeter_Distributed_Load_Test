@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import runApp from './app/express';
-import connectDB from './db/connectDB';
+import connectDB from './db/connection/connectDB';
 
 dotenv.config();
 connectDB();
