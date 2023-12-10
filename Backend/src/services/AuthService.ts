@@ -30,15 +30,19 @@ class AuthService {
     let decoded;
     try {
       decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
-      console.log(decoded);
     } catch (error) {
       console.log("cathce düşüyor");
-      return false;
+      return helperService.returnResponse(
+        res,
+        403,
+        false,
+        "Forbidden, authorization token is not valid!",
+        error
+      );
     }
 
     // get user id from jwt
     this.userId = decoded.data.userId;
-    console.log("userId:", this.userId);
 
     return true;
   };
