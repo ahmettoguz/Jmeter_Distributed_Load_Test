@@ -1,16 +1,7 @@
 import mongoose, { Types, Schema, Document, Model, model } from "mongoose";
 
-interface ITest extends Document {
-    name: String; 
-    userId:{ type: Types.ObjectId; ref: "User"; required: true };
-    finishedAt: String;
-    virtualUser: Number;
-    status: String;
-    state: String;
-}
-
 mongoose.pluralize(null);
-const testSchema = new Schema<ITest>(
+const testSchema = new Schema(
   {
     name: { type: String, lowercase: true, required: true },
     userId: { type: Types.ObjectId, ref: "User", required: true },
@@ -22,6 +13,6 @@ const testSchema = new Schema<ITest>(
   { versionKey: false, timestamps: true }
 );
 
-const Test: Model<ITest> = model<ITest>("Test", testSchema);
+const Test = mongoose.model("Test", testSchema);
 
 export default Test;
