@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 class Read {
   async getUser(userId) {
     try {
-      const tests = this.getUserTests(userId);
+      const tests = await this.getUserTests(userId);
 
       console.log("tests: ", tests);
 
