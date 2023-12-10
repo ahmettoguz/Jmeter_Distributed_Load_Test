@@ -1,6 +1,6 @@
-import Test from './models/Test';
-import Tier from './models/Tier';
-import User from './models/User';
+import Test from './Test';
+import Tier from './Tier';
+import User from './User';
 
 interface Models {
     Test: typeof Test;
