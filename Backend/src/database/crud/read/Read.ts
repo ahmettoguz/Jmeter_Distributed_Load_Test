@@ -7,7 +7,6 @@ class Read {
   async getUser(userId) {
     try {
       const tests = await this.getUserTests(userId);
-
       console.log("tests: ", tests);
 
       const user: any = await model.User.findOne({ _id: userId }).populate(
@@ -25,7 +24,7 @@ class Read {
 
   async getUserTests(userId) {
     try {
-      const tests = await model.Test.find({ _id: userId });
+      const tests = await model.Test.find({ user: userId });
       return tests;
     } catch (error) {
       console.error("getUserTests: ", error);
