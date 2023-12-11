@@ -11,4 +11,6 @@
 * terraform
 * NodeJs
 
-* config permission: chmod 777 /root/.kube/config
+* chmod 777 /root/.kube/config
+* az login
+* aws configure

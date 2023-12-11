@@ -123,8 +123,13 @@ function connectWebsocket(e) {
         $("#websocketResponse").removeClass("border-danger");
       }
 
-      $("#websocketResponse").append(`
+      if (incomingMessage.resultURL == null)
+        $("#websocketResponse").append(`
             <li class="list-group-item fs-6">${incomingMessage.socketMessage}</li>
+      `);
+      else
+        $("#websocketResponse").append(`
+            <li class="list-group-item fs-6">${incomingMessage.socketMessage} <br/> Results: <a href="${incomingMessage.resultURL}">${incomingMessage.resultURL}</a> </li>
       `);
 
       if (incomingMessage.socketMessage.toLowerCase().includes("error")) {
