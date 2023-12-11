@@ -1,23 +1,21 @@
 import model from "../../model";
 
 class Update {
-  async updateUser(userId) {
+  async updateUser(userId, req) {
     try {
-      // const newTest = await model.Test.create({
-      //   name: testName,
-      //   finishedAt: "null",
-      //   user: userId,
-      //   virtualUser: virtualUser,
-      //   status: "null",
-      //   state: "initial",
-      // });
+      const newAttributes = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
+        profileBanner: req.body.profileBanner,
+        profilePicture: req.body.profilePicture,
+      };
+      const filter = { _id: userId };
 
-      // const filter = {_id};
-      // const newAttributes = {};
-
-      // await model.User.findOneAndUpdate(filter, newAttributes);
+      await model.User.findOneAndUpdate(filter, newAttributes);
+      return true;
     } catch (error) {
-      console.error("insertTest: ", error);
+      console.error("updateUser error: ", error);
       return null;
     }
   }

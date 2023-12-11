@@ -293,3 +293,50 @@ function userInfo(e) {
   });
   scrollToHeader();
 }
+
+const userUpdateForm = document.getElementById("userUpdateForm");
+userUpdateForm.addEventListener("submit", userUpdateSubmitForm);
+function userUpdateSubmitForm(e) {
+  e.preventDefault();
+  console.log("userUpdate");
+
+  
+  const ajaxData = {
+    firstName:  $("#userUpdatefirstName").val(),
+    lastName:  $("#userUpdateLastName").val(),
+    phone:  $("#userUpdatePhone").val(),
+    profileBanner:  $("#userUpdateProfileBanner").val(),
+    profilePicture:  $("#userUpdateProfilePicture").val(),
+  };
+
+  $.ajax({
+    url: `${url}/api/userUpdate`,
+    type: "POST",
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+    data: JSON.stringify(ajaxData),
+    contentType: "application/json",
+    success: function (response) {
+      console.log(response);
+      const out = JSON.stringify(response, null, 3);
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
+      );
+
+      $("#httpResponse").removeClass("border-danger");
+      $("#httpResponse").addClass("border-success");
+    },
+    error: function (response) {
+      console.log(response);
+      const out = JSON.stringify(response.responseJSON, null, 3);
+      $("#httpResponse").html(
+        "<pre class='p-2 m-0 fs-6 border'>" + out + "</pre>"
+      );
+
+      $("#httpResponse").removeClass("border-success");
+      $("#httpResponse").addClass("border-danger");
+    },
+  });
+  scrollToHeader();
+}

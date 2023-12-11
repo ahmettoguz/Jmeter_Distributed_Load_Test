@@ -2,13 +2,21 @@ import authService from "../../services/AuthService";
 import helperService from "../../services/HelperService";
 
 import database from "../../database/crud/";
+import { model } from "mongoose";
 
-const userInfo = async (req, res) => {
+const userUpdate = async (req, res) => {
   const userId = await authService.getUserIdFromJwt();
 
-  
+  const status = await database.update.updateUser(userId, req);
 
-  // return user info
+  if (status == null)
+    return helperService.returnResponse(
+      res,
+      500,
+      false,
+      "Internal server error for userUpdate operation."
+    );
+
   return helperService.returnResponse(
     res,
     200,
@@ -17,4 +25,4 @@ const userInfo = async (req, res) => {
   );
 };
 
-export default userInfo;
+export default userUpdate;
