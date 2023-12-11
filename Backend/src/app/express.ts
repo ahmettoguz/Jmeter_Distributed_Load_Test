@@ -2,7 +2,7 @@ import express, { type Express, type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import route from '../route';
-import HelperService from '../services/HelperService';
+import helperService from '../services/HelperService';
 
 const runApp = (): Express => {
     const app: Express = express();
@@ -14,8 +14,8 @@ const runApp = (): Express => {
     app.use(bodyParser.json({ limit: '50mb' }));
     app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 
-    app.get('/', (req: Request, res: Response) => {
-        HelperService.returnResponse(res, 200, true, 'Service is up');
+    app.get('/',helperService.displayRequestInfo, (req: Request, res: Response) => {
+        helperService.returnResponse(res, 200, true, 'Service is up');
     });
 
     app.use('/api', route);
