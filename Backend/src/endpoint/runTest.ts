@@ -3,9 +3,6 @@ import authService from "../services/AuthService";
 import database from "../database/crud/index";
 
 const runTest = async (req, res) => {
-  console.info(
-    `---\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n---\n`
-  );
   const cloudProvider = req.body.cloudProvider;
   const virtualUser = req.body.virtualUser;
   const testName = req.body.testName;

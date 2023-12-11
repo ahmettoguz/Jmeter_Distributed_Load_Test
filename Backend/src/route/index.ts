@@ -2,16 +2,17 @@ import { Router } from 'express';
 import multer from '../services/Multer';
 import route from '../endpoint';
 import authService from "../services/AuthService";
+import helperService from "../services/HelperService";
 
 const userRouter: Router = Router();
 
 // CRUD operations
-userRouter.route('/userInfo').get(authService.isJwtValid, route.userInfo);
-userRouter.route('/login').post(route.login);
-userRouter.route('/signUp').post(route.signUp);
+userRouter.route('/userInfo').get(helperService.displayRequestInfo, authService.isJwtValid, route.userInfo);
+userRouter.route('/login').post(helperService.displayRequestInfo, route.login);
+userRouter.route('/signUp').post(helperService.displayRequestInfo ,route.signUp);
 
-
-userRouter.route('/runTest').post(multer.single('jmxFile'),authService.isJwtValid, route.runTest);
+// run test
+userRouter.route('/runTest').post(helperService.displayRequestInfo, multer.single('jmxFile'),authService.isJwtValid, route.runTest);
 
 // result file sharing
 userRouter.route('/result/:id/report/:id1/:id2/:id3/:id4/:id5/:fileId').get(route.getFileforSixDepth);

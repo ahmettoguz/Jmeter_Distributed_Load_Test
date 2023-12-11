@@ -4,6 +4,14 @@ import path from 'path';
 import { websocketHelper } from './WebsocketService';
 
 class HelperService {
+    displayRequestInfo(req, next){
+        console.info(
+            `\n-------------------------\n-------------------------\nIncoming request to: ${req.url}\nMethod: ${req.method}\nIp: ${req.connection.remoteAddress}\n-------------------------\n-------------------------\n\n`,
+        );
+        
+        next();
+    }
+
     private async executeSh(shPath, shCommand: string, parameters: any[]): Promise<any> {
         return new Promise((resolve) => {
             const output: string[] = [];
