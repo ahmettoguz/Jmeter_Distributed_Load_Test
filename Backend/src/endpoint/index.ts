@@ -1,3 +1,4 @@
+import userUpdate from "./crud/userUpdate";
 import userInfo from "./crud/userInfo";
 import login from "./crud/login";
 import signUp from "./crud/signUp";
@@ -10,6 +11,7 @@ import getFileforTwoDepth from "./result/getFileforTwoDepth";
 import showResult from "./result/showResult";
 
 interface Route {
+  userUpdate: typeof userUpdate;
   userInfo: typeof userInfo;
   signUp: typeof signUp;
   login: typeof login;
@@ -23,6 +25,7 @@ interface Route {
 }
 
 const route: Route = {
+  userUpdate,
   userInfo,
   signUp,
   login,
