@@ -13,10 +13,7 @@ class Update {
       };
       const filter = { _id: userId };
 
-      console.log("new attributes: ", newAttributes);
-
-      const result = await model.User.findOneAndUpdate(filter, newAttributes);
-      console.log("Update result:", result);
+      await model.User.findOneAndUpdate(filter, newAttributes);
 
       return true;
     } catch (error) {
