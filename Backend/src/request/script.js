@@ -1,8 +1,8 @@
 // script.js
 
-// const domain = "127.0.0.1";
+const domain = "127.0.0.1";
 // const domain = "ahmetproje.com.tr";
-const domain = "167.99.140.168";
+// const domain = "167.99.140.168";
 const url = `http://${domain}:80`;
 
 function scrollToHeader() {
@@ -57,19 +57,23 @@ function runTestSubmitForm(e) {
   let file = $("#file")[0].files[0];
   let cloudProvider = $("#cloudProvider").val();
   let virtualUser = $("#virtualUser").val();
+  let testName = $("#testName").val();
   var ajaxData = new FormData();
 
   ajaxData.append("virtualUser", virtualUser);
   ajaxData.append("cloudProvider", cloudProvider);
+  ajaxData.append("testName", testName);
   ajaxData.append("jmxFile", file);
 
   $.ajax({
     url: `${url}/api/runTest`,
     type: "POST",
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
     contentType: false,
     processData: false,
     cache: false,
-
     followRedirects: true,
     dataType: "json",
     enctype: "multipart/form-data",

@@ -1,5 +1,4 @@
 import model from "../../model";
-// import HelperService from "../../services/HelperService";
 
 const jwt = require("jsonwebtoken");
 
@@ -28,6 +27,7 @@ class Read {
     try {
       const tests = await model.Test.find({ user: userId });
 
+      // remove ids from result
       const modifiedTests = tests.map((test) => {
         const { _id, user, ...rest } = test.toObject();
         return { ...rest, id: _id.toString() };

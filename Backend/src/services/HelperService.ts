@@ -219,7 +219,7 @@ class HelperService {
         }
     }
 
-    async runAllSteps(shPath: string, plannedNodeCount: number, plannedPodCount: number, threadCountPerPod: number, duration: number) {
+    async runAllSteps(shPath: string, plannedNodeCount: number, plannedPodCount: number, threadCountPerPod: number, duration: number, testId) {
         // execute prepare sh file params: node count, pod count
         let status;
         status = await this.prepareSH(shPath, ['prepare.sh', plannedNodeCount, plannedPodCount, threadCountPerPod, duration]);
