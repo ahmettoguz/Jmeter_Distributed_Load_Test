@@ -187,7 +187,7 @@ class HelperService {
         }
     }
 
-    async resultSH(shPath, parameters) {
+    async resultSH(shPath, parameters, testId) {
         try {
             websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'loading', resultURL: null, socketMessage: 'Results preparing' }));
             const result = await this.executeSh(shPath, 'bash', parameters);
@@ -197,7 +197,7 @@ class HelperService {
             console.info('\nresult.sh finished.');
 
             // TODO result file will be assigned.
-            websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'success', resultURL: 'http://167.99.140.168/api/result/test_2023-12-10_12-06-27/report/index.html', socketMessage: 'Results prepared' }));
+            websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'success', resultURL: `http://167.99.140.168/api/result/${testId}/report/index.html`, socketMessage: 'Results prepared' }));
             return true;
         } catch (error) {
             return await this.error(shPath, error);
@@ -242,7 +242,7 @@ class HelperService {
             return;
 
         // execute result sh file
-        status = await this.resultSH(shPath, ['result.sh', testId]);
+        status = await this.resultSH(shPath, ['result.sh', testId], testId);
         if (!status)
             return;
 
