@@ -10,7 +10,7 @@
 
 - runTest.sh ile testleri koşuyoruz.
 
-- result.sh ile sonuçları results dizinine getiriyoruz.
+- result.sh ile sonuçları results dizinine belirtilen dosya adı (id ile) getiriyoruz.
 
 - downTerraform.sh ile oluşturulan podları kapatıp minikube'ü durduruyoruz.
 
@@ -53,7 +53,7 @@ sh runTest.sh
 ```
 
 ```
-sh result.sh
+sh result.sh <testId>
 ```
 
 ```

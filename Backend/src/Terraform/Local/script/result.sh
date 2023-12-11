@@ -2,29 +2,23 @@
 
 # Aim of that script is to bring results to local
 
-# # Check parameters.
-# if [ $# -ne 4 ]; then
-#   echo "Invalid parameters! use following."
-#   echo "$0 <node count> <pod count> <thread count> <duration>"
-#   exit 1
-# fi
+# Check parameters.
+if [ $# -ne 1 ]; then
+  echo "Invalid parameters! use following."
+  echo "$0 <testId>"
+  exit 1
+fi
 
-# node=$1
-# pod=$2
-# thread=$3
-# duration=$4
-
-# get time stamp
-timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+testId=$1
 
 # Get master name
 masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items[0].metadata.name}')
 
 # Create result folder
-mkdir -p ../../../storage/result/test_${timestamp}
+mkdir -p ../../../storage/result/${testId}
 
 # variable for target directory
-resultDir="../../../storage/result/test_${timestamp}"
+resultDir="../../../storage/result/${testId}"
 
 # Copy results
 kubectl cp -n test $masterName:/jmeter/apache-jmeter-5.1/bin/result $resultDir
