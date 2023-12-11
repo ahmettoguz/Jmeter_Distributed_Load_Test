@@ -10,7 +10,7 @@ const userRouter: Router = Router();
 userRouter.route('/userInfo').get(helperService.displayRequestInfo, authService.isJwtValid, route.userInfo);
 userRouter.route('/login').post(helperService.displayRequestInfo, route.login);
 userRouter.route('/signUp').post(helperService.displayRequestInfo, route.signUp);
-userRouter.route('/updateUser').post(helperService.displayRequestInfo, route.userUpdate);
+userRouter.route('/userUpdate').post(helperService.displayRequestInfo, route.userUpdate);
 
 // run test
 userRouter.route('/runTest').post(helperService.displayRequestInfo, multer.single('jmxFile'),authService.isJwtValid, route.runTest);
