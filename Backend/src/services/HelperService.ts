@@ -187,10 +187,10 @@ class HelperService {
         }
     }
 
-    async resultSH(shPath) {
+    async resultSH(shPath, parameters) {
         try {
             websocketHelper.broadcast(JSON.stringify({ connectionStatus: 'loading', resultURL: null, socketMessage: 'Results preparing' }));
-            const result = await this.executeSh(shPath, 'bash', ['result.sh']);
+            const result = await this.executeSh(shPath, 'bash', parameters);
             if (!result.success)
                 throw new Error('result.sh failed');
 
@@ -242,7 +242,7 @@ class HelperService {
             return;
 
         // execute result sh file
-        status = await this.resultSH(shPath);
+        status = await this.resultSH(shPath, ['result.sh', testId]);
         if (!status)
             return;
 
