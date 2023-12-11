@@ -2,6 +2,7 @@ import model from "../../model";
 
 class Update {
   async updateUser(userId, req) {
+    // TODO add check to new attributes
     try {
       const newAttributes = {
         firstName: req.body.firstName,
@@ -12,7 +13,10 @@ class Update {
       };
       const filter = { _id: userId };
 
-      await model.User.findOneAndUpdate(filter, newAttributes);
+      console.log(newAttributes);
+
+      const c =await model.User.findOneAndUpdate(filter, newAttributes);
+      console.log(c);
       return true;
     } catch (error) {
       console.error("updateUser error: ", error);
