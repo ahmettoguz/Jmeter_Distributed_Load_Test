@@ -12,7 +12,7 @@
 
 - runTest.sh ile testleri koşuyoruz.
 
-- result.sh ile sonuçları results dizinine getiriyoruz.
+- result.sh ile sonuçları results dizinine belirtilen dosya adı (id ile) getiriyoruz.
 
 - downCluster.sh ile oluşturulan podları siliyoruz (downTerraform yapılacaksa bu adıma gerek yok. Podlar otomatik silinecek).
 
@@ -62,7 +62,7 @@ sh runTest.sh
 ```
 
 ```
-sh result.sh
+sh result.sh <testId>
 ```
 
 ```

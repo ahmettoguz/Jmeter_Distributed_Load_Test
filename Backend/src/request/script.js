@@ -117,6 +117,7 @@ function connectWebsocket(e) {
   try {
     webSocket.onmessage = (message) => {
       const incomingMessage = JSON.parse(message.data);
+      console.log("websocket ::", incomingMessage);
       if ($("#websocketResponse").hasClass("border-danger")) {
         $("#websocketResponse").addClass("border-info");
         $("#websocketResponse").removeClass("border-danger");
@@ -130,11 +131,6 @@ function connectWebsocket(e) {
         $("#websocketResponse").removeClass("border-info");
         $("#websocketResponse").addClass("border-danger");
       }
-
-      console.log(
-        "Incoming websocket message: ",
-        incomingMessage.socketMessage
-      );
     };
     webSocket.onclose = () => {
       $("#websocketResponse").append(
