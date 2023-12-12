@@ -1,4 +1,4 @@
-# Description
+# Kullanım
 
 - Script dizinine gidiyoruz
 
@@ -20,7 +20,7 @@
 
 </br>
 
-# Commands
+# Komutlar
 
 ```
 bash token.sh <digital ocean api key>
