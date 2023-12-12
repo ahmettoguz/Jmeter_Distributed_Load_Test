@@ -1,6 +1,6 @@
-# Description
+# Kullanım
 
-- Home dizinine gidip projeyi çekiyoruz.
+- script klasörüne gidiyoruz.
 
 - prepare.sh ile k8s configürasyonları yapılıyor.
 
@@ -16,46 +16,28 @@
 
 </br>
 
-# Commands
+# Komutlar
 
 ```
-cd ~
-```
-
-```
-git clone https://github.com/ahmettoguz/jmeter_Test
-```
----
-
-```
-cd ~/jmeter_Test/Terraform/Local/script
+bash prepare.sh <node count> <pod count> <thread count> <duration>
 ```
 
 ```
-chmod +x token.sh prepare.sh upTerraform.sh upCluster.sh runTest.sh result.sh downCluster.sh downTerraform.sh
-```
----
-
-```
-sh prepare.sh <node count> <pod count> <thread count> <duration>
+bash upTerraform.sh
 ```
 
 ```
-sh upTerraform.sh
+bash upCluster.sh
 ```
 
 ```
-sh upCluster.sh
+bash runTest.sh
 ```
 
 ```
-sh runTest.sh
+bash result.sh <testId>
 ```
 
 ```
-sh result.sh <testId>
-```
-
-```
-sh downTerraform.sh
+bash downTerraform.sh
 ```
