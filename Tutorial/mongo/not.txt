@@ -1,7 +1,9 @@
 # -------------------------------------------- Visualizer
+
   mongodb compass
 
 # -------------------------------------------- Run Contianer
+
   docker run -d --rm -p 27017:27017 --name mongo-c -v ./database:/data/db \
     -e MONGO_INITDB_ROOT_USERNAME=admin \
     -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
@@ -22,11 +24,13 @@
     docker run -d --restart unless-stopped -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123 mongo
 
 # -------------------------------------------- Remove Container
+
   docker stop mongo-c
 
   docker rm mongo-c
 
   docker rmi mongo
+
 # -------------------------------------------- Export and Import Database
 
   mkdir -p ./database/backup
@@ -39,6 +43,7 @@
 
   # IMPORT
   mongorestore --uri="mongodb://admin:admin123@localhost:27017/?authMechanism=SCRAM-SHA-256&authSource=admin" --db=jmeter /data/db/backup/jmeter
+
 # -------------------------------------------- CRUD
   # Read
     console.log(await models.User.find());
@@ -64,7 +69,7 @@
     return helperService.returnPositiveMessage(res, "temp message", null);
     });
 
-  # INSERT
+  # CREATE
     try {
       const newTest = await models.Test.create({
         name: staticTestName,
@@ -76,4 +81,24 @@
       console.log(insertedId);
     } catch (error) {
       console.error("Error creating test:", error);
+    }
+
+  # UPDATE
+    try {
+      const newAttributes = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
+        profileBanner: req.body.profileBanner,
+        profilePicture: req.body.profilePicture,
+      };
+      const filter = { _id: userId };
+
+      // update user
+      await model.User.findOneAndUpdate(filter, newAttributes);
+
+      return true;
+    } catch (error) {
+      console.error("updateUser error: ", error);
+      return null;
     }

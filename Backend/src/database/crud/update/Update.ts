@@ -13,6 +13,9 @@ class Update {
       };
       const filter = { _id: userId };
 
+      // TODO add check for newAttributes undefined null
+
+      // update user
       await model.User.findOneAndUpdate(filter, newAttributes);
 
       return true;
