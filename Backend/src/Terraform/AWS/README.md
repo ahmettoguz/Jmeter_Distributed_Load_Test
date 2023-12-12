@@ -1,8 +1,8 @@
-# Description
+# Kullanım
 
-- Home dizinine gidip projeyi çekiyoruz.
+- script dizinine gidiyoruz.
 
-- Script dizinine gidip service access ve secret keyi expose ediyoruz.
+- service access ve secret keyi set ediyoruz.
 
 - prepare.sh ile terraform, k8s configürasyonları yapılıyor.
 
@@ -20,58 +20,37 @@
 
 </br>
 
-# Commands
+# Komutlar
 
 ```
-cd ~
-```
-
-```
-git clone https://github.com/ahmettoguz/jmeter_Test
-```
-
-```
-ssh-keygen -t rsa -b 2048
+bash token.sh <aws access_key> <aws secret_key>
 ```
 ---
 
 ```
-cd ~/jmeter_Test/Terraform/AWS/script
+bash prepare.sh <node count> <pod count> <thread count> <duration>
 ```
 
 ```
-chmod +x token.sh prepare.sh upTerraform.sh upCluster.sh runTest.sh result.sh downCluster.sh downTerraform.sh
+bash upTerraform.sh
 ```
 
 ```
-sh token.sh <access_key> <secret_key>
-```
----
-
-```
-sh prepare.sh <node count> <pod count> <thread count> <duration>
+bash upCluster.sh
 ```
 
 ```
-sh upTerraform.sh
+bash runTest.sh
 ```
 
 ```
-sh upCluster.sh
+bash result.sh <testId>
 ```
 
 ```
-sh runTest.sh
+bash downCluster.sh
 ```
 
 ```
-sh result.sh <testId>
-```
-
-```
-sh downCluster.sh
-```
-
-```
-sh downTerraform.sh
+bash downTerraform.sh
 ```
