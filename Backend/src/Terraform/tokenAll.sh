@@ -5,7 +5,7 @@
 # Check parameters.
 if [ $# -ne 5 ]; then
   echo "Invalid parameters! use following."
-  echo "$0 <api key> <service principle id> <service principle password> <access_key> <secret_key>"
+  echo "$0 <digitalocean api key> <azure service principle id> <azure service principle password> <aws access_key> <aws secret_key>"
   exit 1
 fi
 
