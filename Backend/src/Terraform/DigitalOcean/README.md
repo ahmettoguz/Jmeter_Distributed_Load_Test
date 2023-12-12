@@ -1,14 +1,14 @@
 # Description
 
-- Home dizinine gidip projeyi çekiyoruz.
+- Script dizinine gidiyoruz
 
-- Script dizinine gidip apiKeyi expose ediyoruz.
+- Api key'imizi set ediyoruz.
 
 - prepare.sh ile terraform, k8s configürasyonları yapılıyor.
 
 - upTerraform.sh ile clusterı ve nodları kaldırıyoruz.
 
-- upCluster.sh sh ile podları hazırlayıp kaldırıyoruz. (Sudo komutu windows makinelerde çalışmayabilir.)
+- upCluster.sh sh ile podları hazırlayıp kaldırıyoruz.
 
 - runTest.sh ile testleri koşuyoruz.
 
@@ -23,52 +23,34 @@
 # Commands
 
 ```
-cd ~
-```
-
-```
-git clone https://github.com/ahmettoguz/jmeter_Test
-```
-
----
-
-```
-cd ~/jmeter_Test/Terraform/DigitalOcean/script
-```
-
-```
-chmod +x token.sh prepare.sh upTerraform.sh upCluster.sh runTest.sh result.sh downCluster.sh downTerraform.sh
-```
-
-```
-sh token.sh <api key>
+bash token.sh <digital ocean api key>
 ```
 ---
 
 ```
-sh prepare.sh <node count> <pod count> <thread count> <duration>
+bash prepare.sh <node count> <pod count> <thread count> <duration>
 ```
 
 ```
-sh upTerraform.sh
+bash upTerraform.sh
 ```
 
 ```
-sh upCluster.sh
+bash upCluster.sh
 ```
 
 ```
-sh runTest.sh
+bash runTest.sh
 ```
 
 ```
-sh result.sh <testId>
+bash result.sh <testId>
 ```
 
 ```
-sh downCluster.sh
+bash downCluster.sh
 ```
 
 ```
-sh downTerraform.sh
+bash downTerraform.sh
 ```
