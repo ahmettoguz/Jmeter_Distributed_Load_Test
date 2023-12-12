@@ -3,7 +3,7 @@
 <br>
 
 <div align="center">
-    <img width=400 src="src/img/favicon.png">
+    <img width=200 src="src/favicon.png">
 </div>
 
 <br/>
