@@ -25,7 +25,7 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
 
 <br/>
 
-<h2 id="technologiesHeader">☄️Teknolojiler</h2> 
+<h2 id="technologiesHeader">☄️ Teknolojiler</h2> 
 
 ### Test
 
@@ -95,10 +95,14 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
 * Minikube
   
 * NodeJs
+  
+* MongoDb
 
 <br/>
 
 ### Cli Araçları
+
+* bash
 
 * kubectl
   
@@ -106,90 +110,130 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
   
 * az
 
-* terraform
-
 * aws
+
+* terraform
+  
+<br/>
+
+### Üyelikler
+
+* Digital Ocean
+
+* Azure
+
+* AWS
 
 <br/>
 
 <h2 id="instructionsHeader">📋 Talimatlar</h2>
 
-### Uzak Makine Konfigurasyonları
+- Bash scriptlerinin çalıştırılabilmesi için linux makine kullanılması önerilir. Bu sebeple Digital Ocean'dan bir dropleti projeyi çalıştırmak için kullandım. Aşağıda önce Digital Ocean dropletinin konfigürasyonunu ve sonrasında da gerekli programların kurulumları ve gerekli konfigüraysonları anlattım.
+
+- Eğer projenin çalıştırılacağı makine uzak bir makine ise, web consolunu veya ssh bağlantısını kullanarak makineye bağlanabilirsiniz.
+
+<br/>
+
+### Makine Kurulumu
+
+- doctl Kurulumu
+
+```bash
+snap install doctl
+```
+
+<br/>
+
+- Güvenlik Duvarı İzinleri
+
+```bash
+mkdir ~/.config
+export XDG_CONFIG_HOME=~/.config
+doctl auth init
+```
+<br/>
 
 
-------------------------------- Docker Installation
-    $ apt install docker.io
+```bash
+doctl compute firewall list 
+doctl compute firewall create --name porthost --inbound-rules "protocol:tcp,ports:80,address:0.0.0.0/0"
+doctl compute firewall create --name portwebsocket --inbound-rules "protocol:tcp,ports:8080,address:0.0.0.0/0"
+doctl compute firewall create --name portmongodb --inbound-rules "protocol:tcp,ports:27017,address:0.0.0.0/0"
+```
 
-------------------------------- Docker-Compose Installation
-    $ apt install docker-compose
+<br/>
 
-------------------------------- Node Js Installation
-    $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-    $ source ~/.bashrc
-    $ nvm install node
-    $ nvm alias default node
-    $ node -v
+### Program Kurulumu
 
-------------------------------- Terraform Installation
-    $ curl -O https://releases.hashicorp.com/terraform/1.1.0/terraform_1.1.0_linux_amd64.zip
-    $ unzip terraform_1.1.0_linux_amd64.zip
-    $ sudo mv terraform /usr/local/bin/
+- Docker Kurulumu
 
-------------------------------- Kubectl Installation
-    https://pwittrock.github.io/docs/tasks/tools/install-kubectl/
+```bash
+apt install docker.io
+```
 
-    $ snap install kubectl --classic
+<br/>
 
-------------------------------- Aws Installation and configuration
-    https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#cliv2-linux-install
+- Node Js Kurulumu
 
-------------------------------- Az Installation and configuration
-    https://learn.microsoft.com/bs-latn-ba/cli/azure/install-azure-cli-linux?pivots=apt
-    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+source ~/.bashrc
+nvm install node
+nvm alias default node
+node -v
+```
 
-    az login
-    or
-    az login --tenant <TenantId>
-    
-    az account show
+<br/>
 
-------------------------------- Minikube Installation and configuration
-    https://docs.altinity.com/altinitykubernetesoperator/kubernetesinstallguide/minikubeonlinux/
+- Terraform Kurulumu
 
-    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-    sudo install minikube-linux-amd64 /usr/local/bin/minikube
-    ---
-    https://medium.com/@dileepjallipalli/how-to-install-and-use-minikube-for-k8s-ee30a75ce8bc
+```bash
+apt install unzip
 
-    apt-get install curl wget apt-transport-https -y
+curl -O https://releases.hashicorp.com/terraform/1.1.0/terraform_1.1.0_linux_amd64.zip
+unzip terraform_1.1.0_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+```
 
-    wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-    cp minikube-linux-amd64 /usr/local/bin/minikube
-    hmod 755 /usr/local/bin/minikube
-    minikube version
-    
-    minikube start --force
+<br/>
 
+- Kubectl Kurulumu
+```bash
+snap install kubectl --classic
+```
 
-    $ apt install unzip
+<br/>
 
-------------------------------- Digital Ocean configs for droplet
-    $ snap install doctl
+- Aws Kurulumu
 
-    Get token from api section enable write option.
-    Set this token to machine
-        $ mkdir ~/.config
-        $ export XDG_CONFIG_HOME=~/.config
-        $ doctl auth init
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
 
-    Firewall Configs
-        $ doctl compute firewall list 
-        $ doctl compute firewall create --name portfft --inbound-rules "protocol:tcp,ports:443,address:0.0.0.0/0"
-        $ doctl compute firewall create --name porte --inbound-rules "protocol:tcp,ports:80,address:0.0.0.0/0"
-        $ doctl compute firewall create --name portee --inbound-rules "protocol:tcp,ports:8080,address:0.0.0.0/0"
-        $ doctl compute firewall create --name portmongodb --inbound-rules "protocol:tcp,ports:27017,address:0.0.0.0/0"
-        $ doctl compute firewall list
+<br/>
+
+- Az Kurulumu
+
+```bash
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+```
+
+<br/>
+
+- Minikube Kurlumu
+
+```bash
+wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+cp minikube-linux-amd64 /usr/local/bin/minikube
+chmod 755 /usr/local/bin/minikube
+minikube version
+```
+
+<br/>
         
+### Program Konfigürasyonları
 
 <br/>
 
@@ -222,13 +266,11 @@ az login
 aws configure
 ```
 
-- Eğer projenin çalıştırılacağı makine uzak bir makine ise, web consolunu veya ssh bağlantısını kullanarak makineye bağlanabilirsiniz.
+<br/>
 
+### Veri Tabanının Çalıştırılması
 
-
-
-### Veri Tabanı
-- Verilerin işlenmesi MongoDb ile yapılmaktadır. Veritabanını docker container'ı ayağa kaldırarak çalıştırıyoruz ve volume kullanarak verilerimizin kaybedilmemesini sağlıyoruz (şifreyi değiştirin).
+- Verilerin işlenmesi MongoDb ile yapılmaktadır. Veritabanını docker container'ı ayağa kaldırarak çalıştırıyoruz ve volume kullanarak verilerimizin saklıyoruz (şifreyi değiştirin).
 
 ```bash
 docker run -d -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123 mongo
@@ -239,13 +281,24 @@ docker run -d -p 27017:27017 --name mongo-c -v "$(pwd)/database:/data/db" -e MON
 - Veritabanını ayağa kaldırdıktan sonra MongoDb Compass yardımıyla veritabanına gui modunda erişebiliyoruz. Bağlantı stringi olarak bunu kullanıyoruz.
 
 ```bash
-mongodb://admin:admin123@167.99.140.168:27017/?authMechanism=DEFAULT&authSource=admin
+mongodb://admin:admin123@<remoteIp>/?authMechanism=DEFAULT&authSource=admin
 ```
 
 <br/>
 
+### Backend Servisinin Çalıştırılması
 
+- Backend dizinde paketlerin yüklenmesi.
+ ```bash
+npm install
+```
 
+<br/>
+
+- Backend servisini çalıştırılması.
+ ```bash
+npm run start
+```
 
 <br/>
 
@@ -255,4 +308,3 @@ mongodb://admin:admin123@167.99.140.168:27017/?authMechanism=DEFAULT&authSource=
 <a href="https://github.com/cevikkursat" target="_blank"><img width=60 height=60 src="https://avatars.githubusercontent.com/u/93974142?v=4"></a>
 
 [🔝](#mainHeader)
-
