@@ -271,9 +271,9 @@ aws configure
 ### Bulut Sağlayıcılarının Anahtarlarının oluşturulması
 - Digital Ocean, Azure ve Aws ile terraform aracılığı ile dinamik kaynak oluşturmak için bu sağlayıcılardan anahtar alıp bu anahtarları terraform dosyalarına constant olarak vermemiz gerekmekte.
 
-- Digital Ocean api key oluşturulması : [Link](https://docs.digitalocean.com/reference/api/create-personal-access-token/)
-- Azure service principal ve anahtarların oluşturulması : [Link](https://learn.microsoft.com/en-us/purview/create-service-principal-azure)
-- AWS IAM user ve anahtar oluşturma : [Link](https://www.youtube.com/watch?v=HuE-QhrmE1c)
+- [Digital Ocean api key oluşturulması](https://docs.digitalocean.com/reference/api/create-personal-access-token/)
+- [Azure service principal ve anahtarların oluşturulması](https://learn.microsoft.com/en-us/purview/create-service-principal-azure)
+- [AWS IAM user ve anahtar oluşturması](https://www.youtube.com/watch?v=HuE-QhrmE1c)
 
 - Anahtarları oluşturduktan sonra sırasıyla Provider/script dosyalarının içerisindeki token.sh dosyası ile kaydedebildiğimiz gibi, Backend/src/Terraform/tokenAll.sh dosyasını kullanarak bütün tokenlarımızı gerekli klasörlere set edebiliyoruz.
   
@@ -314,6 +314,12 @@ npm install
  ```bash
 npm run start
 ```
+<br/>
+
+### Frontend ile servisin kullanımı
+
+- loadman_frontend repo'sunda vue frontendi ile servisler kullanılmaktadır.
+- Buna alternatif olarak geliştirilme aşamasında da Backend/src/request üzerinden de istekler simüle edilebilir.
 
 <br/>
 
