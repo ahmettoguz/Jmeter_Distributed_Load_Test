@@ -1,5 +1,5 @@
 
- kubectl get pods -o wide
+kubectl get pods -o wide
 
 docker run -dit --name slave1 bsmithio/jmeter-slave:latest /bin/bash 
 

@@ -29,6 +29,9 @@ verdiği çıktı:
     "tenant": "8...e"
     }
 
+id: f..9
+pass: S..l
+
 ------------------------------------------------------------------------
 tf dosyası için ssh lazım demiş 
 ssh-keygen -t rsa -b 2048
