@@ -15,7 +15,7 @@
 - [Özellikler](#featuresHeader)
 - [Bağımlılıklar](#prerequisitesHeader)
 - [Talimatlar](#instructionsHeader)
-- [Katkıda Bulunanlar](#contributorsHeader)
+- [Geliştiriciler](#contributorsHeader)
 
 <br/>
 
