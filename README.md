@@ -268,6 +268,21 @@ aws configure
 
 <br/>
 
+### Bulut Sağlayıcılarının Anahtarlarının oluşturulması
+- Digital Ocean, Azure ve Aws ile terraform aracılığı ile dinamik kaynak oluşturmak için bu sağlayıcılardan anahtar alıp bu anahtarları terraform dosyalarına constant olarak vermemiz gerekmekte.
+
+- Digital Ocean api key oluşturulması : [Link](https://docs.digitalocean.com/reference/api/create-personal-access-token/)
+- Azure service principal ve anahtarların oluşturulması : [Link](https://learn.microsoft.com/en-us/purview/create-service-principal-azure)
+- AWS IAM user ve anahtar oluşturma : [Link](https://www.youtube.com/watch?v=HuE-QhrmE1c)
+
+- Anahtarları oluşturduktan sonra sırasıyla Provider/script dosyalarının içerisindeki token.sh dosyası ile kaydedebildiğimiz gibi, Backend/src/Terraform/tokenAll.sh dosyasını kullanarak bütün tokenlarımızı gerekli klasörlere set edebiliyoruz.
+  
+```bash
+sh tokenAll.sh <digitalocean api key> <azure service principle id> <azure service principle password> <aws access_key> <aws secret_key>
+```
+
+<br/>
+
 ### Veri Tabanının Çalıştırılması
 
 - Verilerin işlenmesi MongoDb ile yapılmaktadır. Veritabanını docker container'ı ayağa kaldırarak çalıştırıyoruz ve volume kullanarak verilerimizin saklıyoruz (şifreyi değiştirin).
