@@ -33,18 +33,6 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
 
 <br/>
 
-### DevOps
-
-- [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
-
-- [![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
-  
-- [![Minikube](https://img.shields.io/badge/minikube-37BEFF?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
-
-- [![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)](https://www.terraform.io/)
-
-<br/>
-
 ### Web
 
 - [![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)](nodejs.org)
@@ -65,14 +53,15 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
 
 <br/>
 
-<h2 id="featuresHeader">✨ Özellikler</h2> 
+### DevOps
 
-* Minikube, Digital Ocean, Azure ve Aws ile farklı ortamlarlarda dinamik olarak test koşma olanağı.
-* Kullanıcı verilerinin veritabanına işlenmesi.
-* JWT access key ile kimlik doğrulaması.
-* Websocket ile anlık test durumunun kullanıcıya bildirilmesi.
-* Koşulan testlerin sonuçlarının dashboard üzerinden sergilenmesi ve servis edilmesi.
-* Http isteklerinin simülasyonu.
+- [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+- [![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+  
+- [![Minikube](https://img.shields.io/badge/minikube-37BEFF?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+
+- [![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)](https://www.terraform.io/)
 
 <br/>
 
@@ -83,6 +72,17 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
 - [![Azure](https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
 
 - [![DigitalOcean](https://img.shields.io/badge/DigitalOcean-%230167ff.svg?style=for-the-badge&logo=digitalOcean&logoColor=white)](https://www.digitalocean.com/)
+
+<br/>
+
+<h2 id="featuresHeader">✨ Özellikler</h2> 
+
+* Minikube, Digital Ocean, Azure ve Aws ile farklı ortamlarlarda dinamik olarak test koşma olanağı.
+* Kullanıcı verilerinin veritabanına işlenmesi.
+* JWT access key ile kimlik doğrulaması.
+* Websocket ile anlık test durumunun kullanıcıya bildirilmesi.
+* Koşulan testlerin sonuçlarının dashboard üzerinden sergilenmesi ve servis edilmesi.
+* Http isteklerinin simülasyonu.
 
 <br/>
 
