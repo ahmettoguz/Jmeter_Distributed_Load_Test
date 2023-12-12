@@ -45,16 +45,6 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
 
 <br/>
 
-### Bulut Sağlayıcılar
-
-- [![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
-
-- [![Azure](https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
-
-- [![DigitalOcean](https://img.shields.io/badge/DigitalOcean-%230167ff.svg?style=for-the-badge&logo=digitalOcean&logoColor=white)](https://www.digitalocean.com/)
-
-<br/>
-
 ### Web
 
 - [![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)](nodejs.org)
@@ -83,6 +73,16 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
 * Websocket ile anlık test durumunun kullanıcıya bildirilmesi.
 * Koşulan testlerin sonuçlarının dashboard üzerinden sergilenmesi ve servis edilmesi.
 * Http isteklerinin simülasyonu.
+
+<br/>
+
+### Bulut Sağlayıcılar
+
+- [![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
+
+- [![Azure](https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
+
+- [![DigitalOcean](https://img.shields.io/badge/DigitalOcean-%230167ff.svg?style=for-the-badge&logo=digitalOcean&logoColor=white)](https://www.digitalocean.com/)
 
 <br/>
 
