@@ -128,7 +128,7 @@ Bu proje, dinamik olarak bulut üzerinde oluşturulan altyapı üzerinde dağıt
 
 <h2 id="instructionsHeader">📋 Talimatlar</h2>
 
-- Bash scriptlerinin çalıştırılabilmesi için linux makine kullanılması önerilir. Bu sebeple Digital Ocean'dan bir dropleti projeyi çalıştırmak için kullanabilirsiniz. Aşağıda önce Digital Ocean dropletinin konfigürasyonunu ve sonrasında da gerekli programların kurulumları ve gerekli konfigüraysonları anlattım.
+- Bash scriptlerinin çalıştırılabilmesi için linux makine kullanılması önerilir. Bu sebeple Digital Ocean'dan bir dropleti projeyi çalıştırmak için kullanabilirsiniz. Aşağıda önce Digital Ocean dropletinin konfigürasyonunu ve sonrasında da gerekli programların kurulumları ve gerekli konfigüraysonları anlatılmaktadır.
 
 - Eğer projenin çalıştırılacağı makine uzak bir makine ise, web consolunu veya ssh bağlantısını kullanarak makineye bağlanabilirsiniz.
 
