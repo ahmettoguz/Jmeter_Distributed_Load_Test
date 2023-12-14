@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Aim of that script is to allocate local minikube resources.
-minikube start --driver=docker --force
+minikube start --force
 
 status=$(minikube status | grep "Running")
 
