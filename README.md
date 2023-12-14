@@ -222,7 +222,7 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 <br/>
 
-- Minikube Kurlumu
+- Minikube Kurulumu
 
 ```bash
 wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
@@ -234,6 +234,16 @@ minikube version
 <br/>
         
 ### Program Konfigürasyonları
+
+- Minikube Memory ve Cpu konfigürasyonu
+
+```bash
+minikube config set memory 4096
+minikube config set cpus 2
+
+minikube config get memory
+minikube config get cpus
+```
 
 <br/>
 

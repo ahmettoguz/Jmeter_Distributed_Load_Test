@@ -1,11 +1,9 @@
-
 apiVersion: v1
 kind: Namespace
 metadata:
   name: test
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,19 +22,17 @@ spec:
         jmeter_mode: master
     spec:
       containers:
-      - name: jmmaster
-        image: crisssercedocker/jmeter-master
-        # image: mnazim1541/jmmaster:latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 60000
-        command: ["/bin/sh", "-c"]
-        args: ["sleep infinity"]
+        - name: jmmaster
+          image: ahmettoguz/jmeter-master
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 60000
+          command: ["/bin/sh", "-c"]
+          args: ["sleep infinity"]
       imagePullSecrets:
-      - name: registrypullsecret
-        
----
+        - name: registrypullsecret
 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,7 +41,7 @@ metadata:
   labels:
     jmeter_mode: slave
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     matchLabels:
       jmeter_mode: slave
@@ -55,10 +51,8 @@ spec:
         jmeter_mode: slave
     spec:
       containers:
-      - name: jmslave
-        # image: mnazim1541/jmslave:latest
-        image: crisssercedocker/jmeter-slave
-        imagePullPolicy: IfNotPresent
+        - name: jmslave
+          image: ahmettoguz/jmeter-slave
+          imagePullPolicy: IfNotPresent
       imagePullSecrets:
-      - name: registrypullsecret   
-
+        - name: registrypullsecret
