@@ -49,8 +49,7 @@ spec:
     spec:
       containers:
       - name: jmmaster
-        image: crisssercedocker/jmeter-master
-        # image: mnazim1541/jmmaster:latest
+        image: ahmettoguz/jmeter-master
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 60000
@@ -81,8 +80,7 @@ spec:
     spec:
       containers:
       - name: jmslave
-        # image: mnazim1541/jmslave:latest
-        image: crisssercedocker/jmeter-slave
+        image: ahmettoguz/jmeter-slave
         imagePullPolicy: IfNotPresent  
         # env:
         # - name: JVM_ARGS
