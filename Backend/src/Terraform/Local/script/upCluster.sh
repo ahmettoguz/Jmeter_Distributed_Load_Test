@@ -45,25 +45,52 @@ slaveName=$(kubectl get pods -n test -l jmeter_mode=slave -o=jsonpath='{.items[0
 slaveIP=$(kubectl get pod $slaveName -n test -o=jsonpath='{.status.podIP}')
 
 # Check connectivity between master pod and google
-kubectl exec -it $masterName -n test -- ping -c 3 google.com > /dev/null 2>&1
+# wait until 2 min to check connectivity of pods(5 * 24)
+max_duration=24
+interval=5
+time_check=0
 
-if [ $? -eq 0 ]; then
-    echo "Ping to google.com from master pod was successful."
-else
-    echo "Unable to ping google.com from master pod. Check your internet connection."
-    echo "Fail"
-    exit 1
-fi
+while true; do
+    kubectl exec -it $masterName -n test -- ping -c 3 google.com > /dev/null 2>&1
+        
+    if [ $? -eq 0 ]; then
+        echo "Ping to google.com from master pod was successful."
+        break
+    fi
 
-# Check connectivity between master pod and slave pod
-kubectl exec -it $masterName -n test -- ping -c 3 $slaveIP > /dev/null 2>&1
+    ((time_check++))
+    sleep $interval
 
-if [ $? -eq 0 ]; then
-    echo "Ping from master pod to slave pod $slaveName ($slaveIP) was successful."
-else
-    echo "Unable to ping slave pod $slaveName ($slaveIP) from master pod. Check your connectivity."
-    echo "Fail"
-    exit 1
-fi
+    if [ $time_check -ge $max_duration ]; then
+        echo "Unable to ping google.com from master pod. Check your internet connection."
+        echo "Fail"
+        exit 1
+    fi
+done
 
+# Check connectivity between master pod and slave
+# wait until 2 min to check connectivity of pods(5 * 24)
+max_duration=24
+interval=5
+time_check=0
+
+while true; do
+    kubectl exec -it $masterName -n test -- ping -c 3 $slaveIP > /dev/null 2>&1
+        
+    if [ $? -eq 0 ]; then
+        echo "Ping from master pod to slave pod $slaveName ($slaveIP) was successful."
+        break
+    fi
+
+    ((time_check++))
+    sleep $interval
+
+    if [ $time_check -ge $max_duration ]; then
+        echo "Unable to ping slave pod $slaveName ($slaveIP) from master pod. Check your connectivity."
+        echo "Fail"
+        exit 1
+    fi
+done
+
+echo "Pods up and connectin is established."
 echo "Success"
