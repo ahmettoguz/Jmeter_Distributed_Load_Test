@@ -32,4 +32,38 @@ while true; do
 done
 
 echo "Pods are up."
+
+echo "Checking pod connection..."
+
+# Get master name for following operations.
+masterName=$(kubectl get pods -n test -l jmeter_mode=master -o=jsonpath='{.items[0].metadata.name}')
+
+# Get slave name for following operation.
+slaveName=$(kubectl get pods -n test -l jmeter_mode=slave -o=jsonpath='{.items[0].metadata.name}')
+
+# Get IP address of the slave pod
+slaveIP=$(kubectl get pod $slaveName -n test -o=jsonpath='{.status.podIP}')
+
+# Check connectivity between master pod and google
+kubectl exec -it $masterName -n test -- ping -c 3 google.com > /dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+    echo "Ping to google.com from master pod was successful."
+else
+    echo "Unable to ping google.com from master pod. Check your internet connection."
+    echo "Fail"
+    exit 1
+fi
+
+# Check connectivity between master pod and slave pod
+kubectl exec -it $masterName -n test -- ping -c 3 $slaveIP > /dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+    echo "Ping from master pod to slave pod $slaveName ($slaveIP) was successful."
+else
+    echo "Unable to ping slave pod $slaveName ($slaveIP) from master pod. Check your connectivity."
+    echo "Fail"
+    exit 1
+fi
+
 echo "Success"
